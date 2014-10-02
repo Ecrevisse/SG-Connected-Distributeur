@@ -4,8 +4,11 @@ using System.Threading;
 
 public class ButtonStartServer : MonoBehaviour
 {
-    private AsynchronousSocketListener  _server;
-    private Thread                      _thread;
+    public GUIText IpText;
+
+    private AsynchronousSocketListener _server;
+    private Thread _thread;
+    private bool _ipSetted;
 
     void Clicked()
     {
@@ -13,6 +16,20 @@ public class ButtonStartServer : MonoBehaviour
         _server = new AsynchronousSocketListener();
         _thread = new Thread(_server.StartListening);
         _thread.Start();
+        _ipSetted = false;
+    }
+
+    void Update()
+    {
+        if (_server != null && _ipSetted == false)
+        {
+            string ip = _server.GetIpAddress();
+            if (ip != "")
+            {
+                IpText.text += ip;
+                _ipSetted = true;
+            }
+        }
     }
 
     void OnApplicationQuit()

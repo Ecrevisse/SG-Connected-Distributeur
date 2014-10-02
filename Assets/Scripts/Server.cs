@@ -25,10 +25,20 @@ public class AsynchronousSocketListener
     public ManualResetEvent allDone = new ManualResetEvent(false);
 
     private volatile bool _shouldStop;
+    private string _ipAddress;
 
     public AsynchronousSocketListener()
     {
         _shouldStop = true;
+        _ipAddress = "";
+    }
+
+    public string GetIpAddress()
+    {
+        lock (_ipAddress)
+        {
+            return _ipAddress;
+        }
     }
 
     public void StopListening()
@@ -55,7 +65,10 @@ public class AsynchronousSocketListener
         IPAddress ipAddress = ipHostInfo.AddressList[0];
         IPEndPoint localEndPoint = new IPEndPoint(ipAddress, 11000);
 
-        Debug.Log(ipAddress.ToString());
+        lock (_ipAddress)
+        {
+            _ipAddress = ipAddress.ToString();
+        }
 
         // Create a TCP/IP socket.
         Socket listener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
