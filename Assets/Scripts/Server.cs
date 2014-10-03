@@ -9,14 +9,10 @@ using UnityEngine;
 // State object for reading client data asynchronously
 public class StateObject
 {
-    // Client  socket.
     public Socket workSocket = null;
-    // Size of receive buffer.
     public const int BufferSize = 1024;
-    // Receive buffer.
-    public byte[] buffer = new byte[BufferSize];
-    // Received data string.
-    public StringBuilder sb = new StringBuilder();
+    public byte[] receiveBuffer = new byte[BufferSize];
+    public BytesBuffer stackBuffer = new BytesBuffer();
 }
 
 public class AsynchronousSocketListener
@@ -26,11 +22,18 @@ public class AsynchronousSocketListener
 
     private volatile bool _shouldStop;
     private string _ipAddress;
+    private class ReceivedCode
+    {
+        public int code;
+    }
+    private ReceivedCode _receivedCode;
 
     public AsynchronousSocketListener()
     {
         _shouldStop = true;
         _ipAddress = "";
+        _receivedCode = new ReceivedCode();
+        _receivedCode.code = 0;
     }
 
     public string GetIpAddress()
@@ -38,6 +41,16 @@ public class AsynchronousSocketListener
         lock (_ipAddress)
         {
             return _ipAddress;
+        }
+    }
+
+    public int GetReceivedCode()
+    {
+        lock (_receivedCode)
+        {
+            int code = _receivedCode.code;
+            _receivedCode.code = 0;
+            return code;
         }
     }
 
@@ -113,7 +126,7 @@ public class AsynchronousSocketListener
         // Create the state object.
         StateObject state = new StateObject();
         state.workSocket = handler;
-        handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReadCallback), state);
+        handler.BeginReceive(state.receiveBuffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReadCallback), state);
     }
 
     public void ReadCallback(IAsyncResult ar)
@@ -131,26 +144,23 @@ public class AsynchronousSocketListener
         if (bytesRead > 0)
         {
             // There  might be more data, so store the data received so far.
-            state.sb.Append(Encoding.ASCII.GetString(
-                state.buffer, 0, bytesRead));
+            state.stackBuffer.Write(state.receiveBuffer, 0, bytesRead);
 
-            // Check for end-of-file tag. If it is not there, read 
-            // more data.
-            content = state.sb.ToString();
-            if (content.IndexOf("<EOF>") > -1)
+            long pos = state.stackBuffer.Position;
+            uint sizeHandled = HandlePacket(state);
+            state.stackBuffer.Position = pos;
+
+            if (sizeHandled > 0)
             {
-                // All the data has been read from the 
-                // client. Display it on the console.
-                Debug.Log(string.Format("Read {0} bytes from socket. \n Data : {1}", content.Length, content));
-                // Echo the data back to the client.
-                Send(handler, content);
+                BytesBuffer newBuf = new BytesBuffer();
+                newBuf.Write(state.stackBuffer.GetBuffer(), (int)sizeHandled, (int)state.stackBuffer.Length - (int)sizeHandled);
+                state.stackBuffer = newBuf;
             }
-            else
-            {
-                // Not all data received. Get more.
-                handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReadCallback), state);
-            }
+
+            handler.BeginReceive(state.receiveBuffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReadCallback), state);
         }
+        //else
+            //Disconnect
     }
 
     private void Send(Socket handler, String data)
@@ -181,6 +191,50 @@ public class AsynchronousSocketListener
         catch (Exception e)
         {
             Console.WriteLine(e.ToString());
+        }
+    }
+
+    //----------------------------------------------------
+    //------------------HANDLE PACKET--------------------
+    //----------------------------------------------------
+
+    private uint HandlePacket(StateObject state)
+    {
+        uint totalLength = 0;
+        int length;
+
+        state.stackBuffer.Position = 0;
+        try
+        {
+            while (state.stackBuffer.Position < state.stackBuffer.Length)
+            {
+                length = state.stackBuffer.ReadVarInt();
+                if (length > state.stackBuffer.Length - state.stackBuffer.Position)
+                    return totalLength;
+                BytesBuffer packetToHandle = new BytesBuffer();
+                packetToHandle.Write(state.stackBuffer.GetBuffer(), (int)state.stackBuffer.Position, length);
+                packetToHandle.Position = 0;
+                int type = packetToHandle.ReadVarInt();
+                if (type == 0x00)
+                    HandleReceiveCode(packetToHandle);
+                state.stackBuffer.Position += length;
+                totalLength = (uint)state.stackBuffer.Position;
+            }
+        }
+        catch (System.ArgumentException e)
+        {
+            System.Diagnostics.Debug.WriteLine(e.ToString());
+            return 0;
+        }
+        return totalLength;
+    }
+
+    private void HandleReceiveCode(BytesBuffer buffer)
+    {
+        int code = buffer.ReadInt();
+        lock (_receivedCode)
+        {
+            _receivedCode.code = code;
         }
     }
 }
