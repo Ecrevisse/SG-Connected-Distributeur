@@ -3,6 +3,7 @@ package com.example.raveh.androidtestnetwork;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
@@ -76,11 +77,21 @@ public class MyActivity extends Activity {
                         new ByteArrayOutputStream(1024);
                 byte[] buffer = new byte[1024];
 
-                int bytesRead;
-                InputStream inputStream = socket.getInputStream();
+                OutputStream outputStream = socket.getOutputStream();
+                CustomByteBuffer    cbf = new CustomByteBuffer();
+                cbf.WriteVarInt(0);
+                cbf.WriteInt(4242);
 
-                response = "Connected !";
+                CustomByteBuffer    toSend = new CustomByteBuffer();
+                toSend.WriteVarInt(cbf.GetLength());
+                toSend.Write(cbf.GetBuffer());
+                outputStream.write(toSend.GetBuffer());
+                response = "Connected";
                 return null;
+
+                //int bytesRead;
+                //InputStream inputStream = socket.getInputStream();
+
     /*
      * notice:
      * inputStream.read() will block if no data return
@@ -113,7 +124,10 @@ public class MyActivity extends Activity {
 
         @Override
         protected void onPostExecute(Void result) {
-            textResponse.setText(response);
+            if (response == "Connected")
+                setContentView(R.layout.activity_code);
+            else
+                textResponse.setText(response);
             super.onPostExecute(result);
         }
 
