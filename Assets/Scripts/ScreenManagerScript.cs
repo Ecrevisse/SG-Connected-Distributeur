@@ -12,13 +12,20 @@ public class ScreenManagerScript : MonoBehaviour
         E_CHOOSE_QUANTITY_BY_KEYBOARD,
         E_ENTER_CODE,
         E_GOOD_CODE,
-        E_WRONG_CODE
+        E_WRONG_CODE,
+        E_ENTER_UNIQUE_CODE_GG,
+        E_CHOOSE_QUANTITY_GG,
+        E_CHOOSE_QUANTITY_BY_KEYBOARD_GG,
+        E_ENTER_AMOUNT_GG,
+        E_ENTER_CODE_GG
     };
 
     private List<List<string>> strings = new List<List<string>>();
     private PageSelec currentPage;
     private int currentNumberTyped;
     private int money;
+    private int GoodCode = 1234;
+    private int UniqueCodeGG = 123456;
 
     public TextMesh text0;
     public TextMesh text1;
@@ -39,6 +46,11 @@ public class ScreenManagerScript : MonoBehaviour
         money = 0;
 
 	    strings.Add(new List<string>());
+        strings.Add(new List<string>());
+        strings.Add(new List<string>());
+        strings.Add(new List<string>());
+        strings.Add(new List<string>());
+        strings.Add(new List<string>());
         strings.Add(new List<string>());
         strings.Add(new List<string>());
         strings.Add(new List<string>());
@@ -99,6 +111,42 @@ public class ScreenManagerScript : MonoBehaviour
         strings[(int)PageSelec.E_WRONG_CODE].Add("");
         strings[(int)PageSelec.E_WRONG_CODE].Add("");
 
+        strings[(int)PageSelec.E_ENTER_UNIQUE_CODE_GG].Add("Entrer le code d'authentification :");
+        strings[(int)PageSelec.E_ENTER_UNIQUE_CODE_GG].Add("");
+        strings[(int)PageSelec.E_ENTER_UNIQUE_CODE_GG].Add("");
+        strings[(int)PageSelec.E_ENTER_UNIQUE_CODE_GG].Add("");
+        strings[(int)PageSelec.E_ENTER_UNIQUE_CODE_GG].Add("");
+        strings[(int)PageSelec.E_ENTER_UNIQUE_CODE_GG].Add("");
+        strings[(int)PageSelec.E_ENTER_UNIQUE_CODE_GG].Add("");
+        strings[(int)PageSelec.E_ENTER_UNIQUE_CODE_GG].Add("");
+
+        strings[(int)PageSelec.E_CHOOSE_QUANTITY_GG].Add("20€");
+        strings[(int)PageSelec.E_CHOOSE_QUANTITY_GG].Add("40€");
+        strings[(int)PageSelec.E_CHOOSE_QUANTITY_GG].Add("60€");
+        strings[(int)PageSelec.E_CHOOSE_QUANTITY_GG].Add("80€");
+        strings[(int)PageSelec.E_CHOOSE_QUANTITY_GG].Add("100€");
+        strings[(int)PageSelec.E_CHOOSE_QUANTITY_GG].Add("150€");
+        strings[(int)PageSelec.E_CHOOSE_QUANTITY_GG].Add("200€");
+        strings[(int)PageSelec.E_CHOOSE_QUANTITY_GG].Add("Autre Montant");
+
+        strings[(int)PageSelec.E_ENTER_AMOUNT_GG].Add("Entrez le montant :");
+        strings[(int)PageSelec.E_ENTER_AMOUNT_GG].Add("");
+        strings[(int)PageSelec.E_ENTER_AMOUNT_GG].Add("");
+        strings[(int)PageSelec.E_ENTER_AMOUNT_GG].Add("");
+        strings[(int)PageSelec.E_ENTER_AMOUNT_GG].Add("");
+        strings[(int)PageSelec.E_ENTER_AMOUNT_GG].Add("");
+        strings[(int)PageSelec.E_ENTER_AMOUNT_GG].Add("");
+        strings[(int)PageSelec.E_ENTER_AMOUNT_GG].Add("");
+
+        strings[(int)PageSelec.E_ENTER_CODE_GG].Add("En attente du code...");
+        strings[(int)PageSelec.E_ENTER_CODE_GG].Add("");
+        strings[(int)PageSelec.E_ENTER_CODE_GG].Add("");
+        strings[(int)PageSelec.E_ENTER_CODE_GG].Add("");
+        strings[(int)PageSelec.E_ENTER_CODE_GG].Add("");
+        strings[(int)PageSelec.E_ENTER_CODE_GG].Add("");
+        strings[(int)PageSelec.E_ENTER_CODE_GG].Add("");
+        strings[(int)PageSelec.E_ENTER_CODE_GG].Add("");
+
         changeTo(currentPage);
 	}
 	
@@ -139,6 +187,12 @@ public class ScreenManagerScript : MonoBehaviour
                 currentNumberTyped = 0;
                 isPageChanged = true;
             }
+            else if (num == 1)
+            {
+                currentPage = PageSelec.E_ENTER_UNIQUE_CODE_GG;
+                currentNumberTyped = 0;
+                isPageChanged = true;
+            }
         }
         else if (currentPage == PageSelec.E_CHOOSE_QUANTITY)
         {
@@ -156,6 +210,22 @@ public class ScreenManagerScript : MonoBehaviour
                 isPageChanged = true;
             }
         }
+        else if (currentPage == PageSelec.E_CHOOSE_QUANTITY_GG)
+        {
+            if (num != 7)
+            {
+                currentPage = PageSelec.E_ENTER_CODE_GG;
+                currentNumberTyped = 0;
+                money = int.Parse(strings[(int)PageSelec.E_CHOOSE_QUANTITY][num].Remove(strings[(int)PageSelec.E_CHOOSE_QUANTITY][num].Length - 1));
+                isPageChanged = true;
+            }
+            else
+            {
+                currentPage = PageSelec.E_CHOOSE_QUANTITY_BY_KEYBOARD_GG;
+                currentNumberTyped = 0;
+                isPageChanged = true;
+            }
+        }
 
         if (isPageChanged == true)
             changeTo(currentPage);
@@ -165,11 +235,13 @@ public class ScreenManagerScript : MonoBehaviour
     {
         bool isPageChanged = false;
 
-        if (num >= 0 && (currentPage == PageSelec.E_CHOOSE_QUANTITY_BY_KEYBOARD || currentPage == PageSelec.E_ENTER_CODE))
+        if (num >= 0 && (currentPage == PageSelec.E_CHOOSE_QUANTITY_BY_KEYBOARD || currentPage == PageSelec.E_ENTER_CODE ||
+                         currentPage == PageSelec.E_ENTER_UNIQUE_CODE_GG || currentPage == PageSelec.E_CHOOSE_QUANTITY_BY_KEYBOARD_GG))
         {
             currentNumberTyped = currentNumberTyped * 10 + num;
         }
-        else if (num == -1 && (currentPage == PageSelec.E_CHOOSE_QUANTITY_BY_KEYBOARD || currentPage == PageSelec.E_ENTER_CODE))
+        else if (num == -1 && (currentPage == PageSelec.E_CHOOSE_QUANTITY_BY_KEYBOARD || currentPage == PageSelec.E_ENTER_CODE ||
+                               currentPage == PageSelec.E_ENTER_UNIQUE_CODE_GG || currentPage == PageSelec.E_CHOOSE_QUANTITY_BY_KEYBOARD_GG))
         {
             currentNumberTyped = 0;
         }
@@ -185,9 +257,19 @@ public class ScreenManagerScript : MonoBehaviour
                     isPageChanged = true;
                 }
             }
+            else if (currentPage == PageSelec.E_CHOOSE_QUANTITY_BY_KEYBOARD_GG)
+            {
+                if (currentNumberTyped > 10 && currentNumberTyped % 10 == 0)
+                {
+                    money = currentNumberTyped;
+                    currentPage = PageSelec.E_ENTER_CODE_GG;
+                    currentNumberTyped = 0;
+                    isPageChanged = true;
+                }
+            }
             else if (currentPage == PageSelec.E_ENTER_CODE)
             {
-                if (currentNumberTyped == 1234)
+                if (currentNumberTyped == GoodCode)
                 {
                     currentPage = PageSelec.E_GOOD_CODE;
                     currentNumberTyped = 0;
@@ -201,13 +283,29 @@ public class ScreenManagerScript : MonoBehaviour
                     isPageChanged = true;
                 }
             }
+            else if (currentPage == PageSelec.E_ENTER_UNIQUE_CODE_GG)
+            {
+                if (currentNumberTyped == UniqueCodeGG)
+                {
+                    currentPage = PageSelec.E_CHOOSE_QUANTITY_GG;
+                    currentNumberTyped = 0;
+                    isPageChanged = true;
+
+                }
+                else
+                {
+                    currentPage = PageSelec.E_WRONG_CODE;
+                    currentNumberTyped = 0;
+                    isPageChanged = true;
+                }
+            }
         }
-        else
+        else if (num == -3)
         {
             currentPage = PageSelec.E_HOME;
             currentNumberTyped = 0;
             isPageChanged = true;
-
+        
         }
 
         if (currentNumberTyped > 0)
@@ -226,5 +324,32 @@ public class ScreenManagerScript : MonoBehaviour
 
         if (isPageChanged == true)
             changeTo(currentPage);
+    }
+
+
+    public bool setCodeGG(int code)
+    {
+        bool isPageChanged = false;
+
+        if (currentPage != PageSelec.E_ENTER_CODE_GG)
+            return false;
+
+        if (code == GoodCode)
+        {
+            currentPage = PageSelec.E_GOOD_CODE;
+            currentNumberTyped = 0;
+            isPageChanged = true;
+
+        }
+        else
+        {
+            currentPage = PageSelec.E_WRONG_CODE;
+            currentNumberTyped = 0;
+            isPageChanged = true;
+        }
+
+        if (isPageChanged == true)
+            changeTo(currentPage);
+        return true;
     }
 }

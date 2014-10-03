@@ -6,6 +6,7 @@ public class ButtonStartServer : MonoBehaviour
 {
     public GUIText IpText;
     public GUIText CodeText;
+    public ScreenManagerScript manager;
 
     private AsynchronousSocketListener _server;
     private Thread _thread;
@@ -43,6 +44,7 @@ public class ButtonStartServer : MonoBehaviour
                 {
                     CodeText.text += code.ToString();
                     _codeSetted = true;
+                    manager.setCodeGG(code);
                 }
             }
         }
@@ -55,5 +57,10 @@ public class ButtonStartServer : MonoBehaviour
             _server.StopListening();
             _thread.Join();
         }
+    }
+
+    void GenerateUniqueCodeGG()
+    {
+        //after
     }
 }
