@@ -54,16 +54,16 @@ public class ScreenManagerScript : MonoBehaviour
         strings[(int)PageSelec.E_HOME].Add("");
         strings[(int)PageSelec.E_HOME].Add("");
 
-        strings[(int)PageSelec.E_CHOOSE_QUANTITY].Add("20$");
-        strings[(int)PageSelec.E_CHOOSE_QUANTITY].Add("40$");
-        strings[(int)PageSelec.E_CHOOSE_QUANTITY].Add("60$");
-        strings[(int)PageSelec.E_CHOOSE_QUANTITY].Add("80$");
-        strings[(int)PageSelec.E_CHOOSE_QUANTITY].Add("100$");
-        strings[(int)PageSelec.E_CHOOSE_QUANTITY].Add("150$");
-        strings[(int)PageSelec.E_CHOOSE_QUANTITY].Add("200$");
-        strings[(int)PageSelec.E_CHOOSE_QUANTITY].Add("Enter Amount");
+        strings[(int)PageSelec.E_CHOOSE_QUANTITY].Add("20€");
+        strings[(int)PageSelec.E_CHOOSE_QUANTITY].Add("40€");
+        strings[(int)PageSelec.E_CHOOSE_QUANTITY].Add("60€");
+        strings[(int)PageSelec.E_CHOOSE_QUANTITY].Add("80€");
+        strings[(int)PageSelec.E_CHOOSE_QUANTITY].Add("100€");
+        strings[(int)PageSelec.E_CHOOSE_QUANTITY].Add("150€");
+        strings[(int)PageSelec.E_CHOOSE_QUANTITY].Add("200€");
+        strings[(int)PageSelec.E_CHOOSE_QUANTITY].Add("Autre Montant");
 
-        strings[(int)PageSelec.E_CHOOSE_QUANTITY_BY_KEYBOARD].Add("Please enter the amount :");
+        strings[(int)PageSelec.E_CHOOSE_QUANTITY_BY_KEYBOARD].Add("Entrez le montant :");
         strings[(int)PageSelec.E_CHOOSE_QUANTITY_BY_KEYBOARD].Add("");
         strings[(int)PageSelec.E_CHOOSE_QUANTITY_BY_KEYBOARD].Add("");
         strings[(int)PageSelec.E_CHOOSE_QUANTITY_BY_KEYBOARD].Add("");
@@ -72,7 +72,7 @@ public class ScreenManagerScript : MonoBehaviour
         strings[(int)PageSelec.E_CHOOSE_QUANTITY_BY_KEYBOARD].Add("");
         strings[(int)PageSelec.E_CHOOSE_QUANTITY_BY_KEYBOARD].Add("");
 
-        strings[(int)PageSelec.E_ENTER_CODE].Add("Please enter your code :");
+        strings[(int)PageSelec.E_ENTER_CODE].Add("Entrez le code de carte :");
         strings[(int)PageSelec.E_ENTER_CODE].Add("");
         strings[(int)PageSelec.E_ENTER_CODE].Add("");
         strings[(int)PageSelec.E_ENTER_CODE].Add("");
@@ -81,7 +81,7 @@ public class ScreenManagerScript : MonoBehaviour
         strings[(int)PageSelec.E_ENTER_CODE].Add("");
         strings[(int)PageSelec.E_ENTER_CODE].Add("");
 
-        strings[(int)PageSelec.E_GOOD_CODE].Add("Wait while we prepare your bills");
+        strings[(int)PageSelec.E_GOOD_CODE].Add("Patientez s'il vous plait,\nnous preparons vos billets...");
         strings[(int)PageSelec.E_GOOD_CODE].Add("");
         strings[(int)PageSelec.E_GOOD_CODE].Add("");
         strings[(int)PageSelec.E_GOOD_CODE].Add("");
@@ -90,7 +90,7 @@ public class ScreenManagerScript : MonoBehaviour
         strings[(int)PageSelec.E_GOOD_CODE].Add("");
         strings[(int)PageSelec.E_GOOD_CODE].Add("");
 
-        strings[(int)PageSelec.E_WRONG_CODE].Add("Wrong code, please try again");
+        strings[(int)PageSelec.E_WRONG_CODE].Add("Mauvais code, veuillez réessayer");
         strings[(int)PageSelec.E_WRONG_CODE].Add("");
         strings[(int)PageSelec.E_WRONG_CODE].Add("");
         strings[(int)PageSelec.E_WRONG_CODE].Add("");
