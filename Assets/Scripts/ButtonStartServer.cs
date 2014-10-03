@@ -12,7 +12,7 @@ public class ButtonStartServer : MonoBehaviour
     private bool _ipSetted;
     private bool _codeSetted;
 
-    void Clicked()
+    void Start()
     {
         Debug.Log("starting server...");
         _server = new AsynchronousSocketListener();
