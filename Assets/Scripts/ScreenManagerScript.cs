@@ -171,7 +171,7 @@ public class ScreenManagerScript : MonoBehaviour
         }
         else if (num == -1 && (currentPage == PageSelec.E_CHOOSE_QUANTITY_BY_KEYBOARD || currentPage == PageSelec.E_ENTER_CODE))
         {
-            currentNumberTyped /= 10;
+            currentNumberTyped = 0;
         }
         else if (num == -2)
         {
@@ -211,7 +211,16 @@ public class ScreenManagerScript : MonoBehaviour
         }
 
         if (currentNumberTyped > 0)
+        {
             InputText.text = "" + currentNumberTyped;
+            if (currentPage == PageSelec.E_ENTER_CODE)
+            {
+                int nb = InputText.text.Length;
+                InputText.text = "";
+                for (int i = 0; i < nb; ++i)
+                    InputText.text += '*';
+            }
+        }
         else
             InputText.text = "";
 
