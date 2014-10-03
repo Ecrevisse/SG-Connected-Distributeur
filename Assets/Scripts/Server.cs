@@ -143,6 +143,7 @@ public class AsynchronousSocketListener
 
         if (bytesRead > 0)
         {
+            Debug.Log("Read callback: " + bytesRead);
             // There  might be more data, so store the data received so far.
             state.stackBuffer.Write(state.receiveBuffer, 0, bytesRead);
 
@@ -208,6 +209,7 @@ public class AsynchronousSocketListener
         {
             while (state.stackBuffer.Position < state.stackBuffer.Length)
             {
+                Debug.Log("Boucle While");
                 length = state.stackBuffer.ReadVarInt();
                 if (length > state.stackBuffer.Length - state.stackBuffer.Position)
                     return totalLength;
@@ -217,6 +219,8 @@ public class AsynchronousSocketListener
                 int type = packetToHandle.ReadVarInt();
                 if (type == 0x00)
                     HandleReceiveCode(packetToHandle);
+                else
+                    Debug.Log("Bad Type");
                 state.stackBuffer.Position += length;
                 totalLength = (uint)state.stackBuffer.Position;
             }
@@ -234,6 +238,7 @@ public class AsynchronousSocketListener
         int code = buffer.ReadInt();
         lock (_receivedCode)
         {
+            Debug.Log("HandleReceiveCode: " + code);
             _receivedCode.code = code;
         }
     }
