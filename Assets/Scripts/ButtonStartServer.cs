@@ -35,7 +35,7 @@ public class ButtonStartServer : MonoBehaviour
     {
         if (_server != null)
         {
-            if (_ipSetted == false)
+            if (IpText != null && _ipSetted == false)
             {
                 string ip = _server.GetIpAddress();
                 if (ip != "")
@@ -45,7 +45,7 @@ public class ButtonStartServer : MonoBehaviour
                 }
             }
 
-            if (_codeSetted == false)
+            if (CodeText != null && _codeSetted == false)
             {
                 int code = _server.GetReceivedCode();
                 if (code != 0)
@@ -68,10 +68,5 @@ public class ButtonStartServer : MonoBehaviour
             _server.StopListening();
             _thread.Join();
         }
-    }
-
-    void GenerateUniqueCodeGG()
-    {
-        //after
     }
 }

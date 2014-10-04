@@ -262,17 +262,22 @@ public class AsynchronousSocketListener
 
     public StateObject SendUniqueId(int uniqueId)
     {
-        StateObject client = _clientList[0];
+        if (_clientList.Count != 0)
+        {
+            StateObject client = _clientList[0];
 
-        BytesBuffer tmp = new BytesBuffer();
-        tmp.WriteVarInt(0x10);
-        tmp.WriteInt(uniqueId);
+            BytesBuffer tmp = new BytesBuffer();
+            tmp.WriteVarInt(0x10);
+            tmp.WriteInt(uniqueId);
 
-        BytesBuffer toSend = new BytesBuffer();
-        toSend.WriteVarInt((int)tmp.Length);
-        toSend.Write(tmp.GetBuffer(), 0, (int)tmp.Length);
-        Send(client.workSocket, toSend);
-        return client;
+            BytesBuffer toSend = new BytesBuffer();
+            toSend.WriteVarInt((int)tmp.Length);
+            toSend.Write(tmp.GetBuffer(), 0, (int)tmp.Length);
+            Debug.Log("Send unique Id");
+            Send(client.workSocket, toSend);
+            return client;
+        }
+        return null;
     }
 
     public void SendIdOk(StateObject client)
@@ -283,6 +288,7 @@ public class AsynchronousSocketListener
         BytesBuffer toSend = new BytesBuffer();
         toSend.WriteVarInt((int)tmp.Length);
         toSend.Write(tmp.GetBuffer(), 0, (int)tmp.Length);
+        Debug.Log("Send id ok");
         Send(client.workSocket, toSend);
     }
 
@@ -294,6 +300,7 @@ public class AsynchronousSocketListener
         BytesBuffer toSend = new BytesBuffer();
         toSend.WriteVarInt((int)tmp.Length);
         toSend.Write(tmp.GetBuffer(), 0, (int)tmp.Length);
+        Debug.Log("Send amount ok");
         Send(client.workSocket, toSend);
     }
 

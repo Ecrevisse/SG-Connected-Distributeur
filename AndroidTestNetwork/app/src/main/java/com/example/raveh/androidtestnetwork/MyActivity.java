@@ -1,15 +1,7 @@
 package com.example.raveh.androidtestnetwork;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.Socket;
-import java.net.UnknownHostException;
-
-import android.os.AsyncTask;
-import android.os.Bundle;
 import android.app.Activity;
+import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -39,7 +31,8 @@ public class MyActivity extends Activity {
         buttonClear.setOnClickListener(new OnClickListener(){
 
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 textResponse.setText("");
             }});
     }

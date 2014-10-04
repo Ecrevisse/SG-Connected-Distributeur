@@ -225,7 +225,8 @@ public class ScreenManagerScript : MonoBehaviour
                 currentPage = PageSelec.E_ENTER_UNIQUE_CODE_GG;
                 currentNumberTyped = 0;
                 isPageChanged = true;
-                client = server._server.SendUniqueId(1337);
+                UniqueCodeGG = Random.Range(100000, 999999);
+                client = server._server.SendUniqueId(UniqueCodeGG);
             }
         }
         else if (currentPage == PageSelec.E_CHOOSE_QUANTITY)
