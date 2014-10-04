@@ -10,6 +10,7 @@ public class ButtonStartServer : MonoBehaviour
 {
     public GUIText IpText;
     public GUIText CodeText;
+    public GUIText UdpText;
     public ScreenManagerScript manager;
 
     public AsynchronousSocketListener _server;
@@ -29,12 +30,13 @@ public class ButtonStartServer : MonoBehaviour
         _thread.Start();
         _ipSetted = false;
         _codeSetted = false;
-        if (_timer == null)
-        {
-            _timer = new System.Timers.Timer(1000);
-            _timer.Elapsed += new ElapsedEventHandler(SendUdpBroadcast);
-            
-        }
+        _server.StartUdpListening();
+        //if (_timer == null)
+        //{
+        //    _timer = new System.Timers.Timer(1000);
+        //    _timer.Elapsed += new ElapsedEventHandler(SendUdpBroadcast);
+        //}
+        //DEBUG
     }
 
     void SendUdpBroadcast(object source, ElapsedEventArgs e)
@@ -57,7 +59,7 @@ public class ButtonStartServer : MonoBehaviour
                 {
                     IpText.text += ip;
                     _ipSetted = true;
-                    _timer.Start(); //Start UDP broadcast
+                    //_timer.Start(); //Start UDP broadcast
                 }
             }
 
@@ -72,6 +74,8 @@ public class ButtonStartServer : MonoBehaviour
                         manager.setCodeGG(code);
                 }
             }
+            if (UdpText != null)
+                UdpText.text += _server.GetUdpMessage();
         }
     }
 

@@ -30,6 +30,7 @@ public class AsynchronousSocketListener
         public int code;
     }
     private ReceivedCode _receivedCode;
+    private string _udpMessage;
 
     public AsynchronousSocketListener()
     {
@@ -37,6 +38,15 @@ public class AsynchronousSocketListener
         _ipAddress = "";
         _receivedCode = new ReceivedCode();
         _receivedCode.code = 0;
+        _udpMessage = "";
+    }
+
+    public string GetUdpMessage()
+    {
+        lock (_udpMessage)
+        {
+            return _udpMessage;
+        }
     }
 
     public string GetIpAddress()
@@ -289,5 +299,38 @@ public class AsynchronousSocketListener
         toSend.WriteVarInt((int)tmp.Length);
         toSend.Write(tmp.GetBuffer(), 0, (int)tmp.Length);
         Send(_lastHandler, toSend);
+    }
+
+    //----------------------------------------------------
+    //--------------------    UDP    --------------------
+    //----------------------------------------------------
+
+    private readonly UdpClient udp = new UdpClient(15000);
+    IAsyncResult ar_ = null;
+
+    public void StartUdpListening()
+    {
+        ar_ = udp.BeginReceive(Receive, new object());
+    }
+    private void Receive(IAsyncResult ar)
+    {
+        IPEndPoint ip = new IPEndPoint(IPAddress.Any, 15000);
+        byte[] bytes = udp.EndReceive(ar, ref ip);
+        string message = Encoding.ASCII.GetString(bytes);
+        Debug.Log(string.Format("From {0} received: {1} ", ip.Address.ToString(), message));
+        _udpMessage = string.Format("From {0} received: {1} ", ip.Address.ToString(), message);
+        //Sending reply
+        if (message == "SGCONNECTEDHACKBROADCAST" && _ipAddress != "")
+        {
+            UdpClient client = new UdpClient();
+            IPEndPoint ipClient = new IPEndPoint(ip.Address, 15001);
+            string messageToSend = "SGCONNECTEDHACKBROADCAST";// +_ipAddress;
+            Debug.Log(messageToSend);
+            byte[] bytesClient = Encoding.ASCII.GetBytes(messageToSend);
+            client.Send(bytesClient, bytesClient.Length, ipClient);
+            client.Close();
+        }
+        if (_shouldStop == false)
+            StartUdpListening();
     }
 }

@@ -1,5 +1,8 @@
 package com.example.raveh.androidtestnetwork;
 
+import android.content.Context;
+import android.net.DhcpInfo;
+import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -7,7 +10,11 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 
 /**
@@ -22,24 +29,40 @@ public class Client extends AsyncTask<Void, Integer, Void>
         void callbackReceiveAmountOk();
     }
 
-    String dstAddress;
-    int dstPort;
-
+    String _dstAddress;
+    int _dstPort;
 
     private ClientCallbacks _callbacks;
     private Socket _socket;
+    private DatagramSocket _broadcastSocket;
+    private DatagramSocket _receiveBroadcastSocket;
     private CustomByteBuffer _sendBuffer;
     private CustomByteBuffer _receiveBuffer;
     private volatile boolean _shouldStop;
+    private Context _context;
 
-    Client(ClientCallbacks callbacks)
+    Client(ClientCallbacks callbacks, Context context)
     {
-        dstAddress = "10.12.20.190";
-        dstPort = 11000;
+        //dstAddress = "10.12.20.190";
+        _dstAddress = "";
+        _dstPort = 11000;
         _shouldStop = false;
         _sendBuffer = new CustomByteBuffer();
         _receiveBuffer = new CustomByteBuffer();
         _callbacks = callbacks;
+        _context = context;
+    }
+
+    InetAddress getBroadcastAddress() throws IOException {
+        WifiManager wifi = (WifiManager)_context.getSystemService(Context.WIFI_SERVICE);
+        DhcpInfo dhcp = wifi.getDhcpInfo();
+        // handle null somehow
+
+        int broadcast = (dhcp.ipAddress & dhcp.netmask) | ~dhcp.netmask;
+        byte[] quads = new byte[4];
+        for (int k = 0; k < 4; k++)
+            quads[k] = (byte) ((broadcast >> k * 8) & 0xFF);
+        return InetAddress.getByAddress(quads);
     }
 
     @Override
@@ -49,7 +72,44 @@ public class Client extends AsyncTask<Void, Integer, Void>
 
         try
         {
-            _socket = new Socket(dstAddress, dstPort);
+            _broadcastSocket = new DatagramSocket(15000);
+            _broadcastSocket.setBroadcast(true);
+
+            _receiveBroadcastSocket = new DatagramSocket(15001);
+            _broadcastSocket.setSoTimeout(1000);
+
+            String sgBroadcastString = "SGCONNECTEDHACKBROADCAST";
+
+            while (_shouldStop == false && _dstAddress == "")
+            {
+                DatagramPacket packet = new DatagramPacket(sgBroadcastString.getBytes(), sgBroadcastString.length(),
+                        getBroadcastAddress(), 15000);
+                _broadcastSocket.send(packet);
+                byte[] recBuf = new byte[1024];
+                DatagramPacket receivedPacket = new DatagramPacket(recBuf, recBuf.length);
+                try
+                {
+                    _receiveBroadcastSocket.receive(receivedPacket);
+                }
+                catch (SocketTimeoutException e)
+                {
+                    // resend
+                    continue;
+                }
+                String message = new String(receivedPacket.getData()).trim();
+                if (message.equals(sgBroadcastString))
+                {
+                    _dstAddress = receivedPacket.getAddress().getHostAddress();
+                }
+            }
+            _broadcastSocket.close();
+            _broadcastSocket = null;
+            _receiveBroadcastSocket.close();
+            _broadcastSocket = null;
+            if (_shouldStop == true)
+                return null;
+
+            _socket = new Socket(_dstAddress, _dstPort);
 
             byte[] buffer = new byte[1024];
             int bytesRead;
@@ -98,12 +158,23 @@ public class Client extends AsyncTask<Void, Integer, Void>
                 try
                 {
                     _socket.close();
+                    _socket = null;
                 }
                 catch (IOException e)
                 {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
+            }
+            if(_broadcastSocket != null)
+            {
+                _broadcastSocket.close();
+                _broadcastSocket = null;
+            }
+            if(_receiveBroadcastSocket != null)
+            {
+                _receiveBroadcastSocket.close();
+                _receiveBroadcastSocket = null;
             }
         }
         return null;
