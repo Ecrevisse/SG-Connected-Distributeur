@@ -29,7 +29,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.HashMap;
 
-public class AccountActivity extends Activity
+public class IDConnectActivity extends Activity
 {
     private View    _View;
 
@@ -39,7 +39,7 @@ public class AccountActivity extends Activity
 
 
         CardBuilder card = new CardBuilder(this, CardBuilder.Layout.AUTHOR);
-        card.setText("Test");
+        card.setText("ID Connection");
         _View = card.getView();
         _View.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,7 +53,7 @@ public class AccountActivity extends Activity
     @Override
     public boolean onKeyDown(int keycode, KeyEvent event) {
         if (keycode == KeyEvent.KEYCODE_DPAD_CENTER) {
-            Intent intent = new Intent(AccountActivity.this, IDConnectActivity.class);
+            Intent intent = new Intent(IDConnectActivity.this, ConnectionScreen.class);
             startActivity(intent);
             return true;
         }
