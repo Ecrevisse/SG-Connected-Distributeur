@@ -12,7 +12,7 @@ public class ButtonStartServer : MonoBehaviour
     public GUIText CodeText;
     public ScreenManagerScript manager;
 
-    private AsynchronousSocketListener _server;
+    public AsynchronousSocketListener _server;
     private Thread _thread;
     private bool _ipSetted;
     private bool _codeSetted;
@@ -20,9 +20,6 @@ public class ButtonStartServer : MonoBehaviour
     private static System.Timers.Timer _timer;
 
     const int PORT_NUMBER = 15000;
-
-    //DEBUG
-    private bool _debugBool;
 
     void Start()
     {
@@ -38,8 +35,6 @@ public class ButtonStartServer : MonoBehaviour
             _timer.Elapsed += new ElapsedEventHandler(SendUdpBroadcast);
             
         }
-        //DEBUG
-        _debugBool = true;
     }
 
     void SendUdpBroadcast(object source, ElapsedEventArgs e)
@@ -76,14 +71,6 @@ public class ButtonStartServer : MonoBehaviour
                     if (manager != null)
                         manager.setCodeGG(code);
                 }
-            }
-            else if (_debugBool)
-            {
-                //DEBUG
-                _server.SendUniqueId(1337);
-                _server.SendIdOk();
-                _server.SendAmountOk();
-                _debugBool = false;
             }
         }
     }

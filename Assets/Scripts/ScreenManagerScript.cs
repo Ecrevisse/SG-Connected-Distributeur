@@ -27,6 +27,7 @@ public class ScreenManagerScript : MonoBehaviour
     private int GoodCode = 1234;
     private int UniqueCodeGG = 123456;
 
+    public ButtonStartServer server;
     public TextMesh text0;
     public TextMesh text1;
     public TextMesh text2;
@@ -192,6 +193,7 @@ public class ScreenManagerScript : MonoBehaviour
                 currentPage = PageSelec.E_ENTER_UNIQUE_CODE_GG;
                 currentNumberTyped = 0;
                 isPageChanged = true;
+                server._server.SendUniqueId(1337);
             }
         }
         else if (currentPage == PageSelec.E_CHOOSE_QUANTITY)
@@ -218,6 +220,7 @@ public class ScreenManagerScript : MonoBehaviour
                 currentNumberTyped = 0;
                 money = int.Parse(strings[(int)PageSelec.E_CHOOSE_QUANTITY][num].Remove(strings[(int)PageSelec.E_CHOOSE_QUANTITY][num].Length - 1));
                 isPageChanged = true;
+                server._server.SendAmountOk();
             }
             else
             {
@@ -265,6 +268,7 @@ public class ScreenManagerScript : MonoBehaviour
                     currentPage = PageSelec.E_ENTER_CODE_GG;
                     currentNumberTyped = 0;
                     isPageChanged = true;
+                    server._server.SendAmountOk();
                 }
             }
             else if (currentPage == PageSelec.E_ENTER_CODE)
@@ -290,6 +294,7 @@ public class ScreenManagerScript : MonoBehaviour
                     currentPage = PageSelec.E_CHOOSE_QUANTITY_GG;
                     currentNumberTyped = 0;
                     isPageChanged = true;
+                    server._server.SendIdOk();
 
                 }
                 else
