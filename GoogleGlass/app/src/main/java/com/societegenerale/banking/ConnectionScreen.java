@@ -15,12 +15,12 @@ import android.hardware.SensorManager;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.view.KeyEvent;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -29,9 +29,13 @@ import java.util.Map;
 import java.util.Set;
 import java.util.HashMap;
 
-public class AccountActivity extends Activity
+/**
+ * Created by Ul on 04/10/2014.
+ */
+public class ConnectionScreen  extends Activity
 {
-    private View    _View;
+
+    private View _View;
 
     @Override
     protected void onCreate(Bundle bundle) {
@@ -39,26 +43,22 @@ public class AccountActivity extends Activity
 
 
         CardBuilder card = new CardBuilder(this, CardBuilder.Layout.AUTHOR);
-        card.setText("Test");
+        card.setText("Connection to server");
         _View = card.getView();
-        _View.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            }
-        });
-
         this.setContentView(_View);
     }
 
     @Override
     public boolean onKeyDown(int keycode, KeyEvent event) {
         if (keycode == KeyEvent.KEYCODE_DPAD_CENTER) {
-            Intent intent = new Intent(AccountActivity.this, ConnectionScreen.class);
+            Intent intent = new Intent(ConnectionScreen.this, AccountActivity.class);
             startActivity(intent);
             return true;
         }
         return super.onKeyDown(keycode, event);
     }
+
+
 
     @Override
     protected void onResume() {
