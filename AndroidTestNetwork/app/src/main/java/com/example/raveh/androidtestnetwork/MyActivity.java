@@ -48,7 +48,12 @@ public class MyActivity extends Activity {
 
                 @Override
                 public void onClick(View arg0) {
-                    Client myClientTask = new Client();
+                    Client myClientTask = new Client(new Client.ClientCallbacks() {
+                        @Override
+                        public void callbackReceiveUniqueId(int uniqueId) {
+                            textResponse.setText(Integer.toString(uniqueId));
+                        }
+                    });
                     myClientTask.execute();
                     myClientTask.SendCode(4242);
                     //myClientTask.Stop();

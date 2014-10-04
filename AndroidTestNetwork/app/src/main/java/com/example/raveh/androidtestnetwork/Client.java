@@ -13,23 +13,31 @@ import java.net.UnknownHostException;
 /**
  * Created by Raveh on 04/10/2014.
  */
-public class Client extends AsyncTask<Void, Void, Void>
+public class Client extends AsyncTask<Void, Integer, Void>
 {
+    public interface ClientCallbacks
+    {
+        void callbackReceiveUniqueId(int uniqueId);
+    }
+
     String dstAddress;
     int dstPort;
 
+
+    private ClientCallbacks _callbacks;
     private Socket _socket;
     private CustomByteBuffer _sendBuffer;
     private CustomByteBuffer _receiveBuffer;
     private volatile boolean _shouldStop;
 
-    Client()
+    Client(ClientCallbacks callbacks)
     {
         dstAddress = "10.12.20.190";
         dstPort = 11000;
         _shouldStop = false;
         _sendBuffer = new CustomByteBuffer();
         _receiveBuffer = new CustomByteBuffer();
+        _callbacks = callbacks;
     }
 
     @Override
@@ -59,13 +67,13 @@ public class Client extends AsyncTask<Void, Void, Void>
                     bytesRead = inputStream.read(buffer);
                     _receiveBuffer.Write(buffer, 0, bytesRead);
                     int sizeHandled = HandlePacket();
-                    _receiveBuffer.Reset();
-                    if (sizeHandled > 0)
-                    {
-                        CustomByteBuffer newBuf = new CustomByteBuffer();
-                        newBuf.Write(_receiveBuffer.GetBuffer(), sizeHandled, _receiveBuffer.GetLength() - sizeHandled);
-                        _receiveBuffer = newBuf;
-                    }
+                    //_receiveBuffer.Reset();
+                    //if (sizeHandled > 0)
+                    //{
+                    //    CustomByteBuffer newBuf = new CustomByteBuffer();
+                    //    newBuf.Write(_receiveBuffer.GetBuffer(), sizeHandled, _receiveBuffer.GetLength() - sizeHandled);
+                    //    _receiveBuffer = newBuf;
+                    //}
                 }
             }
         }
@@ -97,6 +105,18 @@ public class Client extends AsyncTask<Void, Void, Void>
             }
         }
         return null;
+    }
+
+    @Override
+    protected void onProgressUpdate(Integer... data)
+    {
+        if (_callbacks != null)
+        {
+            if (data[0] == 0)
+            {
+                _callbacks.callbackReceiveUniqueId(data[1]);
+            }
+        }
     }
 
     @Override
@@ -140,6 +160,7 @@ public class Client extends AsyncTask<Void, Void, Void>
     public void HandleReceiveUniqueId(CustomByteBuffer packet)
     {
         int uniqueID = packet.ReadInt();
+        publishProgress(0, uniqueID);
     }
 
     public void Stop()

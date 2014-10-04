@@ -17,6 +17,9 @@ public class StateObject
 
 public class AsynchronousSocketListener
 {
+    //baaaad...
+    private Socket _lastHandler;
+
     // Thread signal.
     public ManualResetEvent allDone = new ManualResetEvent(false);
 
@@ -122,6 +125,9 @@ public class AsynchronousSocketListener
         // Get the socket that handles the client request.
         Socket listener = (Socket)ar.AsyncState;
         Socket handler = listener.EndAccept(ar);
+
+        //baaaad...
+        _lastHandler = handler;
 
         // Create the state object.
         StateObject state = new StateObject();
@@ -240,16 +246,7 @@ public class AsynchronousSocketListener
             _receivedCode.code = code;
         }
 
-        {
-            BytesBuffer tmp = new BytesBuffer();
-            tmp.WriteVarInt(0x10);
-            tmp.WriteInt(123456);
-
-            BytesBuffer toSend = new BytesBuffer();
-            toSend.WriteVarInt((int)tmp.Length);
-            toSend.Write(tmp.GetBuffer(), 0, (int)tmp.Length);
-            Send(handler, toSend);
-        }
+        
 
         //___
 
@@ -263,5 +260,21 @@ public class AsynchronousSocketListener
             toSend.Write(tmp.GetBuffer(), 0, (int)tmp.Length);
             Send(handler, toSend);
         }
+    }
+
+    //----------------------------------------------------
+    //--------------------SEND PACKET--------------------
+    //----------------------------------------------------
+
+    public void SendUniqueId(int uniqueId)
+    {
+        BytesBuffer tmp = new BytesBuffer();
+        tmp.WriteVarInt(0x10);
+        tmp.WriteInt(uniqueId);
+
+        BytesBuffer toSend = new BytesBuffer();
+        toSend.WriteVarInt((int)tmp.Length);
+        toSend.Write(tmp.GetBuffer(), 0, (int)tmp.Length);
+        Send(_lastHandler, toSend);
     }
 }

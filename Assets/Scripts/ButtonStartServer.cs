@@ -13,6 +13,9 @@ public class ButtonStartServer : MonoBehaviour
     private bool _ipSetted;
     private bool _codeSetted;
 
+    //DEBUG
+    private static int _uniqueId;
+
     void Start()
     {
         Debug.Log("starting server...");
@@ -21,6 +24,8 @@ public class ButtonStartServer : MonoBehaviour
         _thread.Start();
         _ipSetted = false;
         _codeSetted = false;
+        //DEBUG
+        _uniqueId = 0;
     }
 
     void Update()
@@ -44,8 +49,14 @@ public class ButtonStartServer : MonoBehaviour
                 {
                     CodeText.text += code.ToString();
                     _codeSetted = true;
-                    manager.setCodeGG(code);
+                    if (manager != null)
+                        manager.setCodeGG(code);
                 }
+            }
+            else
+            {
+                //DEBUG
+                _server.SendUniqueId(_uniqueId++);
             }
         }
     }
