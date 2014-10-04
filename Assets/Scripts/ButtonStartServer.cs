@@ -1,6 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Threading;
+using System.Timers;
+using System.Net.Sockets;
+using System.Net;
+using System.Text;
 
 public class ButtonStartServer : MonoBehaviour
 {
@@ -13,6 +17,10 @@ public class ButtonStartServer : MonoBehaviour
     private bool _ipSetted;
     private bool _codeSetted;
 
+    private static System.Timers.Timer _timer;
+
+    const int PORT_NUMBER = 15000;
+
     //DEBUG
     private bool _debugBool;
 
@@ -24,8 +32,23 @@ public class ButtonStartServer : MonoBehaviour
         _thread.Start();
         _ipSetted = false;
         _codeSetted = false;
+        if (_timer == null)
+        {
+            _timer = new System.Timers.Timer(1000);
+            _timer.Elapsed += new ElapsedEventHandler(SendUdpBroadcast);
+            
+        }
         //DEBUG
         _debugBool = true;
+    }
+
+    void SendUdpBroadcast(object source, ElapsedEventArgs e)
+    {
+        UdpClient client = new UdpClient();
+        IPEndPoint ip = new IPEndPoint(IPAddress.Parse("255.255.255.255"), PORT_NUMBER);
+        byte[] bytes = Encoding.ASCII.GetBytes("SGCONNECTEDHACKBROADCAST");
+        client.Send(bytes, bytes.Length, ip);
+        client.Close();
     }
 
     void Update()
@@ -39,6 +62,7 @@ public class ButtonStartServer : MonoBehaviour
                 {
                     IpText.text += ip;
                     _ipSetted = true;
+                    _timer.Start(); //Start UDP broadcast
                 }
             }
 
@@ -71,6 +95,9 @@ public class ButtonStartServer : MonoBehaviour
             _server.StopListening();
             _thread.Join();
         }
+        if (_timer != null)
+            _timer.Stop();
+        
     }
 
     void GenerateUniqueCodeGG()
