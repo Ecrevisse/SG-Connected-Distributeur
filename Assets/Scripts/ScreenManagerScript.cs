@@ -36,7 +36,7 @@ public class ScreenManagerScript : MonoBehaviour
     public TextMesh text5;
     public TextMesh text6;
     public TextMesh text7;
-
+	public TextMesh text8;
     public TextMesh InputText;
 
 	// Use this for initialization
@@ -57,15 +57,17 @@ public class ScreenManagerScript : MonoBehaviour
         strings.Add(new List<string>());
         strings.Add(new List<string>());
         strings.Add(new List<string>());
+		strings.Add(new List<string>());
 
-        strings[(int)PageSelec.E_HOME].Add("");//Retrait par carte");
-        strings[(int)PageSelec.E_HOME].Add("");//Retrait via Google Glass");
+		strings[(int)PageSelec.E_HOME].Add("RETRAIT PAR\nCARTE");
+		strings[(int)PageSelec.E_HOME].Add("RETRAIT VIA\nGOOGLE GLASS");
         strings[(int)PageSelec.E_HOME].Add("");
         strings[(int)PageSelec.E_HOME].Add("");
         strings[(int)PageSelec.E_HOME].Add("");
         strings[(int)PageSelec.E_HOME].Add("");
         strings[(int)PageSelec.E_HOME].Add("");
         strings[(int)PageSelec.E_HOME].Add("");
+		strings[(int)PageSelec.E_HOME].Add("");
 
         strings[(int)PageSelec.E_CHOOSE_QUANTITY].Add("20€");
         strings[(int)PageSelec.E_CHOOSE_QUANTITY].Add("40€");
@@ -75,8 +77,9 @@ public class ScreenManagerScript : MonoBehaviour
         strings[(int)PageSelec.E_CHOOSE_QUANTITY].Add("150€");
         strings[(int)PageSelec.E_CHOOSE_QUANTITY].Add("200€");
         strings[(int)PageSelec.E_CHOOSE_QUANTITY].Add("SAISIE DE\nMONTANT");
+		strings[(int)PageSelec.E_CHOOSE_QUANTITY].Add("");
 
-        strings[(int)PageSelec.E_CHOOSE_QUANTITY_BY_KEYBOARD].Add("Entrez le montant :");
+		strings[(int)PageSelec.E_CHOOSE_QUANTITY_BY_KEYBOARD].Add("ENTREZ LE\nMONTANT :");
         strings[(int)PageSelec.E_CHOOSE_QUANTITY_BY_KEYBOARD].Add("");
         strings[(int)PageSelec.E_CHOOSE_QUANTITY_BY_KEYBOARD].Add("");
         strings[(int)PageSelec.E_CHOOSE_QUANTITY_BY_KEYBOARD].Add("");
@@ -84,8 +87,9 @@ public class ScreenManagerScript : MonoBehaviour
         strings[(int)PageSelec.E_CHOOSE_QUANTITY_BY_KEYBOARD].Add("");
         strings[(int)PageSelec.E_CHOOSE_QUANTITY_BY_KEYBOARD].Add("");
         strings[(int)PageSelec.E_CHOOSE_QUANTITY_BY_KEYBOARD].Add("");
+		strings[(int)PageSelec.E_CHOOSE_QUANTITY_BY_KEYBOARD].Add("");
 
-        strings[(int)PageSelec.E_ENTER_CODE].Add("Entrez votre code :");
+		strings[(int)PageSelec.E_ENTER_CODE].Add("ENTREZ VOTRE\nCODE :");
         strings[(int)PageSelec.E_ENTER_CODE].Add("");
         strings[(int)PageSelec.E_ENTER_CODE].Add("");
         strings[(int)PageSelec.E_ENTER_CODE].Add("");
@@ -93,33 +97,38 @@ public class ScreenManagerScript : MonoBehaviour
         strings[(int)PageSelec.E_ENTER_CODE].Add("");
         strings[(int)PageSelec.E_ENTER_CODE].Add("");
         strings[(int)PageSelec.E_ENTER_CODE].Add("");
+		strings[(int)PageSelec.E_ENTER_CODE].Add("");
+		
+        strings[(int)PageSelec.E_GOOD_CODE].Add("");
+        strings[(int)PageSelec.E_GOOD_CODE].Add("");
+        strings[(int)PageSelec.E_GOOD_CODE].Add("");
+        strings[(int)PageSelec.E_GOOD_CODE].Add("");
+        strings[(int)PageSelec.E_GOOD_CODE].Add("");
+        strings[(int)PageSelec.E_GOOD_CODE].Add("");
+        strings[(int)PageSelec.E_GOOD_CODE].Add("");
+		strings[(int)PageSelec.E_GOOD_CODE].Add("");
+		strings[(int)PageSelec.E_GOOD_CODE].Add("PATIENTEZ S'IL VOUS PLAIT,\nNOUS PREPARONS VOS BILLETS...");
 
-        strings[(int)PageSelec.E_GOOD_CODE].Add("Patientez s'il vous plait,\nnous preparons vos billets...");
-        strings[(int)PageSelec.E_GOOD_CODE].Add("");
-        strings[(int)PageSelec.E_GOOD_CODE].Add("");
-        strings[(int)PageSelec.E_GOOD_CODE].Add("");
-        strings[(int)PageSelec.E_GOOD_CODE].Add("");
-        strings[(int)PageSelec.E_GOOD_CODE].Add("");
-        strings[(int)PageSelec.E_GOOD_CODE].Add("");
-        strings[(int)PageSelec.E_GOOD_CODE].Add("");
+		
+		strings[(int)PageSelec.E_WRONG_CODE].Add("");
+        strings[(int)PageSelec.E_WRONG_CODE].Add("");
+        strings[(int)PageSelec.E_WRONG_CODE].Add("");
+        strings[(int)PageSelec.E_WRONG_CODE].Add("");
+        strings[(int)PageSelec.E_WRONG_CODE].Add("");
+        strings[(int)PageSelec.E_WRONG_CODE].Add("");
+        strings[(int)PageSelec.E_WRONG_CODE].Add("");
+		strings [(int)PageSelec.E_WRONG_CODE].Add ("");
+		strings[(int)PageSelec.E_WRONG_CODE].Add("MAUVAIS CODE,\nVEUILLEZ REESSAYER");
 
-        strings[(int)PageSelec.E_WRONG_CODE].Add("Mauvais code, veuillez réessayer");
-        strings[(int)PageSelec.E_WRONG_CODE].Add("");
-        strings[(int)PageSelec.E_WRONG_CODE].Add("");
-        strings[(int)PageSelec.E_WRONG_CODE].Add("");
-        strings[(int)PageSelec.E_WRONG_CODE].Add("");
-        strings[(int)PageSelec.E_WRONG_CODE].Add("");
-        strings[(int)PageSelec.E_WRONG_CODE].Add("");
-        strings[(int)PageSelec.E_WRONG_CODE].Add("");
-
-        strings[(int)PageSelec.E_ENTER_UNIQUE_CODE_GG].Add("Entrez le code d'authentification :");
+		strings[(int)PageSelec.E_ENTER_UNIQUE_CODE_GG].Add("ENTREZ LE CODE\nD'AUTHENTIFICATION :");
         strings[(int)PageSelec.E_ENTER_UNIQUE_CODE_GG].Add("");
         strings[(int)PageSelec.E_ENTER_UNIQUE_CODE_GG].Add("");
         strings[(int)PageSelec.E_ENTER_UNIQUE_CODE_GG].Add("");
         strings[(int)PageSelec.E_ENTER_UNIQUE_CODE_GG].Add("");
         strings[(int)PageSelec.E_ENTER_UNIQUE_CODE_GG].Add("");
         strings[(int)PageSelec.E_ENTER_UNIQUE_CODE_GG].Add("");
-        strings[(int)PageSelec.E_ENTER_UNIQUE_CODE_GG].Add("");
+		strings[(int)PageSelec.E_ENTER_UNIQUE_CODE_GG].Add("");
+		strings[(int)PageSelec.E_ENTER_UNIQUE_CODE_GG].Add("");
 
         strings[(int)PageSelec.E_CHOOSE_QUANTITY_GG].Add("20€");
         strings[(int)PageSelec.E_CHOOSE_QUANTITY_GG].Add("40€");
@@ -128,25 +137,28 @@ public class ScreenManagerScript : MonoBehaviour
         strings[(int)PageSelec.E_CHOOSE_QUANTITY_GG].Add("100€");
         strings[(int)PageSelec.E_CHOOSE_QUANTITY_GG].Add("150€");
         strings[(int)PageSelec.E_CHOOSE_QUANTITY_GG].Add("200€");
-        strings[(int)PageSelec.E_CHOOSE_QUANTITY_GG].Add("Autre Montant");
+		strings[(int)PageSelec.E_CHOOSE_QUANTITY_GG].Add("AUTRE MONTANT");
+		strings[(int)PageSelec.E_CHOOSE_QUANTITY_GG].Add("");
 
-        strings[(int)PageSelec.E_ENTER_AMOUNT_GG].Add("Entrez le montant :");
+		strings[(int)PageSelec.E_ENTER_AMOUNT_GG].Add("ENTREZ LE\nMONTANT :");
         strings[(int)PageSelec.E_ENTER_AMOUNT_GG].Add("");
         strings[(int)PageSelec.E_ENTER_AMOUNT_GG].Add("");
         strings[(int)PageSelec.E_ENTER_AMOUNT_GG].Add("");
         strings[(int)PageSelec.E_ENTER_AMOUNT_GG].Add("");
         strings[(int)PageSelec.E_ENTER_AMOUNT_GG].Add("");
         strings[(int)PageSelec.E_ENTER_AMOUNT_GG].Add("");
-        strings[(int)PageSelec.E_ENTER_AMOUNT_GG].Add("");
+		strings[(int)PageSelec.E_ENTER_AMOUNT_GG].Add("");
+		strings[(int)PageSelec.E_ENTER_AMOUNT_GG].Add("");
 
-        strings[(int)PageSelec.E_ENTER_CODE_GG].Add("En attente du code...");
+		strings[(int)PageSelec.E_ENTER_CODE_GG].Add("EN ATTENTE\nDU CODE...");
         strings[(int)PageSelec.E_ENTER_CODE_GG].Add("");
         strings[(int)PageSelec.E_ENTER_CODE_GG].Add("");
         strings[(int)PageSelec.E_ENTER_CODE_GG].Add("");
         strings[(int)PageSelec.E_ENTER_CODE_GG].Add("");
         strings[(int)PageSelec.E_ENTER_CODE_GG].Add("");
         strings[(int)PageSelec.E_ENTER_CODE_GG].Add("");
-        strings[(int)PageSelec.E_ENTER_CODE_GG].Add("");
+		strings[(int)PageSelec.E_ENTER_CODE_GG].Add("");
+		strings[(int)PageSelec.E_ENTER_CODE_GG].Add("");
 
         changeTo(currentPage);
 	}
@@ -169,6 +181,7 @@ public class ScreenManagerScript : MonoBehaviour
         text5.text = strings[(int)currentPage][5];
         text6.text = strings[(int)currentPage][6];
         text7.text = strings[(int)currentPage][7];
+		text8.text = strings[(int)currentPage][8];
         changeBack(text0);
         changeBack(text1);
         changeBack(text2);
@@ -177,12 +190,13 @@ public class ScreenManagerScript : MonoBehaviour
         changeBack(text5);
         changeBack(text6);
         changeBack(text7);
+		changeBack(text8);
 
-        if (currentPage == PageSelec.E_GOOD_CODE)
-        {
-            currentNumberTyped = money;
-            InputText.text = "" + currentNumberTyped;
-        }
+        //if (currentPage == PageSelec.E_GOOD_CODE)
+        //{
+        //   currentNumberTyped = money;
+        //    InputText.text = "" + currentNumberTyped;
+        //}
     }
 
     private void changeBack(TextMesh text)
