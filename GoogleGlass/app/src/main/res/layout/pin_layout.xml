@@ -501,7 +501,8 @@
         />
     <TextView
         android:id="@+id/threetwo"
-        android:layout_width="62px"
+
+        \android:layout_width="62px"
         android:layout_height="62px"
         android:text="7"
         android:gravity="center"

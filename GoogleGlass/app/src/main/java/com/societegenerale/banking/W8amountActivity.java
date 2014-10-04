@@ -29,10 +29,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.HashMap;
 
-/**
- * Created by Ul on 04/10/2014.
- */
-public class ConnectionScreen  extends Activity
+public class W8amountActivity  extends Activity
 {
     private View _View;
 
@@ -41,15 +38,16 @@ public class ConnectionScreen  extends Activity
         super.onCreate(bundle);
 
         CardBuilder card = new CardBuilder(this, CardBuilder.Layout.AUTHOR);
-        card.setText("Connection to server");
+        card.setText("Enter Amount.");
         _View = card.getView();
         this.setContentView(_View);
     }
 
     @Override
-    public boolean onKeyDown(int keycode, KeyEvent event) {
+    public boolean onKeyDown(int keycode, KeyEvent event)
+    {
         if (keycode == KeyEvent.KEYCODE_DPAD_CENTER) {
-            Intent intent = new Intent(ConnectionScreen.this, IDConnectActivity.class);
+            Intent intent = new Intent(W8amountActivity.this, PinActivity.class);
             startActivity(intent);
             return true;
         }

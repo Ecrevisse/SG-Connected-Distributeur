@@ -59,9 +59,10 @@ public class PinActivity  extends Activity
 
     private GestureDetector _gestureDetector;
 
-    private ArrayList<NumberInterface> _model;
+    private ArrayList<NumberInterface>            _model;
     private ArrayList<ArrayList<TextView>>        _row;
-    private int                        _currentRow = 0;
+    private int                                   _currentRow = 0;
+    private ArrayList<Integer>                    _code;
     @Override
 
     protected void onCreate(Bundle bundle) {
@@ -156,6 +157,7 @@ public class PinActivity  extends Activity
                                                 img.setImageResource(R.drawable.case_pin);
                                                 img = (ImageView)findViewById(R.id.selection_row_2);
                                                 img.setImageResource(R.drawable.case_pin_selected);
+                                                _code.add(Integer.getInteger(_row.get(_currentRow).get(5).getText().toString()));
                                             }
                                             else if (_currentRow == 1)
                                             {
@@ -163,6 +165,7 @@ public class PinActivity  extends Activity
                                                 img.setImageResource(R.drawable.case_pin);
                                                 img = (ImageView)findViewById(R.id.selection_row_3);
                                                 img.setImageResource(R.drawable.case_pin_selected);
+                                                _code.add(Integer.getInteger(_row.get(_currentRow).get(5).getText().toString()));
                                             }
                                             else if (_currentRow == 2)
                                             {
@@ -170,10 +173,13 @@ public class PinActivity  extends Activity
                                                 img.setImageResource(R.drawable.case_pin);
                                                 img = (ImageView)findViewById(R.id.selection_row_4);
                                                 img.setImageResource(R.drawable.case_pin_selected);
+                                                _code.add(Integer.getInteger(_row.get(_currentRow).get(5).getText().toString()));
                                             }
                                             else {
+                                                _code.add(Integer.getInteger(_row.get(_currentRow).get(5).getText().toString()));
+                                                Log.d("CODE", "" + _code.get(0) + _code.get(1) + _code.get(2) + _code.get(3));
                                                 Intent intent = new Intent(PinActivity.this,
-                                                                           ConnectionScreen.class);
+                                                                           QuitActivity.class);
                                                 startActivity(intent);
                                             }
                                             ++_currentRow;
@@ -220,8 +226,6 @@ public class PinActivity  extends Activity
 
     private void swipeBackward()
     {
-        //if (_currentRow == 0)
-        //{
             TextView erase = _row.get(_currentRow).remove(0);
             TextView newBlank = _row.get(_currentRow).get(0);
             _row.get(_currentRow).add(10, erase);
@@ -230,20 +234,16 @@ public class PinActivity  extends Activity
             {
                 TextView            tmp = _row.get(_currentRow).get(i);
                 NumberInterface     model = _model.get(i);
-                //Log.d(tmp.getText() + " " + model.size , "" + model.alpha);
                 tmp.setAlpha(model.alpha);
                 tmp.setTextSize(TypedValue.COMPLEX_UNIT_PX, model.size);
                 RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)tmp.getLayoutParams();
                 params.setMargins(model.coord.y, model.coord.x, 0, 0);
                 tmp.setLayoutParams(params);
             }
-        //}
     }
 
     private void swipeForward()
     {
-        //if (_currentRow == 0)
-        //{
             TextView erase = _row.get(_currentRow).remove(10);
             TextView newBlank = _row.get(_currentRow).get(9);
             _row.get(_currentRow).add(0, erase);
