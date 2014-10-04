@@ -27,16 +27,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.HashMap;
+import java.util.HashMap;import com.google.android.glass.touchpad.Gesture;
+import com.google.android.glass.touchpad.GestureDetector;
 
 public class IDConnectActivity extends Activity
 {
     private View    _View;
+    private GestureDetector _gestureDetector;
 
     @Override
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
 
+        _gestureDetector = createGestureDetector(this);
 
         CardBuilder card = new CardBuilder(this, CardBuilder.Layout.TEXT);
         card.setText("ID Connection:\n123456");
@@ -58,6 +61,27 @@ public class IDConnectActivity extends Activity
             return true;
         }
         return super.onKeyDown(keycode, event);
+    }
+
+    private GestureDetector createGestureDetector(Context context)
+    {
+        GestureDetector detector = new GestureDetector(context);
+        detector.setBaseListener(new GestureDetector.BaseListener() {
+                                     @Override
+                                     public boolean onGesture(Gesture gesture) {
+                                         if (gesture == Gesture.SWIPE_DOWN)
+                                         {
+                                             Intent intent = new Intent(IDConnectActivity.this,
+                                                     AlertQuit.class);
+                                             startActivity(intent);
+                                             return true;
+                                         }
+                                         return false;
+                                     }
+
+                                 }
+        );
+        return detector;
     }
 
     @Override

@@ -28,13 +28,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.HashMap;
-
+import com.google.android.glass.touchpad.Gesture;
+import com.google.android.glass.touchpad.GestureDetector;
 /**
  * Created by Ul on 04/10/2014.
  */
 public class ConnectionScreen  extends Activity
 {
     private View _View;
+    private GestureDetector _gestureDetector;
 
     @Override
     protected void onCreate(Bundle bundle) {
@@ -43,6 +45,7 @@ public class ConnectionScreen  extends Activity
         CardBuilder card = new CardBuilder(this, CardBuilder.Layout.AUTHOR);
         card.setText("Connection to server");
         _View = card.getView();
+        _gestureDetector = createGestureDetector(this);
         this.setContentView(_View);
     }
 
@@ -56,7 +59,26 @@ public class ConnectionScreen  extends Activity
         return super.onKeyDown(keycode, event);
     }
 
+    private GestureDetector createGestureDetector(Context context)
+    {
+        GestureDetector detector = new GestureDetector(context);
+        detector.setBaseListener(new GestureDetector.BaseListener() {
+                                     @Override
+                                     public boolean onGesture(Gesture gesture) {
+                                         if (gesture == Gesture.SWIPE_DOWN)
+                                         {
+                                             Intent intent = new Intent(ConnectionScreen.this,
+                                                     AlertQuit.class);
+                                             startActivity(intent);
+                                             return true;
+                                         }
+                                         return false;
+                                     }
 
+                                 }
+        );
+        return detector;
+    }
 
     @Override
     protected void onResume() {

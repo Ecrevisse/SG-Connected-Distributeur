@@ -20,14 +20,6 @@
             android:resource="@xml/voice_trigger" />
         </activity>
 
-        <activity
-            android:name=".AccountActivity"
-            android:parentActivityName="com.societegenerale.banking.ConnectionScreen" >
-
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.societegenerale.banking.ConnectionScreen" />
-        </activity>
 
         <activity
             android:name=".IDConnectActivity"
@@ -58,6 +50,15 @@
 
         <activity
             android:name=".QuitActivity"
+            android:parentActivityName="com.societegenerale.banking.ConnectionScreen" >
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.societegenerale.banking.ConnectionScreen" />
+        </activity>
+
+        <activity
+            android:name=".AlertQuit"
             android:parentActivityName="com.societegenerale.banking.ConnectionScreen" >
 
             <meta-data

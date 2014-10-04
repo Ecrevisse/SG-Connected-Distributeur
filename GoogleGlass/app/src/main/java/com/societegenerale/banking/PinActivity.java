@@ -252,11 +252,9 @@ public class PinActivity  extends Activity
                                                 _code.add(Integer.parseInt(_row.get(_currentRow).get(5).getText().toString()));
                                             }
                                             else {
-                                                Log.d("et ta soeur ", "" + _currentRow);
                                                 _code.add(Integer.parseInt(_row.get(_currentRow).get(5).getText().toString()));
                                                 Intent intent = new Intent(PinActivity.this,
                                                                            QuitActivity.class);
-                                                Log.d("Code", "" + _code.get(0) + _code.get(1) + _code.get(2) + _code.get(3));
                                                 startActivity(intent);
                                             }
                                             ++_currentRow;
@@ -292,6 +290,12 @@ public class PinActivity  extends Activity
                                                  _code.remove(_code.size() - 1);
                                                  --_currentRow;
                                              }
+                                         } else if (gesture == Gesture.SWIPE_DOWN)
+                                         {
+                                             Intent intent = new Intent(PinActivity.this,
+                                                     AlertQuit.class);
+                                             startActivity(intent);
+                                             return true;
                                          }
                                          return false;
                                      }
