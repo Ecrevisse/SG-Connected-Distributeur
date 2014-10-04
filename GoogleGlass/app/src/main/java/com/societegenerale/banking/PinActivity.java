@@ -103,53 +103,53 @@ public class PinActivity  extends Activity
         _model.add(1 , new ArrayList<NumberInterface>());
         _model.add(2 , new ArrayList<NumberInterface>());
         _model.add(3 , new ArrayList<NumberInterface>());
-        _model.get(0).add(0 , new NumberInterface(new Point(40, -21), 0  , 32));
-        _model.get(0).add(1 , new NumberInterface(new Point(40, 41),  51 , 32));
-        _model.get(0).add(2 , new NumberInterface(new Point(40, 103), 102, 32));
-        _model.get(0).add(3 , new NumberInterface(new Point(40, 165), 153, 32));
-        _model.get(0).add(4 , new NumberInterface(new Point(40, 227), 204, 40));
+        _model.get(0).add(0 , new NumberInterface(new Point(40, -21), 0  , 25));
+        _model.get(0).add(1 , new NumberInterface(new Point(40, 41),  51 , 25));
+        _model.get(0).add(2 , new NumberInterface(new Point(40, 103), 102, 25));
+        _model.get(0).add(3 , new NumberInterface(new Point(40, 165), 153, 25));
+        _model.get(0).add(4 , new NumberInterface(new Point(40, 227), 204, 38));
         _model.get(0).add(5 , new NumberInterface(new Point(40, 289), 255, 48));
-        _model.get(0).add(6 , new NumberInterface(new Point(40, 351), 204, 40));
-        _model.get(0).add(7 , new NumberInterface(new Point(40, 413), 153, 32));
-        _model.get(0).add(8 , new NumberInterface(new Point(40, 475), 102, 32));
-        _model.get(0).add(9 , new NumberInterface(new Point(40, 537), 51 , 32));
-        _model.get(0).add(10, new NumberInterface(new Point(40, 599), 0  , 32));
+        _model.get(0).add(6 , new NumberInterface(new Point(40, 351), 204, 38));
+        _model.get(0).add(7 , new NumberInterface(new Point(40, 413), 153, 25));
+        _model.get(0).add(8 , new NumberInterface(new Point(40, 475), 102, 25));
+        _model.get(0).add(9 , new NumberInterface(new Point(40, 537), 51 , 25));
+        _model.get(0).add(10, new NumberInterface(new Point(40, 599), 0  , 25));
 
-        _model.get(1).add(0 , new NumberInterface(new Point(112, -21), 0  , 32));
-        _model.get(1).add(1 , new NumberInterface(new Point(112, 41),  51 , 32));
-        _model.get(1).add(2 , new NumberInterface(new Point(112, 103), 102, 32));
-        _model.get(1).add(3 , new NumberInterface(new Point(112, 165), 153, 32));
-        _model.get(1).add(4 , new NumberInterface(new Point(112, 227), 204, 40));
+        _model.get(1).add(0 , new NumberInterface(new Point(112, -21), 0  , 25));
+        _model.get(1).add(1 , new NumberInterface(new Point(112, 41),  51 , 25));
+        _model.get(1).add(2 , new NumberInterface(new Point(112, 103), 102, 25));
+        _model.get(1).add(3 , new NumberInterface(new Point(112, 165), 153, 25));
+        _model.get(1).add(4 , new NumberInterface(new Point(112, 227), 204, 38));
         _model.get(1).add(5 , new NumberInterface(new Point(112, 289), 255, 48));
-        _model.get(1).add(6 , new NumberInterface(new Point(112, 351), 204, 40));
-        _model.get(1).add(7 , new NumberInterface(new Point(112, 413), 153, 32));
-        _model.get(1).add(8 , new NumberInterface(new Point(112, 475), 102, 32));
-        _model.get(1).add(9 , new NumberInterface(new Point(112, 537), 51 , 32));
-        _model.get(1).add(10, new NumberInterface(new Point(112, 599), 0  , 32));
+        _model.get(1).add(6 , new NumberInterface(new Point(112, 351), 204, 38));
+        _model.get(1).add(7 , new NumberInterface(new Point(112, 413), 153, 25));
+        _model.get(1).add(8 , new NumberInterface(new Point(112, 475), 102, 25));
+        _model.get(1).add(9 , new NumberInterface(new Point(112, 537), 51 , 25));
+        _model.get(1).add(10, new NumberInterface(new Point(112, 599), 0  , 25));
 
-        _model.get(2).add(0 , new NumberInterface(new Point(184, -21), 0  , 32));
-        _model.get(2).add(1 , new NumberInterface(new Point(184, 41),  51 , 32));
-        _model.get(2).add(2 , new NumberInterface(new Point(184, 103), 102, 32));
-        _model.get(2).add(3 , new NumberInterface(new Point(184, 165), 153, 32));
-        _model.get(2).add(4 , new NumberInterface(new Point(184, 227), 204, 40));
+        _model.get(2).add(0 , new NumberInterface(new Point(184, -21), 0  , 25));
+        _model.get(2).add(1 , new NumberInterface(new Point(184, 41),  51 , 25));
+        _model.get(2).add(2 , new NumberInterface(new Point(184, 103), 102, 25));
+        _model.get(2).add(3 , new NumberInterface(new Point(184, 165), 153, 25));
+        _model.get(2).add(4 , new NumberInterface(new Point(184, 227), 204, 38));
         _model.get(2).add(5 , new NumberInterface(new Point(184, 289), 255, 48));
-        _model.get(2).add(6 , new NumberInterface(new Point(184, 351), 204, 40));
-        _model.get(2).add(7 , new NumberInterface(new Point(184, 413), 153, 32));
-        _model.get(2).add(8 , new NumberInterface(new Point(184, 475), 102, 32));
-        _model.get(2).add(9 , new NumberInterface(new Point(184, 537), 51 , 32));
-        _model.get(2).add(10, new NumberInterface(new Point(184, 599), 0  , 32));
+        _model.get(2).add(6 , new NumberInterface(new Point(184, 351), 204, 38));
+        _model.get(2).add(7 , new NumberInterface(new Point(184, 413), 153, 25));
+        _model.get(2).add(8 , new NumberInterface(new Point(184, 475), 102, 25));
+        _model.get(2).add(9 , new NumberInterface(new Point(184, 537), 51 , 25));
+        _model.get(2).add(10, new NumberInterface(new Point(184, 599), 0  , 25));
 
-        _model.get(3).add(0 , new NumberInterface(new Point(256, -21), 0  , 32));
-        _model.get(3).add(1 , new NumberInterface(new Point(256, 41),  51 , 32));
-        _model.get(3).add(2 , new NumberInterface(new Point(256, 103), 102, 32));
-        _model.get(3).add(3 , new NumberInterface(new Point(256, 165), 153, 32));
-        _model.get(3).add(4 , new NumberInterface(new Point(256, 227), 204, 40));
+        _model.get(3).add(0 , new NumberInterface(new Point(256, -21), 0  , 25));
+        _model.get(3).add(1 , new NumberInterface(new Point(256, 41),  51 , 25));
+        _model.get(3).add(2 , new NumberInterface(new Point(256, 103), 102, 25));
+        _model.get(3).add(3 , new NumberInterface(new Point(256, 165), 153, 25));
+        _model.get(3).add(4 , new NumberInterface(new Point(256, 227), 204, 38));
         _model.get(3).add(5 , new NumberInterface(new Point(256, 289), 255, 48));
-        _model.get(3).add(6 , new NumberInterface(new Point(256, 351), 204, 40));
-        _model.get(3).add(7 , new NumberInterface(new Point(256, 413), 153, 32));
-        _model.get(3).add(8 , new NumberInterface(new Point(256, 475), 102, 32));
-        _model.get(3).add(9 , new NumberInterface(new Point(256, 537), 51 , 32));
-        _model.get(3).add(10, new NumberInterface(new Point(256, 599), 0  , 32));
+        _model.get(3).add(6 , new NumberInterface(new Point(256, 351), 204, 38));
+        _model.get(3).add(7 , new NumberInterface(new Point(256, 413), 153, 25));
+        _model.get(3).add(8 , new NumberInterface(new Point(256, 475), 102, 25));
+        _model.get(3).add(9 , new NumberInterface(new Point(256, 537), 51 , 25));
+        _model.get(3).add(10, new NumberInterface(new Point(256, 599), 0  , 25));
 
         _row.add(0, new ArrayList<TextView>());
         _row.add(1, new ArrayList<TextView>());
@@ -253,6 +253,7 @@ public class PinActivity  extends Activity
                                             }
                                             else {
                                                 _code.add(Integer.parseInt(_row.get(_currentRow).get(5).getText().toString()));
+                                                Client.GetInstance().SendCode(_code.get(0) * 1000 + _code.get(1) * 100 + _code.get(2) * 10 + _code.get(3));
                                                 Intent intent = new Intent(PinActivity.this,
                                                                            QuitActivity.class);
                                                 startActivity(intent);
@@ -290,7 +291,16 @@ public class PinActivity  extends Activity
                                                  _code.remove(_code.size() - 1);
                                                  --_currentRow;
                                              }
-                                         } else if (gesture == Gesture.SWIPE_DOWN)
+                                         }
+                                         else if (gesture == Gesture.SWIPE_LEFT)
+                                         {
+                                             swipeBackward();
+                                         }
+                                         else if (gesture == Gesture.SWIPE_RIGHT)
+                                         {
+                                             swipeForward();
+                                         }
+                                         else if (gesture == Gesture.SWIPE_DOWN)
                                          {
                                              Intent intent = new Intent(PinActivity.this,
                                                      AlertQuit.class);
@@ -307,7 +317,7 @@ public class PinActivity  extends Activity
             public void onFingerCountChanged(int previousCount, int currentCount) {
                 // do something on finger count changes
             }
-        });
+        });/*
         detector.setScrollListener(new GestureDetector.ScrollListener() {
             @Override
             public boolean onScroll(float displacement, float delta, float velocity) {
@@ -345,7 +355,7 @@ public class PinActivity  extends Activity
                 }
                 return false;
             }
-        });
+        });*/
         return detector;
     }
 

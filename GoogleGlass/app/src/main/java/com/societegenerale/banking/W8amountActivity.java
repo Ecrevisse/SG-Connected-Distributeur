@@ -44,6 +44,14 @@ public class W8amountActivity  extends Activity
         CardBuilder card = new CardBuilder(this, CardBuilder.Layout.AUTHOR);
         card.setText("Enter Amount.");
         _View = card.getView();
+        Client myCientTask = Client.GetInstance();
+        myCientTask.CallbackReceiveAmount = new Client.ClientCallbackReceiveAmount() {
+            @Override
+            public void callbackReceiveAmountOk() {
+                Intent intent = new Intent(W8amountActivity.this, PinActivity.class);
+                startActivity(intent);
+            }
+        };
         this.setContentView(_View);
     }
 
@@ -51,8 +59,8 @@ public class W8amountActivity  extends Activity
     public boolean onKeyDown(int keycode, KeyEvent event)
     {
         if (keycode == KeyEvent.KEYCODE_DPAD_CENTER) {
-            Intent intent = new Intent(W8amountActivity.this, PinActivity.class);
-            startActivity(intent);
+            //Intent intent = new Intent(W8amountActivity.this, PinActivity.class);
+            //startActivity(intent);
             return true;
         }
         return super.onKeyDown(keycode, event);

@@ -43,13 +43,21 @@ public class IDConnectActivity extends Activity
         _gestureDetector = createGestureDetector(this);
 
         CardBuilder card = new CardBuilder(this, CardBuilder.Layout.TEXT);
-        card.setText("ID Connection:\n123456");
+        card.setText("ID Connection:\n" + myUniqueId.GetInstance().UniqueId);
         _View = card.getView();
         _View.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
             }
         });
+        Client myClientTask = Client.GetInstance();
+        myClientTask.CallbackReceiveIdOk = new Client.ClientCallbackReceiveIdOk() {
+            @Override
+            public void callbackReceiveIdOk() {
+                Intent intent = new Intent(IDConnectActivity.this, W8amountActivity.class);
+                startActivity(intent);
+            }
+        };
 
         this.setContentView(_View);
     }
@@ -57,8 +65,8 @@ public class IDConnectActivity extends Activity
     @Override
     public boolean onKeyDown(int keycode, KeyEvent event) {
         if (keycode == KeyEvent.KEYCODE_DPAD_CENTER) {
-            Intent intent = new Intent(IDConnectActivity.this, W8amountActivity.class);
-            startActivity(intent);
+            //Intent intent = new Intent(IDConnectActivity.this, W8amountActivity.class);
+            //startActivity(intent);
             return true;
         }
         return super.onKeyDown(keycode, event);

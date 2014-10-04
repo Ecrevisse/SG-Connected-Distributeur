@@ -53,39 +53,33 @@ public class ConnectionScreen  extends Activity
         _View = card.getView();
         _gestureDetector = createGestureDetector(this);
         this.setContentView(_View);
-        myClientTask = new Client(new Client.ClientCallbacks() {
+        myClientTask = Client.GetInstance();
+        myClientTask.setContext(getApplicationContext());
+        myClientTask.CallbackUniqueId = new Client.ClientCallbackUniqueId() {
             @Override
             public void callbackReceiveUniqueId(int uniqueId) {
-
+                myUniqueId.GetInstance().UniqueId = uniqueId;
+                Intent intent = new Intent(ConnectionScreen.this, IDConnectActivity.class);
+                startActivity(intent);
             }
-
-            @Override
-            public void callbackReceiveIdOk() {
-
-            }
-
-            @Override
-            public void callbackReceiveAmountOk() {
-
-            }
-        }, getApplicationContext());
+        };
         myClientTask.execute();
-        myClientTask.SendCode(9513);
+        //myClientTask.SendCode(9513);
     }
 
     @Override
     protected void onStop()
     {
         super.onStop();
-        if (myClientTask != null)
-            myClientTask.Stop();
+        //if (myClientTask != null)
+        //    myClientTask.Stop();
     }
 
     @Override
     public boolean onKeyDown(int keycode, KeyEvent event) {
         if (keycode == KeyEvent.KEYCODE_DPAD_CENTER) {
-            Intent intent = new Intent(ConnectionScreen.this, IDConnectActivity.class);
-            startActivity(intent);
+            //Intent intent = new Intent(ConnectionScreen.this, IDConnectActivity.class);
+            //startActivity(intent);
             return true;
         }
         return super.onKeyDown(keycode, event);

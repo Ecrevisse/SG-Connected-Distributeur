@@ -23,17 +23,28 @@ import java.net.UnknownHostException;
  */
 public class Client extends AsyncTask<Void, Integer, Void>
 {
-    public interface ClientCallbacks
+    public interface ClientCallbackUniqueId
     {
         void callbackReceiveUniqueId(int uniqueId);
+    }
+
+    public interface ClientCallbackReceiveIdOk
+    {
         void callbackReceiveIdOk();
+    }
+
+    public interface ClientCallbackReceiveAmount
+    {
         void callbackReceiveAmountOk();
     }
 
     String _dstAddress;
     int _dstPort;
 
-    private ClientCallbacks _callbacks;
+    public ClientCallbackUniqueId CallbackUniqueId;
+    public ClientCallbackReceiveIdOk CallbackReceiveIdOk;
+    public ClientCallbackReceiveAmount CallbackReceiveAmount;
+
     private Socket _socket;
     private DatagramSocket _broadcastSocket;
     private DatagramSocket _receiveBroadcastSocket;
@@ -42,7 +53,16 @@ public class Client extends AsyncTask<Void, Integer, Void>
     private volatile boolean _shouldStop;
     private Context _context;
 
-    Client(ClientCallbacks callbacks, Context context)
+    private static Client Instance = null;
+
+    public static synchronized Client GetInstance()
+    {
+        if (Instance == null)
+            Instance = new Client();
+        return Instance;
+    }
+
+    private Client()
     {
         //dstAddress = "10.12.20.190";
         _dstAddress = "";
@@ -50,8 +70,6 @@ public class Client extends AsyncTask<Void, Integer, Void>
         _shouldStop = false;
         _sendBuffer = new CustomByteBuffer();
         _receiveBuffer = new CustomByteBuffer();
-        _callbacks = callbacks;
-        _context = context;
     }
 
     InetAddress getBroadcastAddress() throws IOException {
@@ -64,6 +82,11 @@ public class Client extends AsyncTask<Void, Integer, Void>
         for (int k = 0; k < 4; k++)
             quads[k] = (byte) ((broadcast >> k * 8) & 0xFF);
         return InetAddress.getByAddress(quads);
+    }
+
+    public void setContext(Context context)
+    {
+        _context = context;
     }
 
     @Override
@@ -184,21 +207,19 @@ public class Client extends AsyncTask<Void, Integer, Void>
     @Override
     protected void onProgressUpdate(Integer... data)
     {
-        if (_callbacks != null)
+        if (data[0] == 0 && CallbackUniqueId != null)
         {
-            if (data[0] == 0)
-            {
-                _callbacks.callbackReceiveUniqueId(data[1]);
-            }
-            else if (data[0] == 1)
-            {
-                _callbacks.callbackReceiveIdOk();
-            }
-            else if (data[0] == 2)
-            {
-                _callbacks.callbackReceiveAmountOk();
-            }
+            CallbackUniqueId.callbackReceiveUniqueId(data[1]);
         }
+        else if (data[0] == 1 && CallbackReceiveIdOk != null)
+        {
+            CallbackReceiveIdOk.callbackReceiveIdOk();
+        }
+        else if (data[0] == 2 && CallbackReceiveAmount != null)
+        {
+            CallbackReceiveAmount.callbackReceiveAmountOk();
+        }
+
     }
 
     @Override
