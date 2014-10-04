@@ -169,11 +169,28 @@ public class ScreenManagerScript : MonoBehaviour
         text5.text = strings[(int)currentPage][5];
         text6.text = strings[(int)currentPage][6];
         text7.text = strings[(int)currentPage][7];
+        changeBack(text0);
+        changeBack(text1);
+        changeBack(text2);
+        changeBack(text3);
+        changeBack(text4);
+        changeBack(text5);
+        changeBack(text6);
+        changeBack(text7);
+
         if (currentPage == PageSelec.E_GOOD_CODE)
         {
             currentNumberTyped = money;
             InputText.text = "" + currentNumberTyped;
         }
+    }
+
+    private void changeBack(TextMesh text)
+    {
+        if (text.text.Length == 0)
+            text.GetComponentInChildren<SpriteRenderer>().enabled = false;
+        else
+            text.GetComponentInChildren<SpriteRenderer>().enabled = true;
     }
 
     public void buttonSelectClicked(int num)

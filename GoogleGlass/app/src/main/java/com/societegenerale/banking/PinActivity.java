@@ -35,11 +35,15 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.lang.reflect.Array;
+import java.nio.ByteOrder;
+import java.nio.FloatBuffer;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.HashMap;
+import java.util.Vector;
 
 
 public class PinActivity  extends Activity
@@ -57,6 +61,18 @@ public class PinActivity  extends Activity
         }
     }
 
+    class Velocity {
+        public long time;
+        public float velocity;
+
+        Velocity(long t, float v)
+        {
+            time = t;
+            velocity = v;
+        }
+    }
+
+
     private GestureDetector _gestureDetector;
 
 
@@ -64,6 +80,7 @@ public class PinActivity  extends Activity
     private ArrayList<ArrayList<TextView>>        _row;
     private int                                   _currentRow = 0;
     private ArrayList<Integer>                    _code;
+    private Vector<Velocity>                      _velocities;
     @Override
 
     protected void onCreate(Bundle bundle) {
@@ -72,7 +89,7 @@ public class PinActivity  extends Activity
         setContentView(R.layout.pin_layout);
 
         _code = new ArrayList<Integer>();
-
+        _velocities = new Vector<Velocity>();
         _row = new ArrayList<ArrayList<TextView>>();
         _gestureDetector = createGestureDetector(this);
 
@@ -185,7 +202,6 @@ public class PinActivity  extends Activity
             for (int i = 0; i < 11; ++i) {
                 TextView tmp = _row.get(j).get(i);
                 NumberInterface model = _model.get(j).get(i);
-                //Log.d(tmp.getText() + " " + model.size , "" + model.alpha);
                 tmp.setAlpha(model.alpha);
                 tmp.setTextSize(TypedValue.COMPLEX_UNIT_PX, model.size);
                 RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) tmp.getLayoutParams();
@@ -202,7 +218,6 @@ public class PinActivity  extends Activity
         detector.setBaseListener(new GestureDetector.BaseListener() {
                                      @Override
                                      public boolean onGesture(Gesture gesture) {
-                                         Log.d("gesture", "PIN");
                                          if (gesture == Gesture.TAP)
                                          {
                                             ImageView img;
@@ -232,7 +247,6 @@ public class PinActivity  extends Activity
                                             }
                                             else {
                                                 _code.add(Integer.parseInt(_row.get(_currentRow).get(5).getText().toString()));
-                                                Log.d("CODE", "" + _code.get(0) + _code.get(1) + _code.get(2) + _code.get(3));
                                                 Intent intent = new Intent(PinActivity.this,
                                                                            QuitActivity.class);
                                                 startActivity(intent);
@@ -261,7 +275,25 @@ public class PinActivity  extends Activity
         detector.setScrollListener(new GestureDetector.ScrollListener() {
             @Override
             public boolean onScroll(float displacement, float delta, float velocity) {
-                // do something on scrolling
+                Log.d("" + displacement + " " + delta, "" + velocity);
+                long lDateTime = new Date().getTime();
+                int count = 0;
+                float addedVelocity = 0;
+                for (int i = _velocities.size() - 1; i > 0; --i)
+                {
+                    if (lDateTime - _velocities.get(i).time > 1000)
+                        _velocities.remove(i);
+                    else
+                    {
+                        count++;
+                        addedVelocity += _velocities.get(i).velocity;
+                    }
+                }
+                count++;
+                addedVelocity += velocity;
+                _velocities.add(new Velocity(lDateTime, velocity));
+                float moyenne = addedVelocity / (float)count;
+                Log.d("moyenne", "" + _velocities.size());
                 return false;
             }
         });
@@ -269,8 +301,8 @@ public class PinActivity  extends Activity
     }
 
     /*
- * Send generic motion events to the gesture detector
- */
+    * Send generic motion events to the gesture detector
+    */
     @Override
     public boolean onGenericMotionEvent(MotionEvent event) {
         if (_gestureDetector != null) {
