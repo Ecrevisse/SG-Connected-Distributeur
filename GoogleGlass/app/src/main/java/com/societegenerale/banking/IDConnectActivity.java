@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -83,7 +84,13 @@ public class IDConnectActivity extends Activity
         );
         return detector;
     }
-
+    @Override
+    public boolean onGenericMotionEvent(MotionEvent event) {
+        if (_gestureDetector != null) {
+            return _gestureDetector.onMotionEvent(event);
+        }
+        return false;
+    }
     @Override
     protected void onResume() {
         super.onResume();

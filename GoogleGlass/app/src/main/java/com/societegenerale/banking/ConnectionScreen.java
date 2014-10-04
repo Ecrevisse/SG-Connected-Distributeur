@@ -6,6 +6,7 @@ import com.google.android.glass.widget.CardScrollAdapter;
 import com.google.android.glass.widget.CardScrollView;
 
 import android.app.Activity;
+import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.hardware.Sensor;
@@ -18,6 +19,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -40,6 +42,9 @@ public class ConnectionScreen  extends Activity
 
     @Override
     protected void onCreate(Bundle bundle) {
+        if (getIntent().getBooleanExtra("EXIT", false)) {
+            finish();
+        }
         super.onCreate(bundle);
 
         CardBuilder card = new CardBuilder(this, CardBuilder.Layout.AUTHOR);
@@ -79,7 +84,13 @@ public class ConnectionScreen  extends Activity
         );
         return detector;
     }
-
+    @Override
+    public boolean onGenericMotionEvent(MotionEvent event) {
+        if (_gestureDetector != null) {
+            return _gestureDetector.onMotionEvent(event);
+        }
+        return false;
+    }
     @Override
     protected void onResume() {
         super.onResume();
@@ -89,4 +100,5 @@ public class ConnectionScreen  extends Activity
     protected void onPause() {
         super.onPause();
     }
+
 }

@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -58,6 +59,7 @@ public class AlertQuit  extends Activity
         return super.onKeyDown(keycode, event);
     }
 
+
     private GestureDetector createGestureDetector(Context context)
     {
         GestureDetector detector = new GestureDetector(context);
@@ -66,9 +68,10 @@ public class AlertQuit  extends Activity
                                      public boolean onGesture(Gesture gesture) {
                                          if (gesture == Gesture.SWIPE_DOWN)
                                          {
-                                             Intent intent = new Intent(Intent.ACTION_MAIN);
-                                             intent.addCategory(Intent.CATEGORY_HOME);
-                                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                             Log.d("Wat", "dafuk");
+                                             Intent intent = new Intent(AlertQuit.this , ConnectionScreen.class);
+                                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                             intent.putExtra("EXIT", true);
                                              startActivity(intent);
                                              return true;
                                          }
@@ -79,7 +82,13 @@ public class AlertQuit  extends Activity
         );
         return detector;
     }
-
+    @Override
+    public boolean onGenericMotionEvent(MotionEvent event) {
+        if (_gestureDetector != null) {
+            return _gestureDetector.onMotionEvent(event);
+        }
+        return false;
+    }
     @Override
     protected void onResume() {
         super.onResume();
