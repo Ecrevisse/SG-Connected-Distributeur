@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Timers;
 
 public class ScreenManagerScript : MonoBehaviour
 {
@@ -27,6 +28,7 @@ public class ScreenManagerScript : MonoBehaviour
     private int GoodCode = 1234;
     private int UniqueCodeGG = 123456;
     private StateObject client;
+    private int cptToAbort = 0;
 
     public ButtonStartServer server;
     public TextMesh text0;
@@ -119,7 +121,7 @@ public class ScreenManagerScript : MonoBehaviour
         strings[(int)PageSelec.E_WRONG_CODE].Add("");
         strings[(int)PageSelec.E_WRONG_CODE].Add("");
 		strings [(int)PageSelec.E_WRONG_CODE].Add ("");
-		strings[(int)PageSelec.E_WRONG_CODE].Add("MAUVAIS CODE,\nVEUILLEZ REESSAYER");
+		strings[(int)PageSelec.E_WRONG_CODE].Add("TRANSACTION ANNULEE");
 
 		strings[(int)PageSelec.E_ENTER_UNIQUE_CODE_GG].Add("ENTREZ LE CODE\nD'AUTHENTIFICATION :");
         strings[(int)PageSelec.E_ENTER_UNIQUE_CODE_GG].Add("");
@@ -163,12 +165,36 @@ public class ScreenManagerScript : MonoBehaviour
 
         changeTo(currentPage);
 	}
-	
+
+    volatile bool isOnCloking = false;
+    volatile bool clockFinish = false;
 	// Update is called once per frame
 	void Update () 
     {
-	    
+        if (isOnCloking == false && (currentPage == PageSelec.E_GOOD_CODE || currentPage == PageSelec.E_WRONG_CODE))
+        {
+            Timer _timer = new Timer(2500); // Set up the timer for 3 seconds
+
+            _timer.Elapsed += new ElapsedEventHandler(_timer_Elapsed);
+            _timer.Start();
+            isOnCloking = true;
+            clockFinish = false;
+        }
+        if (clockFinish == true)
+        {
+            currentPage = PageSelec.E_HOME;
+            currentNumberTyped = 0;
+            changeTo(currentPage);
+        }
 	}
+
+    void _timer_Elapsed(object sender, ElapsedEventArgs e)
+    {
+        ((Timer)sender).Stop();
+        
+        isOnCloking = false;
+        clockFinish = true;
+    }
 
     public void changeTo(PageSelec page)
     {
@@ -192,12 +218,6 @@ public class ScreenManagerScript : MonoBehaviour
         changeBack(text6);
         changeBack(text7);
 		changeBack(text8);
-
-        //if (currentPage == PageSelec.E_GOOD_CODE)
-        //{
-        //   currentNumberTyped = money;
-        //    InputText.text = "" + currentNumberTyped;
-        //}
     }
 
     private void changeBack(TextMesh text)
@@ -311,13 +331,25 @@ public class ScreenManagerScript : MonoBehaviour
                     currentPage = PageSelec.E_GOOD_CODE;
                     currentNumberTyped = 0;
                     isPageChanged = true;
+                    cptToAbort = 0;
 
                 }
                 else
                 {
-                    currentPage = PageSelec.E_WRONG_CODE;
-                    currentNumberTyped = 0;
-                    isPageChanged = true;
+                    if (cptToAbort >= 3)
+                    {
+                        currentPage = PageSelec.E_WRONG_CODE;
+                        currentNumberTyped = 0;
+                        isPageChanged = true;
+                        cptToAbort = 0;
+                    }
+                    else
+                    {
+                        ++cptToAbort;
+                        currentNumberTyped = 0;
+                        text4.text = "MAUVAIS CODE,\nREESSAYEZ";
+                        changeBack(text4);
+                    }
                 }
             }
             else if (currentPage == PageSelec.E_ENTER_UNIQUE_CODE_GG)
@@ -332,9 +364,20 @@ public class ScreenManagerScript : MonoBehaviour
                 }
                 else
                 {
-                    currentPage = PageSelec.E_WRONG_CODE;
-                    currentNumberTyped = 0;
-                    isPageChanged = true;
+                    if (cptToAbort >= 3)
+                    {
+                        currentPage = PageSelec.E_WRONG_CODE;
+                        currentNumberTyped = 0;
+                        isPageChanged = true;
+                        cptToAbort = 0;
+                    }
+                    else
+                    {
+                        ++cptToAbort;
+                        currentNumberTyped = 0;
+                        text4.text = "MAUVAIS CODE,\nREESSAYEZ";
+                        changeBack(text4);
+                    }
                 }
             }
         }
@@ -354,7 +397,7 @@ public class ScreenManagerScript : MonoBehaviour
         if (currentNumberTyped > 0)
         {
             InputText.text = "" + currentNumberTyped;
-            if (currentPage == PageSelec.E_ENTER_CODE)
+            if (currentPage == PageSelec.E_ENTER_CODE || currentPage == PageSelec.E_ENTER_UNIQUE_CODE_GG)
             {
                 int nb = InputText.text.Length;
                 InputText.text = "";
@@ -382,13 +425,24 @@ public class ScreenManagerScript : MonoBehaviour
             currentPage = PageSelec.E_GOOD_CODE;
             currentNumberTyped = 0;
             isPageChanged = true;
-
+            cptToAbort = 0;
         }
         else
         {
-            currentPage = PageSelec.E_WRONG_CODE;
-            currentNumberTyped = 0;
-            isPageChanged = true;
+            if (cptToAbort >= 3)
+            {
+                currentPage = PageSelec.E_WRONG_CODE;
+                currentNumberTyped = 0;
+                isPageChanged = true;
+                cptToAbort = 0;
+            }
+            else
+            {
+                ++cptToAbort;
+                currentNumberTyped = 0;
+                text4.text = "MAUVAIS CODE,\nREESSAYEZ";
+                changeBack(text4);
+            }
         }
 
         if (isPageChanged == true)
