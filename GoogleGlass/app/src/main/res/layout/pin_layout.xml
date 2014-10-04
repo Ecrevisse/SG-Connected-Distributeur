@@ -208,6 +208,7 @@
 
     <!-- Row 2-->
     <TextView
+        android:id="@+id/onefive"
         android:layout_width="62px"
         android:layout_height="62px"
         android:text="0"
@@ -219,6 +220,20 @@
         />
 
     <TextView
+        android:id="@+id/onezero"
+        android:layout_width="62px"
+        android:layout_height="62px"
+        android:text="5"
+        android:textSize="32px"
+        android:alpha="0"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:layout_marginTop="112px"
+        android:layout_marginLeft="-21px"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        />
+    <TextView
+        android:id="@+id/oneone"
         android:layout_width="62px"
         android:layout_height="62px"
         android:text="6"
@@ -229,6 +244,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         />
     <TextView
+        android:id="@+id/onetwo"
         android:layout_width="62px"
         android:layout_height="62px"
         android:text="7"
@@ -239,6 +255,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         />
     <TextView
+        android:id="@+id/onethree"
         android:layout_width="62px"
         android:layout_height="62px"
         android:text="8"
@@ -249,6 +266,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         />
     <TextView
+        android:id="@+id/onefour"
         android:layout_width="62px"
         android:layout_height="62px"
         android:text="9"
@@ -260,6 +278,7 @@
         />
 
     <TextView
+        android:id="@+id/onesix"
         android:layout_width="62px"
         android:layout_height="62px"
         android:text="1"
@@ -270,6 +289,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         />
     <TextView
+        android:id="@+id/oneseven"
         android:layout_width="62px"
         android:layout_height="62px"
         android:text="2"
@@ -280,6 +300,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         />
     <TextView
+        android:id="@+id/oneeight"
         android:layout_width="62px"
         android:layout_height="62px"
         android:text="3"
@@ -290,6 +311,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         />
     <TextView
+        android:id="@+id/onenine"
         android:layout_width="62px"
         android:layout_height="62px"
         android:text="4"
@@ -299,10 +321,22 @@
         android:layout_marginLeft="537px"
         android:textAppearance="?android:attr/textAppearanceLarge"
         />
-
+    <TextView
+        android:id="@+id/oneten"
+        android:layout_width="62px"
+        android:layout_height="62px"
+        android:text="5"
+        android:textSize="32px"
+        android:alpha="0"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:layout_marginTop="112px"
+        android:layout_marginLeft="599px"
+        android:textAppearance="?android:attr/textAppearanceLarge"/>
 
     <!-- Row 3-->
     <TextView
+        android:id="@+id/twofive"
         android:layout_width="62px"
         android:layout_height="62px"
         android:text="0"
@@ -314,6 +348,20 @@
         />
 
     <TextView
+        android:id="@+id/twozero"
+        android:layout_width="62px"
+        android:layout_height="62px"
+        android:text="5"
+        android:textSize="32px"
+        android:alpha="0"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:layout_marginTop="184px"
+        android:layout_marginLeft="-21px"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        />
+    <TextView
+        android:id="@+id/twoone"
         android:layout_width="62px"
         android:layout_height="62px"
         android:text="6"
@@ -324,6 +372,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         />
     <TextView
+        android:id="@+id/twotwo"
         android:layout_width="62px"
         android:layout_height="62px"
         android:text="7"
@@ -334,6 +383,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         />
     <TextView
+        android:id="@+id/twothree"
         android:layout_width="62px"
         android:layout_height="62px"
         android:text="8"
@@ -344,6 +394,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         />
     <TextView
+        android:id="@+id/twofour"
         android:layout_width="62px"
         android:layout_height="62px"
         android:text="9"
@@ -355,6 +406,7 @@
         />
 
     <TextView
+        android:id="@+id/twosix"
         android:layout_width="62px"
         android:layout_height="62px"
         android:text="1"
@@ -365,6 +417,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         />
     <TextView
+        android:id="@+id/twoseven"
         android:layout_width="62px"
         android:layout_height="62px"
         android:text="2"
@@ -375,6 +428,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         />
     <TextView
+        android:id="@+id/twoeight"
         android:layout_width="62px"
         android:layout_height="62px"
         android:text="3"
@@ -385,6 +439,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         />
     <TextView
+        android:id="@+id/twonine"
         android:layout_width="62px"
         android:layout_height="62px"
         android:text="4"
@@ -394,10 +449,22 @@
         android:layout_marginLeft="537px"
         android:textAppearance="?android:attr/textAppearanceLarge"
         />
-
+    <TextView
+        android:id="@+id/twoten"
+        android:layout_width="62px"
+        android:layout_height="62px"
+        android:text="5"
+        android:textSize="32px"
+        android:alpha="0"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:layout_marginTop="184px"
+        android:layout_marginLeft="599px"
+        android:textAppearance="?android:attr/textAppearanceLarge"/>
 
     <!-- Row 4-->
     <TextView
+        android:id="@+id/threefive"
         android:layout_width="62px"
         android:layout_height="62px"
         android:text="0"
@@ -409,6 +476,20 @@
         />
 
     <TextView
+        android:id="@+id/threezero"
+        android:layout_width="62px"
+        android:layout_height="62px"
+        android:text="5"
+        android:textSize="32px"
+        android:alpha="0"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:layout_marginTop="256px"
+        android:layout_marginLeft="-21px"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        />
+    <TextView
+        android:id="@+id/threeone"
         android:layout_width="62px"
         android:layout_height="62px"
         android:text="6"
@@ -419,6 +500,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         />
     <TextView
+        android:id="@+id/threetwo"
         android:layout_width="62px"
         android:layout_height="62px"
         android:text="7"
@@ -429,6 +511,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         />
     <TextView
+        android:id="@+id/threethree"
         android:layout_width="62px"
         android:layout_height="62px"
         android:text="8"
@@ -439,6 +522,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         />
     <TextView
+        android:id="@+id/threefour"
         android:layout_width="62px"
         android:layout_height="62px"
         android:text="9"
@@ -450,6 +534,7 @@
         />
 
     <TextView
+        android:id="@+id/threesix"
         android:layout_width="62px"
         android:layout_height="62px"
         android:text="1"
@@ -460,6 +545,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         />
     <TextView
+        android:id="@+id/threeseven"
         android:layout_width="62px"
         android:layout_height="62px"
         android:text="2"
@@ -470,6 +556,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         />
     <TextView
+        android:id="@+id/threeeight"
         android:layout_width="62px"
         android:layout_height="62px"
         android:text="3"
@@ -480,6 +567,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         />
     <TextView
+        android:id="@+id/threenine"
         android:layout_width="62px"
         android:layout_height="62px"
         android:text="4"
@@ -489,5 +577,17 @@
         android:layout_marginLeft="537px"
         android:textAppearance="?android:attr/textAppearanceLarge"
         />
+    <TextView
+        android:id="@+id/threeten"
+        android:layout_width="62px"
+        android:layout_height="62px"
+        android:text="5"
+        android:textSize="32px"
+        android:alpha="0"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:layout_marginTop="256px"
+        android:layout_marginLeft="599px"
+        android:textAppearance="?android:attr/textAppearanceLarge"/>
 
 </RelativeLayout>
