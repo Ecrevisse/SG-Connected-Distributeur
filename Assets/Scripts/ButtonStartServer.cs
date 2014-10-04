@@ -8,15 +8,10 @@ using System.Text;
 
 public class ButtonStartServer : MonoBehaviour
 {
-    public GUIText IpText;
-    public GUIText CodeText;
-    public GUIText UdpText;
     public ScreenManagerScript manager;
 
     public AsynchronousSocketListener _server;
     private Thread _thread;
-    private bool _ipSetted;
-    private bool _codeSetted;
 
     const int PORT_NUMBER = 15000;
 
@@ -26,8 +21,6 @@ public class ButtonStartServer : MonoBehaviour
         _server = new AsynchronousSocketListener();
         _thread = new Thread(_server.StartListening);
         _thread.Start();
-        _ipSetted = false;
-        _codeSetted = false;
         _server.StartUdpListening();
     }
 
@@ -35,29 +28,12 @@ public class ButtonStartServer : MonoBehaviour
     {
         if (_server != null)
         {
-            if (IpText != null && _ipSetted == false)
+            int code = _server.GetReceivedCode();
+            if (code != 0)
             {
-                string ip = _server.GetIpAddress();
-                if (ip != "")
-                {
-                    IpText.text += ip;
-                    _ipSetted = true;
-                }
+                if (manager != null)
+                    manager.setCodeGG(code);
             }
-
-            if (CodeText != null && _codeSetted == false)
-            {
-                int code = _server.GetReceivedCode();
-                if (code != 0)
-                {
-                    CodeText.text += code.ToString();
-                    _codeSetted = true;
-                    if (manager != null)
-                        manager.setCodeGG(code);
-                }
-            }
-            if (UdpText != null)
-                UdpText.text += _server.GetUdpMessage();
         }
     }
 
