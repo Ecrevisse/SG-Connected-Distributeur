@@ -58,8 +58,8 @@ public class ScreenManagerScript : MonoBehaviour
         strings.Add(new List<string>());
         strings.Add(new List<string>());
 
-        strings[(int)PageSelec.E_HOME].Add("Normal");
-        strings[(int)PageSelec.E_HOME].Add("Google Glass");
+        strings[(int)PageSelec.E_HOME].Add("");//Retrait par carte");
+        strings[(int)PageSelec.E_HOME].Add("");//Retrait via Google Glass");
         strings[(int)PageSelec.E_HOME].Add("");
         strings[(int)PageSelec.E_HOME].Add("");
         strings[(int)PageSelec.E_HOME].Add("");
@@ -74,7 +74,7 @@ public class ScreenManagerScript : MonoBehaviour
         strings[(int)PageSelec.E_CHOOSE_QUANTITY].Add("100€");
         strings[(int)PageSelec.E_CHOOSE_QUANTITY].Add("150€");
         strings[(int)PageSelec.E_CHOOSE_QUANTITY].Add("200€");
-        strings[(int)PageSelec.E_CHOOSE_QUANTITY].Add("Autre Montant");
+        strings[(int)PageSelec.E_CHOOSE_QUANTITY].Add("SAISIE DE\nMONTANT");
 
         strings[(int)PageSelec.E_CHOOSE_QUANTITY_BY_KEYBOARD].Add("Entrez le montant :");
         strings[(int)PageSelec.E_CHOOSE_QUANTITY_BY_KEYBOARD].Add("");
@@ -85,7 +85,7 @@ public class ScreenManagerScript : MonoBehaviour
         strings[(int)PageSelec.E_CHOOSE_QUANTITY_BY_KEYBOARD].Add("");
         strings[(int)PageSelec.E_CHOOSE_QUANTITY_BY_KEYBOARD].Add("");
 
-        strings[(int)PageSelec.E_ENTER_CODE].Add("Entrez le code de carte :");
+        strings[(int)PageSelec.E_ENTER_CODE].Add("Entrez votre code :");
         strings[(int)PageSelec.E_ENTER_CODE].Add("");
         strings[(int)PageSelec.E_ENTER_CODE].Add("");
         strings[(int)PageSelec.E_ENTER_CODE].Add("");
@@ -112,7 +112,7 @@ public class ScreenManagerScript : MonoBehaviour
         strings[(int)PageSelec.E_WRONG_CODE].Add("");
         strings[(int)PageSelec.E_WRONG_CODE].Add("");
 
-        strings[(int)PageSelec.E_ENTER_UNIQUE_CODE_GG].Add("Entrer le code d'authentification :");
+        strings[(int)PageSelec.E_ENTER_UNIQUE_CODE_GG].Add("Entrez le code d'authentification :");
         strings[(int)PageSelec.E_ENTER_UNIQUE_CODE_GG].Add("");
         strings[(int)PageSelec.E_ENTER_UNIQUE_CODE_GG].Add("");
         strings[(int)PageSelec.E_ENTER_UNIQUE_CODE_GG].Add("");

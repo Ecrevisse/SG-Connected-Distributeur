@@ -53,7 +53,7 @@ public class IDConnectActivity extends Activity
     @Override
     public boolean onKeyDown(int keycode, KeyEvent event) {
         if (keycode == KeyEvent.KEYCODE_DPAD_CENTER) {
-            Intent intent = new Intent(IDConnectActivity.this, QuitActivity.class);
+            Intent intent = new Intent(IDConnectActivity.this, W8amountActivity.class);
             startActivity(intent);
             return true;
         }

@@ -59,7 +59,8 @@ public class PinActivity  extends Activity
 
     private GestureDetector _gestureDetector;
 
-    private ArrayList<NumberInterface>            _model;
+
+    private ArrayList<ArrayList<NumberInterface>> _model;
     private ArrayList<ArrayList<TextView>>        _row;
     private int                                   _currentRow = 0;
     private ArrayList<Integer>                    _code;
@@ -70,21 +71,63 @@ public class PinActivity  extends Activity
         Log.d("Pin", "Init");
         setContentView(R.layout.pin_layout);
 
+        _code = new ArrayList<Integer>();
+
         _row = new ArrayList<ArrayList<TextView>>();
         _gestureDetector = createGestureDetector(this);
 
-        _model = new ArrayList<NumberInterface>();
-        _model.add(0 , new NumberInterface(new Point(40, -21), 0  , 32));
-        _model.add(1 , new NumberInterface(new Point(40, 41),  51 , 32));
-        _model.add(2 , new NumberInterface(new Point(40, 103), 102, 32));
-        _model.add(3 , new NumberInterface(new Point(40, 165), 153, 32));
-        _model.add(4 , new NumberInterface(new Point(40, 227), 204, 40));
-        _model.add(5 , new NumberInterface(new Point(40, 289), 255, 48));
-        _model.add(6 , new NumberInterface(new Point(40, 351), 204, 40));
-        _model.add(7 , new NumberInterface(new Point(40, 413), 153, 32));
-        _model.add(8 , new NumberInterface(new Point(40, 475), 102, 32));
-        _model.add(9 , new NumberInterface(new Point(40, 537), 51 , 32));
-        _model.add(10, new NumberInterface(new Point(40, 599), 0  , 32));
+        _model = new ArrayList<ArrayList<NumberInterface>>();
+        _model.add(0 , new ArrayList<NumberInterface>());
+        _model.add(1 , new ArrayList<NumberInterface>());
+        _model.add(2 , new ArrayList<NumberInterface>());
+        _model.add(3 , new ArrayList<NumberInterface>());
+        _model.get(0).add(0 , new NumberInterface(new Point(40, -21), 0  , 32));
+        _model.get(0).add(1 , new NumberInterface(new Point(40, 41),  51 , 32));
+        _model.get(0).add(2 , new NumberInterface(new Point(40, 103), 102, 32));
+        _model.get(0).add(3 , new NumberInterface(new Point(40, 165), 153, 32));
+        _model.get(0).add(4 , new NumberInterface(new Point(40, 227), 204, 40));
+        _model.get(0).add(5 , new NumberInterface(new Point(40, 289), 255, 48));
+        _model.get(0).add(6 , new NumberInterface(new Point(40, 351), 204, 40));
+        _model.get(0).add(7 , new NumberInterface(new Point(40, 413), 153, 32));
+        _model.get(0).add(8 , new NumberInterface(new Point(40, 475), 102, 32));
+        _model.get(0).add(9 , new NumberInterface(new Point(40, 537), 51 , 32));
+        _model.get(0).add(10, new NumberInterface(new Point(40, 599), 0  , 32));
+
+        _model.get(1).add(0 , new NumberInterface(new Point(112, -21), 0  , 32));
+        _model.get(1).add(1 , new NumberInterface(new Point(112, 41),  51 , 32));
+        _model.get(1).add(2 , new NumberInterface(new Point(112, 103), 102, 32));
+        _model.get(1).add(3 , new NumberInterface(new Point(112, 165), 153, 32));
+        _model.get(1).add(4 , new NumberInterface(new Point(112, 227), 204, 40));
+        _model.get(1).add(5 , new NumberInterface(new Point(112, 289), 255, 48));
+        _model.get(1).add(6 , new NumberInterface(new Point(112, 351), 204, 40));
+        _model.get(1).add(7 , new NumberInterface(new Point(112, 413), 153, 32));
+        _model.get(1).add(8 , new NumberInterface(new Point(112, 475), 102, 32));
+        _model.get(1).add(9 , new NumberInterface(new Point(112, 537), 51 , 32));
+        _model.get(1).add(10, new NumberInterface(new Point(112, 599), 0  , 32));
+
+        _model.get(2).add(0 , new NumberInterface(new Point(184, -21), 0  , 32));
+        _model.get(2).add(1 , new NumberInterface(new Point(184, 41),  51 , 32));
+        _model.get(2).add(2 , new NumberInterface(new Point(184, 103), 102, 32));
+        _model.get(2).add(3 , new NumberInterface(new Point(184, 165), 153, 32));
+        _model.get(2).add(4 , new NumberInterface(new Point(184, 227), 204, 40));
+        _model.get(2).add(5 , new NumberInterface(new Point(184, 289), 255, 48));
+        _model.get(2).add(6 , new NumberInterface(new Point(184, 351), 204, 40));
+        _model.get(2).add(7 , new NumberInterface(new Point(184, 413), 153, 32));
+        _model.get(2).add(8 , new NumberInterface(new Point(184, 475), 102, 32));
+        _model.get(2).add(9 , new NumberInterface(new Point(184, 537), 51 , 32));
+        _model.get(2).add(10, new NumberInterface(new Point(184, 599), 0  , 32));
+
+        _model.get(3).add(0 , new NumberInterface(new Point(256, -21), 0  , 32));
+        _model.get(3).add(1 , new NumberInterface(new Point(256, 41),  51 , 32));
+        _model.get(3).add(2 , new NumberInterface(new Point(256, 103), 102, 32));
+        _model.get(3).add(3 , new NumberInterface(new Point(256, 165), 153, 32));
+        _model.get(3).add(4 , new NumberInterface(new Point(256, 227), 204, 40));
+        _model.get(3).add(5 , new NumberInterface(new Point(256, 289), 255, 48));
+        _model.get(3).add(6 , new NumberInterface(new Point(256, 351), 204, 40));
+        _model.get(3).add(7 , new NumberInterface(new Point(256, 413), 153, 32));
+        _model.get(3).add(8 , new NumberInterface(new Point(256, 475), 102, 32));
+        _model.get(3).add(9 , new NumberInterface(new Point(256, 537), 51 , 32));
+        _model.get(3).add(10, new NumberInterface(new Point(256, 599), 0  , 32));
 
         _row.add(0, new ArrayList<TextView>());
         _row.add(1, new ArrayList<TextView>());
@@ -138,6 +181,18 @@ public class PinActivity  extends Activity
         _row.get(3).add(9, (TextView) findViewById(R.id.threenine));
         _row.get(3).add(10, (TextView) findViewById(R.id.threeten));
 
+        for (int j = 0; j < 4; ++j) {
+            for (int i = 0; i < 11; ++i) {
+                TextView tmp = _row.get(j).get(i);
+                NumberInterface model = _model.get(j).get(i);
+                //Log.d(tmp.getText() + " " + model.size , "" + model.alpha);
+                tmp.setAlpha(model.alpha);
+                tmp.setTextSize(TypedValue.COMPLEX_UNIT_PX, model.size);
+                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) tmp.getLayoutParams();
+                params.setMargins(model.coord.y, model.coord.x, 0, 0);
+                tmp.setLayoutParams(params);
+            }
+        }
     }
 
     private GestureDetector createGestureDetector(Context context)
@@ -157,7 +212,7 @@ public class PinActivity  extends Activity
                                                 img.setImageResource(R.drawable.case_pin);
                                                 img = (ImageView)findViewById(R.id.selection_row_2);
                                                 img.setImageResource(R.drawable.case_pin_selected);
-                                                _code.add(Integer.getInteger(_row.get(_currentRow).get(5).getText().toString()));
+                                                _code.add(Integer.parseInt(_row.get(_currentRow).get(5).getText().toString()));
                                             }
                                             else if (_currentRow == 1)
                                             {
@@ -165,7 +220,7 @@ public class PinActivity  extends Activity
                                                 img.setImageResource(R.drawable.case_pin);
                                                 img = (ImageView)findViewById(R.id.selection_row_3);
                                                 img.setImageResource(R.drawable.case_pin_selected);
-                                                _code.add(Integer.getInteger(_row.get(_currentRow).get(5).getText().toString()));
+                                                _code.add(Integer.parseInt(_row.get(_currentRow).get(5).getText().toString()));
                                             }
                                             else if (_currentRow == 2)
                                             {
@@ -173,10 +228,10 @@ public class PinActivity  extends Activity
                                                 img.setImageResource(R.drawable.case_pin);
                                                 img = (ImageView)findViewById(R.id.selection_row_4);
                                                 img.setImageResource(R.drawable.case_pin_selected);
-                                                _code.add(Integer.getInteger(_row.get(_currentRow).get(5).getText().toString()));
+                                                _code.add(Integer.parseInt(_row.get(_currentRow).get(5).getText().toString()));
                                             }
                                             else {
-                                                _code.add(Integer.getInteger(_row.get(_currentRow).get(5).getText().toString()));
+                                                _code.add(Integer.parseInt(_row.get(_currentRow).get(5).getText().toString()));
                                                 Log.d("CODE", "" + _code.get(0) + _code.get(1) + _code.get(2) + _code.get(3));
                                                 Intent intent = new Intent(PinActivity.this,
                                                                            QuitActivity.class);
@@ -224,7 +279,7 @@ public class PinActivity  extends Activity
         return false;
     }
 
-    private void swipeBackward()
+    private void swipeForward()
     {
             TextView erase = _row.get(_currentRow).remove(0);
             TextView newBlank = _row.get(_currentRow).get(0);
@@ -233,7 +288,8 @@ public class PinActivity  extends Activity
             for (int i = 0; i < 11; ++i)
             {
                 TextView            tmp = _row.get(_currentRow).get(i);
-                NumberInterface     model = _model.get(i);
+                NumberInterface     model = _model.get(_currentRow).get(i);
+                //Log.d(tmp.getText() + " " + model.size , "" + model.alpha);
                 tmp.setAlpha(model.alpha);
                 tmp.setTextSize(TypedValue.COMPLEX_UNIT_PX, model.size);
                 RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)tmp.getLayoutParams();
@@ -242,7 +298,7 @@ public class PinActivity  extends Activity
             }
     }
 
-    private void swipeForward()
+    private void swipeBackward()
     {
             TextView erase = _row.get(_currentRow).remove(10);
             TextView newBlank = _row.get(_currentRow).get(9);
@@ -251,7 +307,7 @@ public class PinActivity  extends Activity
             for (int i = 0; i < 11; ++i)
             {
                 TextView            tmp = _row.get(_currentRow).get(i);
-                NumberInterface     model = _model.get(i);
+                NumberInterface     model = _model.get(_currentRow).get(i);
                 tmp.setAlpha(model.alpha);
                 tmp.setTextSize(TypedValue.COMPLEX_UNIT_PX, model.size);
                 RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)tmp.getLayoutParams();
