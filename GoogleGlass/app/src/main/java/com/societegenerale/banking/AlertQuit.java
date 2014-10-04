@@ -44,7 +44,7 @@ public class AlertQuit  extends Activity
         super.onCreate(bundle);
 
         CardBuilder card = new CardBuilder(this, CardBuilder.Layout.ALERT);
-        card.setText("Swipe down to Quit, tap otherwise.");
+        card.setText("Swipe down pour quitter sinon tap.");
         _View = card.getView();
         _gestureDetector = createGestureDetector(this);
         this.setContentView(_View);
@@ -68,7 +68,6 @@ public class AlertQuit  extends Activity
                                      public boolean onGesture(Gesture gesture) {
                                          if (gesture == Gesture.SWIPE_DOWN)
                                          {
-                                             Log.d("Wat", "dafuk");
                                              Intent intent = new Intent(AlertQuit.this , ConnectionScreen.class);
                                              intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                              intent.putExtra("EXIT", true);

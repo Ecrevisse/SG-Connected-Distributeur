@@ -43,7 +43,7 @@ public class IDConnectActivity extends Activity
         _gestureDetector = createGestureDetector(this);
 
         CardBuilder card = new CardBuilder(this, CardBuilder.Layout.TEXT);
-        card.setText("ID Connection:\n" + myUniqueId.GetInstance().UniqueId);
+        card.setText("Rentrez votre code de connection unique :\n" + myUniqueId.GetInstance().UniqueId);
         _View = card.getView();
         _View.setOnClickListener(new View.OnClickListener() {
             @Override

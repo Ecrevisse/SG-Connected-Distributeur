@@ -41,8 +41,8 @@ public class W8amountActivity  extends Activity
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         _gestureDetector = createGestureDetector(this);
-        CardBuilder card = new CardBuilder(this, CardBuilder.Layout.AUTHOR);
-        card.setText("Enter Amount.");
+        CardBuilder card = new CardBuilder(this, CardBuilder.Layout.TEXT);
+        card.setText("Entrez le montant de votre retrait.");
         _View = card.getView();
         Client myCientTask = Client.GetInstance();
         myCientTask.CallbackReceiveAmount = new Client.ClientCallbackReceiveAmount() {

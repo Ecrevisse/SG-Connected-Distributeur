@@ -40,7 +40,8 @@ public class QuitActivity extends Activity
 
 
         CardBuilder card = new CardBuilder(this, CardBuilder.Layout.AUTHOR);
-        card.setText("Quit");
+        card.setText("N'oubliez pas vos billets\n et merci de votre confiance.");
+        card.setFootnote("Tap pour quitter");
         _View = card.getView();
         _View.setOnClickListener(new View.OnClickListener() {
             @Override
