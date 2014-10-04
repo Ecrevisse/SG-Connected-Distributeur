@@ -14,7 +14,7 @@ public class ButtonStartServer : MonoBehaviour
     private bool _codeSetted;
 
     //DEBUG
-    private static int _uniqueId;
+    private bool _debugBool;
 
     void Start()
     {
@@ -25,7 +25,7 @@ public class ButtonStartServer : MonoBehaviour
         _ipSetted = false;
         _codeSetted = false;
         //DEBUG
-        _uniqueId = 0;
+        _debugBool = true;
     }
 
     void Update()
@@ -53,10 +53,13 @@ public class ButtonStartServer : MonoBehaviour
                         manager.setCodeGG(code);
                 }
             }
-            else
+            else if (_debugBool)
             {
                 //DEBUG
-                _server.SendUniqueId(_uniqueId++);
+                _server.SendUniqueId(1337);
+                _server.SendIdOk();
+                _server.SendAmountOk();
+                _debugBool = false;
             }
         }
     }

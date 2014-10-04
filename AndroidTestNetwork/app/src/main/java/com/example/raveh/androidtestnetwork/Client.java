@@ -18,6 +18,8 @@ public class Client extends AsyncTask<Void, Integer, Void>
     public interface ClientCallbacks
     {
         void callbackReceiveUniqueId(int uniqueId);
+        void callbackReceiveIdOk();
+        void callbackReceiveAmountOk();
     }
 
     String dstAddress;
@@ -116,6 +118,14 @@ public class Client extends AsyncTask<Void, Integer, Void>
             {
                 _callbacks.callbackReceiveUniqueId(data[1]);
             }
+            else if (data[0] == 1)
+            {
+                _callbacks.callbackReceiveIdOk();
+            }
+            else if (data[0] == 2)
+            {
+                _callbacks.callbackReceiveAmountOk();
+            }
         }
     }
 
@@ -147,6 +157,10 @@ public class Client extends AsyncTask<Void, Integer, Void>
                 int type = packetToHandle.ReadVarInt();
                 if (type == 0x10)
                     HandleReceiveUniqueId(packetToHandle);
+                else if (type == 0x11)
+                    HandleReceiveIdOk(packetToHandle);
+                else if (type == 0x12)
+                    HandleReceiveAmountOk(packetToHandle);
                 _receiveBuffer.Skip(lenToSkip);
             }
         }
@@ -161,6 +175,16 @@ public class Client extends AsyncTask<Void, Integer, Void>
     {
         int uniqueID = packet.ReadInt();
         publishProgress(0, uniqueID);
+    }
+
+    public void HandleReceiveIdOk(CustomByteBuffer packet)
+    {
+        publishProgress(1);
+    }
+
+    public void HandleReceiveAmountOk(CustomByteBuffer packet)
+    {
+        publishProgress(2);
     }
 
     public void Stop()

@@ -51,7 +51,17 @@ public class MyActivity extends Activity {
                     Client myClientTask = new Client(new Client.ClientCallbacks() {
                         @Override
                         public void callbackReceiveUniqueId(int uniqueId) {
-                            textResponse.setText(Integer.toString(uniqueId));
+                            textResponse.setText(textResponse.getText() + " *Receive unique id : " + Integer.toString(uniqueId));
+                        }
+
+                        @Override
+                        public void callbackReceiveIdOk() {
+                            textResponse.setText(textResponse.getText() + " *Receive id ok ! ");
+                        }
+
+                        @Override
+                        public void callbackReceiveAmountOk() {
+                            textResponse.setText(textResponse.getText() + " *Receive amount ok ! ");
                         }
                     });
                     myClientTask.execute();

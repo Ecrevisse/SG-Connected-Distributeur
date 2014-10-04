@@ -245,21 +245,6 @@ public class AsynchronousSocketListener
             Debug.Log("HandleReceiveCode: " + code);
             _receivedCode.code = code;
         }
-
-        
-
-        //___
-
-        {
-            BytesBuffer tmp = new BytesBuffer();
-            tmp.WriteVarInt(0x10);
-            tmp.WriteInt(424242);
-
-            BytesBuffer toSend = new BytesBuffer();
-            toSend.WriteVarInt((int)tmp.Length);
-            toSend.Write(tmp.GetBuffer(), 0, (int)tmp.Length);
-            Send(handler, toSend);
-        }
     }
 
     //----------------------------------------------------
@@ -268,9 +253,37 @@ public class AsynchronousSocketListener
 
     public void SendUniqueId(int uniqueId)
     {
+        Debug.Log("SendUniqueId");
+
         BytesBuffer tmp = new BytesBuffer();
         tmp.WriteVarInt(0x10);
         tmp.WriteInt(uniqueId);
+
+        BytesBuffer toSend = new BytesBuffer();
+        toSend.WriteVarInt((int)tmp.Length);
+        toSend.Write(tmp.GetBuffer(), 0, (int)tmp.Length);
+        Send(_lastHandler, toSend);
+    }
+
+    public void SendIdOk()
+    {
+        Debug.Log("SendIdOk");
+
+        BytesBuffer tmp = new BytesBuffer();
+        tmp.WriteVarInt(0x11);
+
+        BytesBuffer toSend = new BytesBuffer();
+        toSend.WriteVarInt((int)tmp.Length);
+        toSend.Write(tmp.GetBuffer(), 0, (int)tmp.Length);
+        Send(_lastHandler, toSend);
+    }
+
+    public void SendAmountOk()
+    {
+        Debug.Log("SendAmountOk");
+
+        BytesBuffer tmp = new BytesBuffer();
+        tmp.WriteVarInt(0x12);
 
         BytesBuffer toSend = new BytesBuffer();
         toSend.WriteVarInt((int)tmp.Length);
