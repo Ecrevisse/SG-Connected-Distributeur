@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 
 using UnityEngine;
+using System.Collections.Generic;
 
 // State object for reading client data asynchronously
 public class StateObject
@@ -17,9 +18,6 @@ public class StateObject
 
 public class AsynchronousSocketListener
 {
-    //baaaad...
-    private Socket _lastHandler;
-
     // Thread signal.
     public ManualResetEvent allDone = new ManualResetEvent(false);
 
@@ -31,6 +29,7 @@ public class AsynchronousSocketListener
     }
     private ReceivedCode _receivedCode;
     private string _udpMessage;
+    private List<StateObject> _clientList;
 
     public AsynchronousSocketListener()
     {
@@ -39,6 +38,7 @@ public class AsynchronousSocketListener
         _receivedCode = new ReceivedCode();
         _receivedCode.code = 0;
         _udpMessage = "";
+        _clientList = new List<StateObject>();
     }
 
     public string GetUdpMessage()
@@ -136,13 +136,14 @@ public class AsynchronousSocketListener
         Socket listener = (Socket)ar.AsyncState;
         Socket handler = listener.EndAccept(ar);
 
-        //baaaad...
-        _lastHandler = handler;
-
         // Create the state object.
         StateObject state = new StateObject();
         state.workSocket = handler;
         Debug.Log("New client");
+        lock (_clientList)
+        {
+            _clientList.Add(state);
+        }
         handler.BeginReceive(state.receiveBuffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReadCallback), state);
     }
 
@@ -157,10 +158,9 @@ public class AsynchronousSocketListener
 
         // Read data from the client socket. 
         int bytesRead = handler.EndReceive(ar);
-
+        Debug.Log("Receive : " + bytesRead);
         if (bytesRead > 0)
         {
-            Debug.Log("Read callback: " + bytesRead);
             // There  might be more data, so store the data received so far.
             state.stackBuffer.Write(state.receiveBuffer, 0, bytesRead);
 
@@ -177,8 +177,16 @@ public class AsynchronousSocketListener
 
             handler.BeginReceive(state.receiveBuffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReadCallback), state);
         }
-        //else
-            //Disconnect
+        else
+        {
+            Debug.Log("disconnect client");
+            lock (_clientList)
+            {
+                _clientList.Remove(state);
+            }
+            handler.Shutdown(SocketShutdown.Both);
+            handler.Close();
+        }
     }
 
     private void Send(Socket handler, BytesBuffer packet)
@@ -197,11 +205,6 @@ public class AsynchronousSocketListener
 
             // Complete sending the data to the remote device.
             int bytesSent = handler.EndSend(ar);
-            Debug.Log(string.Format("Sent {0} bytes to client.", bytesSent));
-
-            //handler.Shutdown(SocketShutdown.Both);
-            //handler.Close();
-
         }
         catch (Exception e)
         {
@@ -223,7 +226,6 @@ public class AsynchronousSocketListener
         {
             while (state.stackBuffer.Position < state.stackBuffer.Length)
             {
-                Debug.Log("Boucle While");
                 length = state.stackBuffer.ReadVarInt();
                 if (length > state.stackBuffer.Length - state.stackBuffer.Position)
                     return totalLength;
@@ -233,8 +235,6 @@ public class AsynchronousSocketListener
                 int type = packetToHandle.ReadVarInt();
                 if (type == 0x00)
                     HandleReceiveCode(packetToHandle, handler);
-                else
-                    Debug.Log("Bad Type");
                 state.stackBuffer.Position += length;
                 totalLength = (uint)state.stackBuffer.Position;
             }
@@ -252,7 +252,6 @@ public class AsynchronousSocketListener
         int code = buffer.ReadInt();
         lock (_receivedCode)
         {
-            Debug.Log("HandleReceiveCode: " + code);
             _receivedCode.code = code;
         }
     }
@@ -261,9 +260,9 @@ public class AsynchronousSocketListener
     //--------------------SEND PACKET--------------------
     //----------------------------------------------------
 
-    public void SendUniqueId(int uniqueId)
+    public StateObject SendUniqueId(int uniqueId)
     {
-        Debug.Log("SendUniqueId");
+        StateObject client = _clientList[0];
 
         BytesBuffer tmp = new BytesBuffer();
         tmp.WriteVarInt(0x10);
@@ -272,33 +271,41 @@ public class AsynchronousSocketListener
         BytesBuffer toSend = new BytesBuffer();
         toSend.WriteVarInt((int)tmp.Length);
         toSend.Write(tmp.GetBuffer(), 0, (int)tmp.Length);
-        Send(_lastHandler, toSend);
+        Send(client.workSocket, toSend);
+        return client;
     }
 
-    public void SendIdOk()
+    public void SendIdOk(StateObject client)
     {
-        Debug.Log("SendIdOk");
-
         BytesBuffer tmp = new BytesBuffer();
         tmp.WriteVarInt(0x11);
 
         BytesBuffer toSend = new BytesBuffer();
         toSend.WriteVarInt((int)tmp.Length);
         toSend.Write(tmp.GetBuffer(), 0, (int)tmp.Length);
-        Send(_lastHandler, toSend);
+        Send(client.workSocket, toSend);
     }
 
-    public void SendAmountOk()
+    public void SendAmountOk(StateObject client)
     {
-        Debug.Log("SendAmountOk");
-
         BytesBuffer tmp = new BytesBuffer();
         tmp.WriteVarInt(0x12);
 
         BytesBuffer toSend = new BytesBuffer();
         toSend.WriteVarInt((int)tmp.Length);
         toSend.Write(tmp.GetBuffer(), 0, (int)tmp.Length);
-        Send(_lastHandler, toSend);
+        Send(client.workSocket, toSend);
+    }
+
+    public void EndTransaction(StateObject client)
+    {
+        Debug.Log("End transaction");
+        lock (_clientList)
+        {
+            _clientList.Remove(client);
+        }
+        client.workSocket.Shutdown(SocketShutdown.Both);
+        client.workSocket.Close();
     }
 
     //----------------------------------------------------
@@ -324,7 +331,7 @@ public class AsynchronousSocketListener
         {
             UdpClient client = new UdpClient();
             IPEndPoint ipClient = new IPEndPoint(ip.Address, 15001);
-            string messageToSend = "SGCONNECTEDHACKBROADCAST";// +_ipAddress;
+            string messageToSend = "SGCONNECTEDHACKBROADCAST";
             Debug.Log(messageToSend);
             byte[] bytesClient = Encoding.ASCII.GetBytes(messageToSend);
             client.Send(bytesClient, bytesClient.Length, ipClient);

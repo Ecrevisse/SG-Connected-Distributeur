@@ -26,6 +26,7 @@ public class ScreenManagerScript : MonoBehaviour
     private int money;
     private int GoodCode = 1234;
     private int UniqueCodeGG = 123456;
+    private StateObject client;
 
     public ButtonStartServer server;
     public TextMesh text0;
@@ -224,7 +225,7 @@ public class ScreenManagerScript : MonoBehaviour
                 currentPage = PageSelec.E_ENTER_UNIQUE_CODE_GG;
                 currentNumberTyped = 0;
                 isPageChanged = true;
-                server._server.SendUniqueId(1337);
+                client = server._server.SendUniqueId(1337);
             }
         }
         else if (currentPage == PageSelec.E_CHOOSE_QUANTITY)
@@ -251,7 +252,7 @@ public class ScreenManagerScript : MonoBehaviour
                 currentNumberTyped = 0;
                 money = int.Parse(strings[(int)PageSelec.E_CHOOSE_QUANTITY][num].Remove(strings[(int)PageSelec.E_CHOOSE_QUANTITY][num].Length - 1));
                 isPageChanged = true;
-                server._server.SendAmountOk();
+                server._server.SendAmountOk(client);
             }
             else
             {
@@ -299,7 +300,7 @@ public class ScreenManagerScript : MonoBehaviour
                     currentPage = PageSelec.E_ENTER_CODE_GG;
                     currentNumberTyped = 0;
                     isPageChanged = true;
-                    server._server.SendAmountOk();
+                    server._server.SendAmountOk(client);
                 }
             }
             else if (currentPage == PageSelec.E_ENTER_CODE)
@@ -325,7 +326,7 @@ public class ScreenManagerScript : MonoBehaviour
                     currentPage = PageSelec.E_CHOOSE_QUANTITY_GG;
                     currentNumberTyped = 0;
                     isPageChanged = true;
-                    server._server.SendIdOk();
+                    server._server.SendIdOk(client);
 
                 }
                 else
@@ -341,6 +342,11 @@ public class ScreenManagerScript : MonoBehaviour
             currentPage = PageSelec.E_HOME;
             currentNumberTyped = 0;
             isPageChanged = true;
+            if (client != null)
+            {
+                server._server.EndTransaction(client);
+                client = null;
+            }
         
         }
 
