@@ -38,12 +38,25 @@ public class Client extends AsyncTask<Void, Integer, Void>
         void callbackReceiveAmountOk();
     }
 
+    public interface ClientCallbackPinStatus
+    {
+        void callbackReceivePinStatus(boolean status);
+    }
+
+    public interface ClientCallbackTransactionStatus
+    {
+        void callbackReceiveTransactionStatus(boolean status);
+    }
+
+
     String _dstAddress;
     int _dstPort;
 
     public ClientCallbackUniqueId CallbackUniqueId;
     public ClientCallbackReceiveIdOk CallbackReceiveIdOk;
     public ClientCallbackReceiveAmount CallbackReceiveAmount;
+    public ClientCallbackPinStatus CallbackReceivePinStatus;
+    public ClientCallbackTransactionStatus CallbackReceiveTransactionStatus;
 
     private Socket _socket;
     private DatagramSocket _broadcastSocket;
@@ -151,15 +164,11 @@ public class Client extends AsyncTask<Void, Integer, Void>
                 if (inputStream.available() != 0)
                 {
                     bytesRead = inputStream.read(buffer);
-                    _receiveBuffer.Write(buffer, 0, bytesRead);
-                    int sizeHandled = HandlePacket();
-                    //_receiveBuffer.Reset();
-                    //if (sizeHandled > 0)
-                    //{
-                    //    CustomByteBuffer newBuf = new CustomByteBuffer();
-                    //    newBuf.Write(_receiveBuffer.GetBuffer(), sizeHandled, _receiveBuffer.GetLength() - sizeHandled);
-                    //    _receiveBuffer = newBuf;
-                    //}
+                    if (bytesRead > 0)
+                    {
+                        _receiveBuffer.Write(buffer, 0, bytesRead);
+                        int sizeHandled = HandlePacket();
+                    }
                 }
             }
         }
@@ -219,7 +228,20 @@ public class Client extends AsyncTask<Void, Integer, Void>
         {
             CallbackReceiveAmount.callbackReceiveAmountOk();
         }
-
+        else if (data[0] == 3 && CallbackReceivePinStatus != null)
+        {
+            if (data[1] == 1)
+                CallbackReceivePinStatus.callbackReceivePinStatus(true);
+            else
+                CallbackReceivePinStatus.callbackReceivePinStatus(false);
+        }
+        else if (data[0] == 3 && CallbackReceiveTransactionStatus != null)
+        {
+            if (data[1] == 1)
+                CallbackReceiveTransactionStatus.callbackReceiveTransactionStatus(true);
+            else
+                CallbackReceiveTransactionStatus.callbackReceiveTransactionStatus(false);
+        }
     }
 
     @Override
@@ -254,6 +276,10 @@ public class Client extends AsyncTask<Void, Integer, Void>
                     HandleReceiveIdOk(packetToHandle);
                 else if (type == 0x12)
                     HandleReceiveAmountOk(packetToHandle);
+                else if (type == 0x13)
+                    HandleReceivePinStatus(packetToHandle);
+                else if (type == 0x14)
+                    HandleReceiveTransactionStatus(packetToHandle);
                 _receiveBuffer.Skip(lenToSkip);
             }
         }
@@ -278,6 +304,18 @@ public class Client extends AsyncTask<Void, Integer, Void>
     public void HandleReceiveAmountOk(CustomByteBuffer packet)
     {
         publishProgress(2);
+    }
+
+    public void HandleReceivePinStatus(CustomByteBuffer packet)
+    {
+        int status = packet.ReadInt();
+        publishProgress(3, status);
+    }
+
+    public void HandleReceiveTransactionStatus(CustomByteBuffer packet)
+    {
+        int status = packet.ReadInt();
+        publishProgress(4, status);
     }
 
     public void Stop()
