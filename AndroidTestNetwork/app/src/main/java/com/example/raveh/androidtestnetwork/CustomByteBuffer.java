@@ -12,11 +12,13 @@ public class CustomByteBuffer
 {
     private ByteArrayOutputStream _outBuffer;
     ByteArrayInputStream _inputBuffer;
+    int _lastVarIntSize;
 
     CustomByteBuffer()
     {
         _outBuffer = new ByteArrayOutputStream();
         _inputBuffer = new ByteArrayInputStream(_outBuffer.toByteArray());
+        _lastVarIntSize = 0;
     }
 
     private boolean IsLittleEndian()
@@ -46,9 +48,11 @@ public class CustomByteBuffer
         int byteValue;
         int i = 0;
 
+        _lastVarIntSize = 0;
         while (_inputBuffer.available() != 0)
         {
             byteValue = _inputBuffer.read();
+            _lastVarIntSize++;
             int tmp = byteValue & 0x7f;
             result |= tmp << shift;
             if (shift > sizeBites)
@@ -69,7 +73,7 @@ public class CustomByteBuffer
     {
         byte[]  buf = new byte[4];
         _inputBuffer.read(buf, 0, 4);
-        if (IsLittleEndian())
+        if (!IsLittleEndian())
             ReverseArray(buf);
         ByteBuffer wrapped = ByteBuffer.wrap(buf); // big-endian by default
         return wrapped.getInt();
@@ -105,6 +109,12 @@ public class CustomByteBuffer
         _inputBuffer = new ByteArrayInputStream(_outBuffer.toByteArray());
     }
 
+    public void Write(byte[] buf, int offset, int length)
+    {
+        _outBuffer.write(buf, offset, length);
+        _inputBuffer = new ByteArrayInputStream(_outBuffer.toByteArray());
+    }
+
     public byte[] GetBuffer()
     {
         return _outBuffer.toByteArray();
@@ -113,5 +123,21 @@ public class CustomByteBuffer
     public int GetLength()
     {
         return _outBuffer.size();
+    }
+
+    public void Mark() { _inputBuffer.mark(1024); }
+
+    public void Reset() { _inputBuffer.reset(); }
+
+    public int AvailableToRead() { return _inputBuffer.available(); }
+
+    public int GetLastVarIntSize() { return _lastVarIntSize; }
+
+    public void Skip(int byteCount)
+    {
+        byte[]  buf = _outBuffer.toByteArray();
+        _outBuffer = new ByteArrayOutputStream();
+        _outBuffer.write(buf, byteCount, buf.length - byteCount);
+        _inputBuffer = new ByteArrayInputStream(_outBuffer.toByteArray());
     }
 }

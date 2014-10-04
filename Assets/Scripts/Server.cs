@@ -126,6 +126,7 @@ public class AsynchronousSocketListener
         // Create the state object.
         StateObject state = new StateObject();
         state.workSocket = handler;
+        Debug.Log("New client");
         handler.BeginReceive(state.receiveBuffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReadCallback), state);
     }
 
@@ -148,7 +149,7 @@ public class AsynchronousSocketListener
             state.stackBuffer.Write(state.receiveBuffer, 0, bytesRead);
 
             long pos = state.stackBuffer.Position;
-            uint sizeHandled = HandlePacket(state);
+            uint sizeHandled = HandlePacket(state, handler);
             state.stackBuffer.Position = pos;
 
             if (sizeHandled > 0)
@@ -164,13 +165,10 @@ public class AsynchronousSocketListener
             //Disconnect
     }
 
-    private void Send(Socket handler, String data)
+    private void Send(Socket handler, BytesBuffer packet)
     {
-        // Convert the string data to byte data using ASCII encoding.
-        byte[] byteData = Encoding.ASCII.GetBytes(data);
-
         // Begin sending the data to the remote device.
-        handler.BeginSend(byteData, 0, byteData.Length, 0,
+        handler.BeginSend(packet.GetBuffer(), 0, (int)packet.Length, 0,
             new AsyncCallback(SendCallback), handler);
     }
 
@@ -185,8 +183,8 @@ public class AsynchronousSocketListener
             int bytesSent = handler.EndSend(ar);
             Debug.Log(string.Format("Sent {0} bytes to client.", bytesSent));
 
-            handler.Shutdown(SocketShutdown.Both);
-            handler.Close();
+            //handler.Shutdown(SocketShutdown.Both);
+            //handler.Close();
 
         }
         catch (Exception e)
@@ -199,7 +197,7 @@ public class AsynchronousSocketListener
     //------------------HANDLE PACKET--------------------
     //----------------------------------------------------
 
-    private uint HandlePacket(StateObject state)
+    private uint HandlePacket(StateObject state, Socket handler)
     {
         uint totalLength = 0;
         int length;
@@ -218,7 +216,7 @@ public class AsynchronousSocketListener
                 packetToHandle.Position = 0;
                 int type = packetToHandle.ReadVarInt();
                 if (type == 0x00)
-                    HandleReceiveCode(packetToHandle);
+                    HandleReceiveCode(packetToHandle, handler);
                 else
                     Debug.Log("Bad Type");
                 state.stackBuffer.Position += length;
@@ -233,13 +231,37 @@ public class AsynchronousSocketListener
         return totalLength;
     }
 
-    private void HandleReceiveCode(BytesBuffer buffer)
+    private void HandleReceiveCode(BytesBuffer buffer, Socket handler)
     {
         int code = buffer.ReadInt();
         lock (_receivedCode)
         {
             Debug.Log("HandleReceiveCode: " + code);
             _receivedCode.code = code;
+        }
+
+        {
+            BytesBuffer tmp = new BytesBuffer();
+            tmp.WriteVarInt(0x10);
+            tmp.WriteInt(123456);
+
+            BytesBuffer toSend = new BytesBuffer();
+            toSend.WriteVarInt((int)tmp.Length);
+            toSend.Write(tmp.GetBuffer(), 0, (int)tmp.Length);
+            Send(handler, toSend);
+        }
+
+        //___
+
+        {
+            BytesBuffer tmp = new BytesBuffer();
+            tmp.WriteVarInt(0x10);
+            tmp.WriteInt(424242);
+
+            BytesBuffer toSend = new BytesBuffer();
+            toSend.WriteVarInt((int)tmp.Length);
+            toSend.Write(tmp.GetBuffer(), 0, (int)tmp.Length);
+            Send(handler, toSend);
         }
     }
 }
