@@ -178,13 +178,13 @@ public class ScreenManagerScript : MonoBehaviour
             _timer.Elapsed += new ElapsedEventHandler(_timer_Elapsed);
             _timer.Start();
             isOnCloking = true;
-            clockFinish = false;
         }
         if (clockFinish == true)
         {
             currentPage = PageSelec.E_HOME;
             currentNumberTyped = 0;
             changeTo(currentPage);
+            clockFinish = false;
         }
 	}
 
