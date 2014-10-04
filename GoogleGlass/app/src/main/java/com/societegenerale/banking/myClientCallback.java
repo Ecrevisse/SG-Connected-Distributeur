@@ -6,16 +6,16 @@ package com.societegenerale.banking;
 public class myClientCallback implements Client.ClientCallbacks {
     @Override
     public void callbackReceiveUniqueId(int uniqueId) {
-        textResponse.setText(textResponse.getText() + " *Receive unique id : " + Integer.toString(uniqueId));
+        //textResponse.setText(textResponse.getText() + " *Receive unique id : " + Integer.toString(uniqueId));
     }
 
     @Override
     public void callbackReceiveIdOk() {
-        textResponse.setText(textResponse.getText() + " *Receive id ok ! ");
+        //textResponse.setText(textResponse.getText() + " *Receive id ok ! ");
     }
 
     @Override
     public void callbackReceiveAmountOk() {
-        textResponse.setText(textResponse.getText() + " *Receive amount ok ! ");
+        //textResponse.setText(textResponse.getText() + " *Receive amount ok ! ");
     }
 }

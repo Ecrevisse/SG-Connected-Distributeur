@@ -84,6 +84,7 @@ public class IDConnectActivity extends Activity
         );
         return detector;
     }
+
     @Override
     public boolean onGenericMotionEvent(MotionEvent event) {
         if (_gestureDetector != null) {
@@ -91,6 +92,8 @@ public class IDConnectActivity extends Activity
         }
         return false;
     }
+
+
     @Override
     protected void onResume() {
         super.onResume();

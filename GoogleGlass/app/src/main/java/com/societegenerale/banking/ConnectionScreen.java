@@ -39,6 +39,7 @@ public class ConnectionScreen  extends Activity
 {
     private View _View;
     private GestureDetector _gestureDetector;
+    private Client myClientTask;
 
     @Override
     protected void onCreate(Bundle bundle) {
@@ -52,6 +53,32 @@ public class ConnectionScreen  extends Activity
         _View = card.getView();
         _gestureDetector = createGestureDetector(this);
         this.setContentView(_View);
+        myClientTask = new Client(new Client.ClientCallbacks() {
+            @Override
+            public void callbackReceiveUniqueId(int uniqueId) {
+
+            }
+
+            @Override
+            public void callbackReceiveIdOk() {
+
+            }
+
+            @Override
+            public void callbackReceiveAmountOk() {
+
+            }
+        }, getApplicationContext());
+        myClientTask.execute();
+        myClientTask.SendCode(9513);
+    }
+
+    @Override
+    protected void onStop()
+    {
+        super.onStop();
+        if (myClientTask != null)
+            myClientTask.Stop();
     }
 
     @Override
