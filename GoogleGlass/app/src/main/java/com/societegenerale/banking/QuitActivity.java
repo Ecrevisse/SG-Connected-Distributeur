@@ -53,7 +53,7 @@ public class QuitActivity extends Activity
     @Override
     public boolean onKeyDown(int keycode, KeyEvent event) {
         if (keycode == KeyEvent.KEYCODE_DPAD_CENTER) {
-            finish();
+            //finish();
             return true;
         }
         return super.onKeyDown(keycode, event);

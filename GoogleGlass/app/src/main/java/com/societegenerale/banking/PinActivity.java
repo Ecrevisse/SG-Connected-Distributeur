@@ -81,6 +81,9 @@ public class PinActivity  extends Activity
     private int                                   _currentRow = 0;
     private ArrayList<Integer>                    _code;
     private Vector<Velocity>                      _velocities;
+    private float                                 _tmpVelocity;
+    private float                                 _velocityStep = 1.0f;
+    private float                                 _tmpNegativeVelocity = -1.0f;
     @Override
 
     protected void onCreate(Bundle bundle) {
@@ -91,6 +94,8 @@ public class PinActivity  extends Activity
         _code = new ArrayList<Integer>();
         _velocities = new Vector<Velocity>();
         _row = new ArrayList<ArrayList<TextView>>();
+        _tmpVelocity = 0.0f;
+        _velocityStep = 1.0f;
         _gestureDetector = createGestureDetector(this);
 
         _model = new ArrayList<ArrayList<NumberInterface>>();
@@ -218,6 +223,7 @@ public class PinActivity  extends Activity
         detector.setBaseListener(new GestureDetector.BaseListener() {
                                      @Override
                                      public boolean onGesture(Gesture gesture) {
+                                         Log.d("oneTap", "");
                                          if (gesture == Gesture.TAP)
                                          {
                                             ImageView img;
@@ -246,20 +252,46 @@ public class PinActivity  extends Activity
                                                 _code.add(Integer.parseInt(_row.get(_currentRow).get(5).getText().toString()));
                                             }
                                             else {
+                                                Log.d("et ta soeur ", "" + _currentRow);
                                                 _code.add(Integer.parseInt(_row.get(_currentRow).get(5).getText().toString()));
                                                 Intent intent = new Intent(PinActivity.this,
                                                                            QuitActivity.class);
+                                                Log.d("Code", "" + _code.get(0) + _code.get(1) + _code.get(2) + _code.get(3));
                                                 startActivity(intent);
                                             }
                                             ++_currentRow;
                                              return true;
 
-                                         } else if (gesture == Gesture.SWIPE_RIGHT) {
-                                             swipeForward();
-                                             return true;
-                                         } else if (gesture == Gesture.SWIPE_LEFT) {
-                                             swipeBackward();
-                                             return true;
+                                         }
+                                         else if (gesture == Gesture.TWO_TAP) {
+                                             Log.d("TwoTap", "");
+                                             ImageView img;
+                                             if (_currentRow == 1)
+                                             {
+                                                 img = (ImageView)findViewById(R.id.selection_row_2);
+                                                 img.setImageResource(R.drawable.case_pin);
+                                                 img = (ImageView)findViewById(R.id.selection_row_1);
+                                                 img.setImageResource(R.drawable.case_pin_selected);
+                                                 _code.remove(_code.size() - 1);
+                                                 --_currentRow;
+                                             }
+                                             else if (_currentRow == 2)
+                                             {
+                                                 img = (ImageView)findViewById(R.id.selection_row_3);
+                                                 img.setImageResource(R.drawable.case_pin);
+                                                 img = (ImageView)findViewById(R.id.selection_row_2);
+                                                 img.setImageResource(R.drawable.case_pin_selected);
+                                                 _code.remove(_code.size() - 1);
+                                                 --_currentRow;
+                                             }
+                                             else if (_currentRow == 3) {
+                                                 img = (ImageView)findViewById(R.id.selection_row_4);
+                                                 img.setImageResource(R.drawable.case_pin);
+                                                 img = (ImageView)findViewById(R.id.selection_row_3);
+                                                 img.setImageResource(R.drawable.case_pin_selected);
+                                                 _code.remove(_code.size() - 1);
+                                                 --_currentRow;
+                                             }
                                          }
                                          return false;
                                      }
@@ -275,7 +307,6 @@ public class PinActivity  extends Activity
         detector.setScrollListener(new GestureDetector.ScrollListener() {
             @Override
             public boolean onScroll(float displacement, float delta, float velocity) {
-                Log.d("" + displacement + " " + delta, "" + velocity);
                 long lDateTime = new Date().getTime();
                 int count = 0;
                 float addedVelocity = 0;
@@ -286,14 +317,28 @@ public class PinActivity  extends Activity
                     else
                     {
                         count++;
-                        addedVelocity += _velocities.get(i).velocity;
+                        addedVelocity += _velocities.get(i).velocity / 5.0f;
                     }
                 }
                 count++;
                 addedVelocity += velocity;
                 _velocities.add(new Velocity(lDateTime, velocity));
                 float moyenne = addedVelocity / (float)count;
-                Log.d("moyenne", "" + _velocities.size());
+                if (moyenne > 0)
+                    _tmpVelocity += moyenne;
+                else
+                    _tmpNegativeVelocity += moyenne;
+
+                if (_tmpVelocity > _velocityStep)
+                {
+                    swipeForward();
+                    _tmpVelocity -= _velocityStep;
+                }
+                else if (_tmpNegativeVelocity < -_velocityStep)
+                {
+                    swipeBackward();
+                    _tmpNegativeVelocity += _velocityStep;
+                }
                 return false;
             }
         });
