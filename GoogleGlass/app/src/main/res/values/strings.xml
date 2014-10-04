@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Banking</string>
+    <string name="app_name">Retrait Secure</string>
     <string name="title_activity_account">My Account</string>
     <string name="hello_world">Hello world!</string>
+    <string name="Enter_your_PIN">Enter your PIN.</string>
 
 </resources>

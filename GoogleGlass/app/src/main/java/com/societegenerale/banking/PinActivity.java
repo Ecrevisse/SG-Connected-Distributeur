@@ -21,6 +21,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
+
+import android.view.LayoutInflater;
+import android.widget.ImageView;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -32,25 +36,29 @@ import java.util.HashMap;
 /**
  * Created by Ul on 04/10/2014.
  */
-public class ConnectionScreen  extends Activity
+public class PinActivity  extends Activity
 {
-    private View _View;
-
     @Override
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
 
-        CardBuilder card = new CardBuilder(this, CardBuilder.Layout.AUTHOR);
-        card.setText("Connection to server");
-        _View = card.getView();
-        this.setContentView(_View);
+        setContentView(R.layout.pin_layout);
+
+        ImageView img = (ImageView)findViewById(R.id.selection_row_1);
+        img.setImageResource(R.drawable.case_pin_selected);
+        img = (ImageView)findViewById(R.id.selection_row_2);
+        img.setImageResource(R.drawable.case_pin);
+        img = (ImageView)findViewById(R.id.selection_row_3);
+        img.setImageResource(R.drawable.case_pin);
+        img = (ImageView)findViewById(R.id.selection_row_4);
+        img.setImageResource(R.drawable.case_pin);
     }
 
     @Override
     public boolean onKeyDown(int keycode, KeyEvent event) {
         if (keycode == KeyEvent.KEYCODE_DPAD_CENTER) {
-            Intent intent = new Intent(ConnectionScreen.this, PinActivity.class);
-            startActivity(intent);
+            //Intent intent = new Intent(PinActivity.this, AccountActivity.class);
+            //startActivity(intent);
             return true;
         }
         return super.onKeyDown(keycode, event);

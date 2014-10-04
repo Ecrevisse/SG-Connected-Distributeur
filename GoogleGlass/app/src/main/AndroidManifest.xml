@@ -38,6 +38,14 @@
                 android:value="com.societegenerale.banking.ConnectionScreen" />
         </activity>
 
+        <activity
+            android:name=".PinActivity"
+            android:parentActivityName="com.societegenerale.banking.ConnectionScreen" >
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.societegenerale.banking.ConnectionScreen" />
+        </activity>
 
 
     </application>
