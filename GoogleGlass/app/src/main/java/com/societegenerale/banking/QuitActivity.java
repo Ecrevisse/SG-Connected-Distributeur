@@ -1,6 +1,8 @@
 package com.societegenerale.banking;
 
 import com.google.android.glass.media.Sounds;
+import com.google.android.glass.touchpad.Gesture;
+import com.google.android.glass.touchpad.GestureDetector;
 import com.google.android.glass.widget.CardBuilder;
 import com.google.android.glass.widget.CardScrollAdapter;
 import com.google.android.glass.widget.CardScrollView;
@@ -33,12 +35,13 @@ import java.util.HashMap;
 public class QuitActivity extends Activity
 {
     private View    _View;
+    private GestureDetector _gestureDetector;
 
     @Override
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
 
-
+        _gestureDetector = createGestureDetector(this);
         CardBuilder card = new CardBuilder(this, CardBuilder.Layout.AUTHOR);
         card.setText("N'oubliez pas vos billets\n et merci de votre confiance.");
         card.setFootnote("Tap pour quitter");
@@ -63,10 +66,42 @@ public class QuitActivity extends Activity
         }
         return super.onKeyDown(keycode, event);
     }
-    
+
+    private GestureDetector createGestureDetector(Context context)
+    {
+        GestureDetector detector = new GestureDetector(context);
+        detector.setBaseListener(new GestureDetector.BaseListener() {
+                                     @Override
+                                     public boolean onGesture(Gesture gesture) {
+                                         if (gesture == Gesture.SWIPE_DOWN)
+                                         {
+                                             Intent intent = new Intent(QuitActivity.this , ConnectionScreen.class);
+                                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                             intent.putExtra("EXIT", true);
+                                             startActivity(intent);
+                                             return true;
+                                         }
+                                         return false;
+                                     }
+
+                                 }
+        );
+        return detector;
+    }
     @Override
-    protected void onResume() {
+    public boolean onGenericMotionEvent(MotionEvent event) {
+        if (_gestureDetector != null) {
+            return _gestureDetector.onMotionEvent(event);
+        }
+        return false;
+    }
+    @Override
+    protected void onResume()
+    {
         super.onResume();
+        Intent intent = new Intent(QuitActivity.this , ConnectionScreen.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 
     @Override
