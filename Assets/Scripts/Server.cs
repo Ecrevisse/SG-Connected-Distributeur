@@ -238,8 +238,6 @@ public class AsynchronousSocketListener
                 int type = packetToHandle.ReadVarInt();
                 if (type == 0x00)
                     HandleReceiveCode(packetToHandle, handler);
-                else if (type == 0x00)
-                    HandleWantToStop(packetToHandle, state);
                 state.stackBuffer.Position += length;
                 totalLength = (uint)state.stackBuffer.Position;
             }
@@ -260,17 +258,6 @@ public class AsynchronousSocketListener
             _receivedCode.code = code;
             Debug.Log("code received : " + code);
         }
-    }
-
-    private void HandleWantToStop(BytesBuffer buffer, StateObject client)
-    {
-        Debug.Log("Want to stop");
-        lock (_clientList)
-        {
-            _clientList.Remove(client);
-        }
-        client.workSocket.Shutdown(SocketShutdown.Both);
-        client.workSocket.Close();
     }
 
     //----------------------------------------------------
