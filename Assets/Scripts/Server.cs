@@ -14,6 +14,7 @@ public class StateObject
     public const int BufferSize = 1024;
     public byte[] receiveBuffer = new byte[BufferSize];
     public BytesBuffer stackBuffer = new BytesBuffer();
+    public bool connected;
 }
 
 public class AsynchronousSocketListener
@@ -36,7 +37,7 @@ public class AsynchronousSocketListener
         _shouldStop = true;
         _ipAddress = "";
         _receivedCode = new ReceivedCode();
-        _receivedCode.code = 0;
+        _receivedCode.code = -1;
         _udpMessage = "";
         _clientList = new List<StateObject>();
     }
@@ -62,7 +63,7 @@ public class AsynchronousSocketListener
         lock (_receivedCode)
         {
             int code = _receivedCode.code;
-            _receivedCode.code = 0;
+            _receivedCode.code = -1;
             return code;
         }
     }
@@ -139,6 +140,7 @@ public class AsynchronousSocketListener
         // Create the state object.
         StateObject state = new StateObject();
         state.workSocket = handler;
+        state.connected = true;
         Debug.Log("New client");
         lock (_clientList)
         {
@@ -182,6 +184,7 @@ public class AsynchronousSocketListener
             Debug.Log("disconnect client");
             lock (_clientList)
             {
+                state.connected = false;
                 _clientList.Remove(state);
             }
             handler.Shutdown(SocketShutdown.Both);
@@ -253,6 +256,7 @@ public class AsynchronousSocketListener
         lock (_receivedCode)
         {
             _receivedCode.code = code;
+            Debug.Log("code received : " + code);
         }
     }
 
@@ -347,6 +351,7 @@ public class AsynchronousSocketListener
         Debug.Log("End transaction");
         lock (_clientList)
         {
+            client.connected = false;
             _clientList.Remove(client);
         }
         client.workSocket.Shutdown(SocketShutdown.Both);

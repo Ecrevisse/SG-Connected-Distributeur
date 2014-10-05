@@ -29,7 +29,7 @@ public class ButtonStartServer : MonoBehaviour
         if (_server != null)
         {
             int code = _server.GetReceivedCode();
-            if (code != 0)
+            if (code != -1)
             {
                 if (manager != null)
                     manager.setCodeGG(code);
