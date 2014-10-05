@@ -323,7 +323,7 @@ public class AsynchronousSocketListener
         Send(client.workSocket, toSend);
     }
 
-    public void SendTransactionCompleted(StateObject client, bool statut)
+    public void SendTransactionStatus(StateObject client, bool statut)
     {
         BytesBuffer tmp = new BytesBuffer();
         tmp.WriteVarInt(0x14);
