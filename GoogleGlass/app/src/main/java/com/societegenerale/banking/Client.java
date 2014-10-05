@@ -72,18 +72,6 @@ public class Client extends AsyncTask<Void, Integer, Void>
     {
         if (Instance == null)
             Instance = new Client();
-        Instance._socket = null;
-        Instance._broadcastSocket = null;
-        Instance._receiveBroadcastSocket = null;
-        return Instance;
-    }
-
-    public static synchronized Client ResetInstance()
-    {
-        Instance = new Client();
-        Instance._socket = null;
-        Instance._broadcastSocket = null;
-        Instance._receiveBroadcastSocket = null;
         return Instance;
     }
 
@@ -209,6 +197,8 @@ public class Client extends AsyncTask<Void, Integer, Void>
             {
                 try
                 {
+                    _socket.shutdownInput();
+                    _socket.shutdownOutput();
                     _socket.close();
                     _socket = null;
                 }
@@ -344,6 +334,8 @@ public class Client extends AsyncTask<Void, Integer, Void>
         {
             try
             {
+                _socket.shutdownInput();
+                _socket.shutdownOutput();
                 _socket.close();
                 _socket = null;
             }

@@ -96,7 +96,7 @@ public class AsynchronousSocketListener
         {
             _ipAddress = ipAddress.ToString();
         }
-
+        Debug.Log(_ipAddress);
         // Create a TCP/IP socket.
         Socket listener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
