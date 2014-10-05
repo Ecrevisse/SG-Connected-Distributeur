@@ -181,6 +181,7 @@ public class ScreenManagerScript : MonoBehaviour
         }
         if (clockFinish == true)
         {
+            server._server.SendTransactionStatus(client, (PageSelec.E_GOOD_CODE == currentPage) ? true : false);
             currentPage = PageSelec.E_HOME;
             currentNumberTyped = 0;
             changeTo(currentPage);
@@ -442,6 +443,7 @@ public class ScreenManagerScript : MonoBehaviour
                 currentNumberTyped = 0;
                 text4.text = "MAUVAIS CODE,\nREESSAYEZ";
                 changeBack(text4);
+                server._server.SendPinStatus(client, false);
             }
         }
 

@@ -214,6 +214,14 @@ public class PinActivity  extends Activity
                 tmp.setLayoutParams(params);
             }
         }
+
+        Client.GetInstance().CallbackReceivePinStatus = new Client.ClientCallbackPinStatus() {
+            @Override
+            public void callbackReceivePinStatus(boolean status) {
+                Intent intent = new Intent(PinActivity.this, PinActivity.class);
+                startActivity(intent);
+            }
+        };
     }
 
     private GestureDetector createGestureDetector(Context context)

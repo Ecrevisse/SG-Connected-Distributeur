@@ -342,18 +342,6 @@ public class AsynchronousSocketListener
         Send(client.workSocket, toSend);
     }
 
-    public void SendPinFalse(StateObject client)
-    {
-        BytesBuffer tmp = new BytesBuffer();
-        tmp.WriteVarInt(0x14);
-
-        BytesBuffer toSend = new BytesBuffer();
-        toSend.WriteVarInt((int)tmp.Length);
-        toSend.Write(tmp.GetBuffer(), 0, (int)tmp.Length);
-        Debug.Log("Send pin false");
-        Send(client.workSocket, toSend);
-    }
-
     public void EndTransaction(StateObject client)
     {
         Debug.Log("End transaction");
