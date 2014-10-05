@@ -172,9 +172,13 @@ public class ScreenManagerScript : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
     {
-        if (client == null)
-            client = server._server.RequestClient();
-        if (currentPage == PageSelec.E_HOME && client != null && client.requestUniqueId)
+        //if (client == null)
+        //    client = server._server.RequestClient();
+        StateObject tmpClient = server._server.GetClientToHandle();
+        if (tmpClient != null)
+            client = tmpClient;
+        if ((currentPage == PageSelec.E_HOME || currentPage == PageSelec.E_ENTER_UNIQUE_CODE_GG)
+            && client != null && client.requestUniqueId)
         {
             UniqueCodeGG = Random.Range(100000, 999999);
             //UniqueCodeGG = Random.Range(0, 9);

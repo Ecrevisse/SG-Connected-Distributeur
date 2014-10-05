@@ -33,7 +33,12 @@ public class AsynchronousSocketListener
     private string _udpMessage;
     private List<StateObject> _clientList;
 
-    private StateObject _clientToHandle;
+    private class ClientToHandle
+    {
+        public StateObject toHandle;
+    }
+
+    private ClientToHandle _clientToHandle;
 
     public AsynchronousSocketListener()
     {
@@ -43,7 +48,7 @@ public class AsynchronousSocketListener
         _receivedCode.code = -1;
         _udpMessage = "";
         _clientList = new List<StateObject>();
-        _clientToHandle = null;
+        _clientToHandle = new ClientToHandle();
     }
 
     public string GetUdpMessage()
@@ -81,8 +86,12 @@ public class AsynchronousSocketListener
 
     public StateObject GetClientToHandle()
     {
-        StateObject retClient = _clientToHandle;
-        _clientToHandle = null;
+        StateObject retClient = null;
+        lock (_clientToHandle)
+        {
+            retClient = _clientToHandle.toHandle;
+            _clientToHandle.toHandle = null;
+        }
         return retClient;
     }
 
@@ -285,7 +294,10 @@ public class AsynchronousSocketListener
     {
         Debug.Log("request unique id");
         client.requestUniqueId = true;
-        _clientToHandle = client;
+        lock (_clientToHandle)
+        {
+            _clientToHandle.toHandle = client;
+        }
     }
 
     //----------------------------------------------------
