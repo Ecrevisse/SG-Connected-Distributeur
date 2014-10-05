@@ -82,7 +82,6 @@ public class ScreenManagerScript : MonoBehaviour
         strings[(int)PageSelec.E_CHOOSE_QUANTITY].Add("SAISIE DE\nMONTANT");
 		strings[(int)PageSelec.E_CHOOSE_QUANTITY].Add("");
 
-		strings[(int)PageSelec.E_CHOOSE_QUANTITY_BY_KEYBOARD].Add("ENTREZ LE\nMONTANT :");
         strings[(int)PageSelec.E_CHOOSE_QUANTITY_BY_KEYBOARD].Add("");
         strings[(int)PageSelec.E_CHOOSE_QUANTITY_BY_KEYBOARD].Add("");
         strings[(int)PageSelec.E_CHOOSE_QUANTITY_BY_KEYBOARD].Add("");
@@ -90,9 +89,9 @@ public class ScreenManagerScript : MonoBehaviour
         strings[(int)PageSelec.E_CHOOSE_QUANTITY_BY_KEYBOARD].Add("");
         strings[(int)PageSelec.E_CHOOSE_QUANTITY_BY_KEYBOARD].Add("");
         strings[(int)PageSelec.E_CHOOSE_QUANTITY_BY_KEYBOARD].Add("");
-		strings[(int)PageSelec.E_CHOOSE_QUANTITY_BY_KEYBOARD].Add("");
+        strings[(int)PageSelec.E_CHOOSE_QUANTITY_BY_KEYBOARD].Add("");
+        strings[(int)PageSelec.E_CHOOSE_QUANTITY_BY_KEYBOARD].Add("ENTREZ LE MONTANT :");
 
-		strings[(int)PageSelec.E_ENTER_CODE].Add("ENTREZ VOTRE\nCODE :");
         strings[(int)PageSelec.E_ENTER_CODE].Add("");
         strings[(int)PageSelec.E_ENTER_CODE].Add("");
         strings[(int)PageSelec.E_ENTER_CODE].Add("");
@@ -100,7 +99,8 @@ public class ScreenManagerScript : MonoBehaviour
         strings[(int)PageSelec.E_ENTER_CODE].Add("");
         strings[(int)PageSelec.E_ENTER_CODE].Add("");
         strings[(int)PageSelec.E_ENTER_CODE].Add("");
-		strings[(int)PageSelec.E_ENTER_CODE].Add("");
+        strings[(int)PageSelec.E_ENTER_CODE].Add("");
+        strings[(int)PageSelec.E_ENTER_CODE].Add("ENTREZ VOTRE CODE :");
 		
         strings[(int)PageSelec.E_GOOD_CODE].Add("");
         strings[(int)PageSelec.E_GOOD_CODE].Add("");
@@ -110,7 +110,7 @@ public class ScreenManagerScript : MonoBehaviour
         strings[(int)PageSelec.E_GOOD_CODE].Add("");
         strings[(int)PageSelec.E_GOOD_CODE].Add("");
 		strings[(int)PageSelec.E_GOOD_CODE].Add("");
-		strings[(int)PageSelec.E_GOOD_CODE].Add("PATIENTEZ S'IL VOUS PLAIT,\nNOUS PREPARONS VOS BILLETS...");
+		strings[(int)PageSelec.E_GOOD_CODE].Add("PATIENTEZ S'IL VOUS PLAIT,\nNOUS PREPARONS VOS BILLETS.");
 
 		
 		strings[(int)PageSelec.E_WRONG_CODE].Add("");
@@ -123,7 +123,6 @@ public class ScreenManagerScript : MonoBehaviour
 		strings [(int)PageSelec.E_WRONG_CODE].Add ("");
 		strings[(int)PageSelec.E_WRONG_CODE].Add("TRANSACTION ANNULEE");
 
-		strings[(int)PageSelec.E_ENTER_UNIQUE_CODE_GG].Add("ENTREZ LE CODE\nD'AUTHENTIFICATION :");
         strings[(int)PageSelec.E_ENTER_UNIQUE_CODE_GG].Add("");
         strings[(int)PageSelec.E_ENTER_UNIQUE_CODE_GG].Add("");
         strings[(int)PageSelec.E_ENTER_UNIQUE_CODE_GG].Add("");
@@ -132,6 +131,7 @@ public class ScreenManagerScript : MonoBehaviour
         strings[(int)PageSelec.E_ENTER_UNIQUE_CODE_GG].Add("");
 		strings[(int)PageSelec.E_ENTER_UNIQUE_CODE_GG].Add("");
 		strings[(int)PageSelec.E_ENTER_UNIQUE_CODE_GG].Add("");
+        strings[(int)PageSelec.E_ENTER_UNIQUE_CODE_GG].Add("ENTREZ LE CODE\nD'AUTHENTIFICATION :");
 
         strings[(int)PageSelec.E_CHOOSE_QUANTITY_GG].Add("20€");
         strings[(int)PageSelec.E_CHOOSE_QUANTITY_GG].Add("40€");
@@ -143,7 +143,6 @@ public class ScreenManagerScript : MonoBehaviour
 		strings[(int)PageSelec.E_CHOOSE_QUANTITY_GG].Add("AUTRE MONTANT");
 		strings[(int)PageSelec.E_CHOOSE_QUANTITY_GG].Add("");
 
-		strings[(int)PageSelec.E_ENTER_AMOUNT_GG].Add("ENTREZ LE\nMONTANT :");
         strings[(int)PageSelec.E_ENTER_AMOUNT_GG].Add("");
         strings[(int)PageSelec.E_ENTER_AMOUNT_GG].Add("");
         strings[(int)PageSelec.E_ENTER_AMOUNT_GG].Add("");
@@ -151,9 +150,10 @@ public class ScreenManagerScript : MonoBehaviour
         strings[(int)PageSelec.E_ENTER_AMOUNT_GG].Add("");
         strings[(int)PageSelec.E_ENTER_AMOUNT_GG].Add("");
 		strings[(int)PageSelec.E_ENTER_AMOUNT_GG].Add("");
-		strings[(int)PageSelec.E_ENTER_AMOUNT_GG].Add("");
+        strings[(int)PageSelec.E_ENTER_AMOUNT_GG].Add("");
+        strings[(int)PageSelec.E_ENTER_AMOUNT_GG].Add("ENTREZ LE MONTANT :");
 
-		strings[(int)PageSelec.E_ENTER_CODE_GG].Add("EN ATTENTE\nDU CODE...");
+		
         strings[(int)PageSelec.E_ENTER_CODE_GG].Add("");
         strings[(int)PageSelec.E_ENTER_CODE_GG].Add("");
         strings[(int)PageSelec.E_ENTER_CODE_GG].Add("");
@@ -162,6 +162,7 @@ public class ScreenManagerScript : MonoBehaviour
         strings[(int)PageSelec.E_ENTER_CODE_GG].Add("");
 		strings[(int)PageSelec.E_ENTER_CODE_GG].Add("");
 		strings[(int)PageSelec.E_ENTER_CODE_GG].Add("");
+        strings[(int)PageSelec.E_ENTER_CODE_GG].Add("EN ATTENTE DU CODE...");
 
         changeTo(currentPage);
 
@@ -355,8 +356,8 @@ public class ScreenManagerScript : MonoBehaviour
                     {
                         Debug.Log("6 " + cptToAbort);
                         currentNumberTyped = 0;
-                        text4.text = "MAUVAIS CODE,\nREESSAYEZ";
-                        changeBack(text4);
+                        text8.text = "MAUVAIS CODE, REESSAYEZ";
+                        changeBack(text8);
                     }
                 }
             }
@@ -385,8 +386,8 @@ public class ScreenManagerScript : MonoBehaviour
                     {
                         Debug.Log("8 " + cptToAbort);
                         currentNumberTyped = 0;
-                        text4.text = "MAUVAIS CODE,\nREESSAYEZ";
-                        changeBack(text4);
+                        text8.text = "MAUVAIS CODE, REESSAYEZ";
+                        changeBack(text8);
                     }
                 }
             }
@@ -453,8 +454,8 @@ public class ScreenManagerScript : MonoBehaviour
             {
                 Debug.Log("3 " + cptToAbort);
                 currentNumberTyped = 0;
-                text4.text = "MAUVAIS CODE,\nREESSAYEZ";
-                changeBack(text4);
+                text4.text = "MAUVAIS CODE, REESSAYEZ";
+                changeBack(text8);
                 server._server.SendPinStatus(client, false);
             }
         }

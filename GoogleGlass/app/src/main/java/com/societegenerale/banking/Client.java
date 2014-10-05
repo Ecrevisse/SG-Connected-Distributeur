@@ -126,7 +126,7 @@ public class Client extends AsyncTask<Void, Integer, Void>
             _broadcastSocket.setBroadcast(true);
 
             _receiveBroadcastSocket = new DatagramSocket(15001);
-            _receiveBroadcastSocket.setSoTimeout(1000);
+            _receiveBroadcastSocket.setSoTimeout(200);
 
             String sgBroadcastString = "SGCONNECTEDHACKBROADCAST";
 
