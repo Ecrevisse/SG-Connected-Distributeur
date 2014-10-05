@@ -39,32 +39,17 @@ public class QuitActivity extends Activity
 
     @Override
     protected void onCreate(Bundle bundle) {
+
         super.onCreate(bundle);
 
-        _gestureDetector = createGestureDetector(this);
         CardBuilder card = new CardBuilder(this, CardBuilder.Layout.AUTHOR);
-        card.setText("N'oubliez pas vos billets\n et merci de votre confiance.");
+        card.setText("N'oubliez pas vos billets\net merci de votre confiance.");
         card.setFootnote("Tap pour quitter");
         _View = card.getView();
-        _View.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            }
-        });
-
+        _gestureDetector = createGestureDetector(this);
         this.setContentView(_View);
-    }
+        Log.d("QUIT SCREEN\n", "");
 
-    @Override
-    public boolean onKeyDown(int keycode, KeyEvent event) {
-        if (keycode == KeyEvent.KEYCODE_DPAD_CENTER) {
-            Intent intent = new Intent(QuitActivity.this , ConnectionScreen.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            intent.putExtra("EXIT", true);
-            startActivity(intent);
-            return true;
-        }
-        return super.onKeyDown(keycode, event);
     }
 
     private GestureDetector createGestureDetector(Context context)
@@ -73,8 +58,9 @@ public class QuitActivity extends Activity
         detector.setBaseListener(new GestureDetector.BaseListener() {
                                      @Override
                                      public boolean onGesture(Gesture gesture) {
-                                         if (gesture == Gesture.SWIPE_DOWN)
+                                         if (gesture == Gesture.SWIPE_DOWN || gesture == Gesture.TAP)
                                          {
+                                             Log.d("Event", "\n");
                                              Intent intent = new Intent(QuitActivity.this , ConnectionScreen.class);
                                              intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                              intent.putExtra("EXIT", true);
@@ -99,9 +85,6 @@ public class QuitActivity extends Activity
     protected void onResume()
     {
         super.onResume();
-        Intent intent = new Intent(QuitActivity.this , ConnectionScreen.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
     }
 
     @Override

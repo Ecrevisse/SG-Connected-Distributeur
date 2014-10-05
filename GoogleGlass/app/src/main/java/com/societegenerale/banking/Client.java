@@ -72,6 +72,18 @@ public class Client extends AsyncTask<Void, Integer, Void>
     {
         if (Instance == null)
             Instance = new Client();
+        Instance._socket = null;
+        Instance._broadcastSocket = null;
+        Instance._receiveBroadcastSocket = null;
+        return Instance;
+    }
+
+    public static synchronized Client ResetInstance()
+    {
+        Instance = new Client();
+        Instance._socket = null;
+        Instance._broadcastSocket = null;
+        Instance._receiveBroadcastSocket = null;
         return Instance;
     }
 
@@ -80,9 +92,14 @@ public class Client extends AsyncTask<Void, Integer, Void>
         //dstAddress = "10.12.20.190";
         _dstAddress = "";
         _dstPort = 11000;
-        _shouldStop = false;
+        _shouldStop = true;
         _sendBuffer = new CustomByteBuffer();
         _receiveBuffer = new CustomByteBuffer();
+    }
+
+    public boolean IsRunning()
+    {
+        return !_shouldStop;
     }
 
     InetAddress getBroadcastAddress() throws IOException {
@@ -106,14 +123,16 @@ public class Client extends AsyncTask<Void, Integer, Void>
     protected Void doInBackground(Void... arg0)
     {
         _socket = null;
-
+        _broadcastSocket = null;
+        _receiveBroadcastSocket = null;
+        _shouldStop = false;
         try
         {
             _broadcastSocket = new DatagramSocket(15000);
             _broadcastSocket.setBroadcast(true);
 
             _receiveBroadcastSocket = new DatagramSocket(15001);
-            _broadcastSocket.setSoTimeout(1000);
+            _receiveBroadcastSocket.setSoTimeout(1000);
 
             String sgBroadcastString = "SGCONNECTEDHACKBROADCAST";
 
@@ -235,7 +254,7 @@ public class Client extends AsyncTask<Void, Integer, Void>
             else
                 CallbackReceivePinStatus.callbackReceivePinStatus(false);
         }
-        else if (data[0] == 3 && CallbackReceiveTransactionStatus != null)
+        else if (data[0] == 4 && CallbackReceiveTransactionStatus != null)
         {
             if (data[1] == 1)
                 CallbackReceiveTransactionStatus.callbackReceiveTransactionStatus(true);
@@ -321,6 +340,29 @@ public class Client extends AsyncTask<Void, Integer, Void>
     public void Stop()
     {
         _shouldStop = true;
+        if(_socket != null)
+        {
+            try
+            {
+                _socket.close();
+                _socket = null;
+            }
+            catch (IOException e)
+            {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+        if(_broadcastSocket != null)
+        {
+            _broadcastSocket.close();
+            _broadcastSocket = null;
+        }
+        if(_receiveBroadcastSocket != null)
+        {
+            _receiveBroadcastSocket.close();
+            _receiveBroadcastSocket = null;
+        }
     }
 
     public void SendCode(int code)

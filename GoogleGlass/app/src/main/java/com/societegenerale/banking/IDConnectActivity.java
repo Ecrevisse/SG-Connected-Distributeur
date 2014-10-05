@@ -20,6 +20,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.view.KeyEvent;
 
@@ -58,8 +59,19 @@ public class IDConnectActivity extends Activity
                 startActivity(intent);
             }
         };
-
+        myClientTask.CallbackReceiveTransactionStatus = new Client.ClientCallbackTransactionStatus() {
+            @Override
+            public void callbackReceiveTransactionStatus(boolean status) {
+                if (status == false)
+                {
+                    Intent intent = new Intent(IDConnectActivity.this, ConnectionScreen.class);
+                    startActivity(intent);
+                }
+            }
+        };
         this.setContentView(_View);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
     }
 
     @Override

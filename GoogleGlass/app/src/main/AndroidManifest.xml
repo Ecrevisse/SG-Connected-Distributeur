@@ -15,7 +15,7 @@
         <activity
             android:name=".ConnectionScreen"
             android:icon="@drawable/ic_glass_logo"
-            android:label="@string/title_activity_account">
+            android:label="AppHome">
             <intent-filter>
                 <action android:name="com.google.android.glass.action.VOICE_TRIGGER" />
             </intent-filter>

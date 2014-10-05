@@ -22,9 +22,11 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 
 import java.lang.reflect.Array;
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -39,24 +41,25 @@ public class ConnectionScreen  extends Activity
 {
     private View _View;
     private GestureDetector _gestureDetector;
-    private Client myClientTask;
 
     @Override
     protected void onCreate(Bundle bundle) {
-        if (getIntent().getBooleanExtra("EXIT", false)) {
-            finish();
-        }
         super.onCreate(bundle);
-
+        Client.GetInstance().Stop();
+        Client.ResetInstance();
+        if (getIntent().getBooleanExtra("EXIT", false)) {
+            Log.d("NORMAL QUIT\n\n","");
+            finish();
+            return;
+        }
         CardBuilder card = new CardBuilder(this, CardBuilder.Layout.COLUMNS );
         card.setText("Entamez le retrait au distributeur.");
-        card.addImage(R.drawable.titlescreencolumn);
+        card.addImage(R.drawable.titlescreencolumn_2);
         _View = card.getView();
         _gestureDetector = createGestureDetector(this);
         this.setContentView(_View);
-        myClientTask = Client.GetInstance();
-        myClientTask.setContext(getApplicationContext());
-        myClientTask.CallbackUniqueId = new Client.ClientCallbackUniqueId() {
+        Client.GetInstance().setContext(getApplicationContext());
+        Client.GetInstance().CallbackUniqueId = new Client.ClientCallbackUniqueId() {
             @Override
             public void callbackReceiveUniqueId(int uniqueId) {
                 myUniqueId.GetInstance().UniqueId = uniqueId;
@@ -64,7 +67,18 @@ public class ConnectionScreen  extends Activity
                 startActivity(intent);
             }
         };
-        myClientTask.execute();
+        Client.GetInstance().CallbackReceiveTransactionStatus = new Client.ClientCallbackTransactionStatus() {
+            @Override
+            public void callbackReceiveTransactionStatus(boolean status) {
+                if (status == false)
+                {
+                    Intent intent = new Intent(ConnectionScreen.this, ConnectionScreen.class);
+                    startActivity(intent);
+                }
+            }
+        };
+        Client.GetInstance().execute();
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         //myClientTask.SendCode(9513);
     }
 

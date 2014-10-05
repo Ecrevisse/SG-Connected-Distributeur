@@ -52,6 +52,16 @@ public class W8amountActivity  extends Activity
                 startActivity(intent);
             }
         };
+        myCientTask.CallbackReceiveTransactionStatus = new Client.ClientCallbackTransactionStatus() {
+            @Override
+            public void callbackReceiveTransactionStatus(boolean status) {
+                if (status == false)
+                {
+                    Intent intent = new Intent(W8amountActivity.this, ConnectionScreen.class);
+                    startActivity(intent);
+                }
+            }
+        };
         this.setContentView(_View);
     }
 

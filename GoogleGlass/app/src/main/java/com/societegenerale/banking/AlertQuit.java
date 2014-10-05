@@ -50,34 +50,28 @@ public class AlertQuit  extends Activity
         this.setContentView(_View);
     }
 
-    @Override
-    public boolean onKeyDown(int keycode, KeyEvent event) {
-        if (keycode == KeyEvent.KEYCODE_DPAD_CENTER) {
-            finish();
-            return true;
-        }
-        return super.onKeyDown(keycode, event);
-    }
-
-
     private GestureDetector createGestureDetector(Context context)
     {
         GestureDetector detector = new GestureDetector(context);
         detector.setBaseListener(new GestureDetector.BaseListener() {
                                      @Override
-                                     public boolean onGesture(Gesture gesture) {
-                                         if (gesture == Gesture.SWIPE_DOWN)
-                                         {
-                                             Intent intent = new Intent(AlertQuit.this , ConnectionScreen.class);
+                                     public boolean onGesture(Gesture gesture)
+                                     {
+                                         if (gesture == Gesture.SWIPE_DOWN) {
+                                             Intent intent = new Intent(AlertQuit.this, ConnectionScreen.class);
                                              intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                              intent.putExtra("EXIT", true);
                                              startActivity(intent);
                                              return true;
+                                         } else if (gesture == Gesture.TAP) {
+                                             finish();
+                                             return true;
                                          }
                                          return false;
                                      }
+            }
 
-                                 }
+
         );
         return detector;
     }

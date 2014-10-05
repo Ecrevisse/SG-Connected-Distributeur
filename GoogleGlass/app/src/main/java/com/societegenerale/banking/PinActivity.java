@@ -25,6 +25,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 
@@ -218,10 +219,30 @@ public class PinActivity  extends Activity
         Client.GetInstance().CallbackReceivePinStatus = new Client.ClientCallbackPinStatus() {
             @Override
             public void callbackReceivePinStatus(boolean status) {
-                Intent intent = new Intent(PinActivity.this, PinActivity.class);
-                startActivity(intent);
+                if (status == false)
+                {
+                    Intent intent = new Intent(PinActivity.this, PinActivity.class);
+                    startActivity(intent);
+                }
             }
         };
+
+        Client.GetInstance().CallbackReceiveTransactionStatus = new Client.ClientCallbackTransactionStatus() {
+            @Override
+            public void callbackReceiveTransactionStatus(boolean status) {
+                if (status == false)
+                {
+                    Intent intent = new Intent(PinActivity.this, ConnectionScreen.class);
+                    startActivity(intent);
+                }
+                else
+                {
+                    Intent intent = new Intent(PinActivity.this, QuitActivity.class);
+                    startActivity(intent);
+                }
+            }
+        };
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }
 
     private GestureDetector createGestureDetector(Context context)
@@ -231,7 +252,6 @@ public class PinActivity  extends Activity
         detector.setBaseListener(new GestureDetector.BaseListener() {
                                      @Override
                                      public boolean onGesture(Gesture gesture) {
-                                         Log.d("oneTap", "");
                                          if (gesture == Gesture.TAP)
                                          {
                                             ImageView img;
@@ -259,12 +279,10 @@ public class PinActivity  extends Activity
                                                 img.setImageResource(R.drawable.case_pin_selected);
                                                 _code.add(Integer.parseInt(_row.get(_currentRow).get(5).getText().toString()));
                                             }
-                                            else {
+                                            else if (_currentRow == 3)
+                                            {
                                                 _code.add(Integer.parseInt(_row.get(_currentRow).get(5).getText().toString()));
                                                 Client.GetInstance().SendCode(_code.get(0) * 1000 + _code.get(1) * 100 + _code.get(2) * 10 + _code.get(3));
-                                                Intent intent = new Intent(PinActivity.this,
-                                                                           QuitActivity.class);
-                                                startActivity(intent);
                                             }
                                             ++_currentRow;
                                              return true;
