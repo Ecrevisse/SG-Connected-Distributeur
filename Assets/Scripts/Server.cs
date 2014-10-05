@@ -33,6 +33,8 @@ public class AsynchronousSocketListener
     private string _udpMessage;
     private List<StateObject> _clientList;
 
+    private StateObject _clientToHandle;
+
     public AsynchronousSocketListener()
     {
         _shouldStop = true;
@@ -41,6 +43,7 @@ public class AsynchronousSocketListener
         _receivedCode.code = -1;
         _udpMessage = "";
         _clientList = new List<StateObject>();
+        _clientToHandle = null;
     }
 
     public string GetUdpMessage()
@@ -67,6 +70,20 @@ public class AsynchronousSocketListener
             _receivedCode.code = -1;
             return code;
         }
+    }
+
+    public StateObject RequestClient()
+    {
+        if (_clientList.Count > 0)
+            return _clientList[0];
+        return null;
+    }
+
+    public StateObject GetClientToHandle()
+    {
+        StateObject retClient = _clientToHandle;
+        _clientToHandle = null;
+        return retClient;
     }
 
     public void StopListening()
@@ -268,17 +285,17 @@ public class AsynchronousSocketListener
     {
         Debug.Log("request unique id");
         client.requestUniqueId = true;
+        _clientToHandle = client;
     }
 
     //----------------------------------------------------
     //--------------------SEND PACKET--------------------
     //----------------------------------------------------
 
-    public StateObject SendUniqueId(int uniqueId)
+    public void SendUniqueId(int uniqueId, StateObject client)
     {
         if (_clientList.Count != 0)
         {
-            StateObject client = _clientList[0];
             client.requestUniqueId = false;
 
             BytesBuffer tmp = new BytesBuffer();
@@ -290,9 +307,7 @@ public class AsynchronousSocketListener
             toSend.Write(tmp.GetBuffer(), 0, (int)tmp.Length);
             Debug.Log("Send unique Id");
             Send(client.workSocket, toSend);
-            return client;
         }
-        return null;
     }
 
     public void SendIdOk(StateObject client)
