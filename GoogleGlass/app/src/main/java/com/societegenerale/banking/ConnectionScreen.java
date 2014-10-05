@@ -50,7 +50,7 @@ public class ConnectionScreen  extends Activity
 
         CardBuilder card = new CardBuilder(this, CardBuilder.Layout.COLUMNS );
         card.setText("Entamez le retrait au distributeur.");
-        card.addImage(R.drawable.soge);
+        card.addImage(R.drawable.titlescreencolumn);
         _View = card.getView();
         _gestureDetector = createGestureDetector(this);
         this.setContentView(_View);

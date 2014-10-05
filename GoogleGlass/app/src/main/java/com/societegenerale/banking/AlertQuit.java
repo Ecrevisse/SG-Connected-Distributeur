@@ -44,7 +44,7 @@ public class AlertQuit  extends Activity
         super.onCreate(bundle);
 
         CardBuilder card = new CardBuilder(this, CardBuilder.Layout.ALERT);
-        card.setText("Swipe down pour quitter sinon tap.");
+        card.setText("Swipe down pour quitter.");
         _View = card.getView();
         _gestureDetector = createGestureDetector(this);
         this.setContentView(_View);
