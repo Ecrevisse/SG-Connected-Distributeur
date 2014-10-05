@@ -6,4 +6,9 @@
     <string name="hello_world">Hello world!</string>
     <string name="Enter_your_PIN">Enter your PIN.</string>
 
+
+    <string name="glass_voice_trigger">give me money</string>
+    <string name="glass_voice_prompt">what story?</string>
+
+
 </resources>

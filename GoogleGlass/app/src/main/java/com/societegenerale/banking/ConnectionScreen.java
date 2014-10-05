@@ -46,6 +46,7 @@ public class ConnectionScreen  extends Activity
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         Client.GetInstance().Stop();
+        Client.Reset();
         if (getIntent().getBooleanExtra("EXIT", false)) {
             Log.d("NORMAL QUIT\n\n","");
             finish();

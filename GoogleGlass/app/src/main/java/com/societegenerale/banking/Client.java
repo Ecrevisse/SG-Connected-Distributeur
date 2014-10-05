@@ -75,6 +75,12 @@ public class Client extends AsyncTask<Void, Integer, Void>
         return Instance;
     }
 
+    public static synchronized Client Reset()
+    {
+        Instance = new Client();
+        return Instance;
+    }
+
     private Client()
     {
         //dstAddress = "10.12.20.190";
