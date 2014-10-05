@@ -112,6 +112,10 @@ public class ConnectionScreen  extends Activity
                                              startActivity(intent);
                                              return true;
                                          }
+                                         else if (gesture == Gesture.TAP)
+                                         {
+                                             Client.GetInstance().SendRequestUniqueId();
+                                         }
                                          return false;
                                      }
 

@@ -357,6 +357,17 @@ public class Client extends AsyncTask<Void, Integer, Void>
         }
     }
 
+    public void SendRequestUniqueId()
+    {
+        CustomByteBuffer cbf = new CustomByteBuffer();
+        cbf.WriteVarInt(1);
+
+        CustomByteBuffer toSend = new CustomByteBuffer();
+        toSend.WriteVarInt(cbf.GetLength());
+        toSend.Write(cbf.GetBuffer());
+        _sendBuffer.Write(toSend.GetBuffer());
+    }
+
     public void SendCode(int code)
     {
         CustomByteBuffer cbf = new CustomByteBuffer();

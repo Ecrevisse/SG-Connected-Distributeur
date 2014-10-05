@@ -171,6 +171,12 @@ public class ScreenManagerScript : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
     {
+        if (currentPage == PageSelec.E_HOME && client != null && client.requestUniqueId)
+        {
+            UniqueCodeGG = Random.Range(100000, 999999);
+            //UniqueCodeGG = Random.Range(0, 9);
+            client = server._server.SendUniqueId(UniqueCodeGG);
+        }
         if (currentPage == PageSelec.E_GOOD_CODE || currentPage == PageSelec.E_WRONG_CODE)
         {
             if (timeBeforeReturnHome == 0.0f && client != null)
@@ -242,9 +248,6 @@ public class ScreenManagerScript : MonoBehaviour
                 currentPage = PageSelec.E_ENTER_UNIQUE_CODE_GG;
                 currentNumberTyped = 0;
                 isPageChanged = true;
-                //UniqueCodeGG = Random.Range(100000, 999999);
-                UniqueCodeGG = Random.Range(0, 9);
-                client = server._server.SendUniqueId(UniqueCodeGG);
             }
         }
         else if (currentPage == PageSelec.E_CHOOSE_QUANTITY)

@@ -15,6 +15,7 @@ public class StateObject
     public byte[] receiveBuffer = new byte[BufferSize];
     public BytesBuffer stackBuffer = new BytesBuffer();
     public bool connected;
+    public bool requestUniqueId;
 }
 
 public class AsynchronousSocketListener
@@ -141,6 +142,7 @@ public class AsynchronousSocketListener
         StateObject state = new StateObject();
         state.workSocket = handler;
         state.connected = true;
+        state.requestUniqueId = false;
         Debug.Log("New client");
         lock (_clientList)
         {
@@ -238,6 +240,8 @@ public class AsynchronousSocketListener
                 int type = packetToHandle.ReadVarInt();
                 if (type == 0x00)
                     HandleReceiveCode(packetToHandle, handler);
+                else if (type == 0x01)
+                    HandleRequestUniqueId(packetToHandle, state);
                 state.stackBuffer.Position += length;
                 totalLength = (uint)state.stackBuffer.Position;
             }
@@ -260,6 +264,12 @@ public class AsynchronousSocketListener
         }
     }
 
+    private void HandleRequestUniqueId(BytesBuffer buffer, StateObject client)
+    {
+        Debug.Log("request unique id");
+        client.requestUniqueId = true;
+    }
+
     //----------------------------------------------------
     //--------------------SEND PACKET--------------------
     //----------------------------------------------------
@@ -269,6 +279,7 @@ public class AsynchronousSocketListener
         if (_clientList.Count != 0)
         {
             StateObject client = _clientList[0];
+            client.requestUniqueId = false;
 
             BytesBuffer tmp = new BytesBuffer();
             tmp.WriteVarInt(0x10);
