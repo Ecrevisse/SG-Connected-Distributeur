@@ -48,10 +48,9 @@ public class ConnectionScreen  extends Activity
         }
         super.onCreate(bundle);
 
-        CardBuilder card = new CardBuilder(this, CardBuilder.Layout.TITLE);
+        CardBuilder card = new CardBuilder(this, CardBuilder.Layout.COLUMNS );
         card.setText("Entamez le retrait au distributeur.");
         card.addImage(R.drawable.soge);
-        card.setIcon(R.drawable.logo_load);
         _View = card.getView();
         _gestureDetector = createGestureDetector(this);
         this.setContentView(_View);
